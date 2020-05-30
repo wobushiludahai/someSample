@@ -1,0 +1,12 @@
+C语言switch/case圈复杂度优化重构
+https://www.cnblogs.com/wahaha02/p/7435603.html
+
+重构系列博客
+https://www.cnblogs.com/ludashi/category/792819.html
+
+较为实际的降低圈复杂度的方法
+https://blog.csdn.net/kaka1121/article/details/52626690
+https://www.jianshu.com/p/c2e1e304cab2
+
+详细讲述圈复杂度
+http://kaelzhang81.github.io/2017/06/18/%E8%AF%A6%E8%A7%A3%E5%9C%88%E5%A4%8D%E6%9D%82%E5%BA%A6/
