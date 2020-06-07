@@ -23,3 +23,6 @@ https://www.cnblogs.com/gracehans/p/6144619.html
 IBM更详细地介绍spnego及单点登录
 https://www.ibm.com/developerworks/cn/middleware/library/mw-1703-maurip3/index.html
 https://www.ibm.com/support/knowledgecenter/zh/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/cwlp_spnego.html
+
+装置SSO登录流程实现
+https://www.ibm.com/support/knowledgecenter/zh/SS9H2Y_7.7.0/com.ibm.dp.doc/spnego_protocol.html
