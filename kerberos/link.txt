@@ -8,3 +8,18 @@ https://cloud.tencent.com/developer/article/1380570
 
 
 http://kerberos.org/
+
+GSSAPI（通用安全服务应用程序接口）介绍：
+https://docs.oracle.com/cd/E24847_01/html/E22200/overview-61.html#overview-8
+gssapi示例：
+https://github.com/krb5/krb5/blob/master/src/appl/gss-sample/gss-misc.c
+
+spnego：
+http://spnego.sourceforge.net/
+
+spnego认证浏览器配置：
+https://www.cnblogs.com/gracehans/p/6144619.html
+
+IBM更详细地介绍spnego及单点登录
+https://www.ibm.com/developerworks/cn/middleware/library/mw-1703-maurip3/index.html
+https://www.ibm.com/support/knowledgecenter/zh/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/cwlp_spnego.html
