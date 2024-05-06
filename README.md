@@ -5,5 +5,7 @@
 sudo apt install python3-venv
 python3 -m venv myenv
 source myenv/bin/activate
-pip install package-name
+pip3 install package-name
+
+pip3 freeze > requirements.txt
 ```
