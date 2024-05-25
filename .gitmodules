@@ -1,0 +1,3 @@
+[submodule "Middleware/sqlite"]
+	path = Middleware/sqlite
+	url = git@github.com:sqlite/sqlite.git
