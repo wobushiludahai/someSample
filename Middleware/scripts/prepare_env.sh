@@ -1,0 +1,1 @@
+sudo apt-get install -y gcc g++ cmake ninja-build
