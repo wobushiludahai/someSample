@@ -2,3 +2,5 @@ stockNames.csv
 myenv
 build
 output
+test_include
+.vscode
