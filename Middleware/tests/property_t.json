@@ -1,0 +1,10 @@
+{
+    "Table_name":"test_table",
+    "Primary_key":"Id",
+    "Columns":[
+        {
+            "Name":"Id",
+            "Type":"int"
+        }
+    ]
+}

@@ -33,7 +33,7 @@ SQLITE_INC=${TEST_INCLUDE_DIR}/sqlite
 mkdir -p ${SQLITE_INC}
 cp ${SQLITE_DIR}/build/*.h ${SQLITE_INC}
 cp -d ${SQLITE_DIR}/build/.libs/libsqlite3.so* ${RUN_DIR}
-
+rm -rf ${SQLITE_DIR}/build
 
 cd ${CJSON_DIR}
 git reset --hard
@@ -46,4 +46,4 @@ CJSON_INC=${TEST_INCLUDE_DIR}/cJSON
 mkdir -p ${CJSON_INC}
 cp ${CJSON_DIR}/*.h ${CJSON_INC}
 cp -d ${CJSON_DIR}/build/libcjson.so* ${RUN_DIR}
-
+rm -rf ${CJSON_DIR}/build
