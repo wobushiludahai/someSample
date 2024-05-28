@@ -1,10 +1,35 @@
 {
-    "Table_name":"test_table",
-    "Primary_key":"Id",
-    "Columns":[
+    "Module_names": "Test",
+    "Proteries": [
         {
-            "Name":"Id",
-            "Type":"int"
+            "Name": "test_property",
+            "Type": "String",
+            "Default": "",
+            "Length": 50
+        },
+        {
+            "Test_int": 1
+        }
+    ],
+    "DB": [
+        {
+            "Name": "test_db",
+            "Type": "String",
+            "Default": "",
+            "Length": 50
+        },
+        {
+            "Test_int": 1
+        }
+    ],
+    "Tables": [
+        {
+            "Table_name": "table1",
+            "Primary_key": 1
+        },
+        {
+            "Table_name": "table2",
+            "Primary_key": 2
         }
     ]
 }
