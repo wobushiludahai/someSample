@@ -16,6 +16,7 @@ set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -O3")
 
 target_include_directories(middleware PRIVATE ${TEST_DIR}/test_include/sqlite)
 target_include_directories(middleware PRIVATE ${TEST_DIR}/test_include/cJSON)
+target_include_directories(middleware PRIVATE ${TEST_DIR})
 
 # 链接库
 target_link_libraries(middleware sqlite3 cjson)
