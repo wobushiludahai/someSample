@@ -14,12 +14,50 @@ RUN_DIR=${TEST_DIR}/output/lib
 mkdir -p ${RUN_DIR}
 mkdir -p ${TEST_INCLUDE_DIR}
 
-# cd ${GLIB_DIR}
-# git reset --hard
-# git clean -dfx
-# rm -rf _build
-# meson _build
-# time ninja -C _build
+cd ${GLIB_DIR}
+git reset --hard
+git clean -dfx
+rm -rf _build
+meson _build
+time ninja -C _build
+GLIB_INC=${TEST_INCLUDE_DIR}/glib-2.0
+mkdir -p ${GLIB_INC}
+cp ${GLIB_DIR}/gmodule/gmodule.h ${GLIB_INC}/
+
+mkdir -p ${GLIB_INC}/gio
+cp ${GLIB_DIR}/gio/*.h ${GLIB_INC}/gio
+
+mkdir -p ${GLIB_INC}/gobject
+cp ${GLIB_DIR}/gobject/*.h ${GLIB_INC}/gobject
+
+mkdir -p ${GLIB_INC}/glib
+mkdir -p ${GLIB_INC}/glib/deprecated
+cp ${GLIB_DIR}/glib/*.h ${GLIB_INC}/glib
+cp ${GLIB_DIR}/glib/deprecated/*.h ${GLIB_INC}/glib/deprecated
+
+mv ${GLIB_INC}/glib/glib.h ${GLIB_INC}/
+mv ${GLIB_INC}/glib/glib-object.h ${GLIB_INC}/
+mv ${GLIB_INC}/glib/glib-unix.h ${GLIB_INC}/
+
+cp ${GLIB_DIR}/_build/glib/libglib-2.0.so ${RUN_DIR}
+cp ${GLIB_DIR}/_build/glib/libglib-2.0.so.0 ${RUN_DIR}
+cp ${GLIB_DIR}/_build/glib/libglib-2.0.so.0.7200.3 ${RUN_DIR}
+
+cp -d ${GLIB_DIR}/_build/gio/libgio-2.0.so ${RUN_DIR}
+cp -d ${GLIB_DIR}/_build/gio/libgio-2.0.so.0 ${RUN_DIR}
+cp -d ${GLIB_DIR}/_build/gio/libgio-2.0.so.0.7200.3 ${RUN_DIR}
+
+cp -d ${GLIB_DIR}/_build/gmodule/libgmodule-2.0.so ${RUN_DIR}
+cp -d ${GLIB_DIR}/_build/gmodule/libgmodule-2.0.so.0 ${RUN_DIR}
+cp -d ${GLIB_DIR}/_build/gmodule/libgmodule-2.0.so.0.7200.3 ${RUN_DIR}
+
+cp -d ${GLIB_DIR}/_build/gobject/libgobject-2.0.so ${RUN_DIR}
+cp -d ${GLIB_DIR}/_build/gobject/libgobject-2.0.so.0 ${RUN_DIR}
+cp -d ${GLIB_DIR}/_build/gobject/libgobject-2.0.so.0.7200.3 ${RUN_DIR}
+
+cp -d ${GLIB_DIR}/_build/gthread/libgthread-2.0.so ${RUN_DIR}
+cp -d ${GLIB_DIR}/_build/gthread/libgthread-2.0.so.0 ${RUN_DIR}
+cp -d ${GLIB_DIR}/_build/gthread/libgthread-2.0.so.0.7200.3 ${RUN_DIR}
 
 cd ${SQLITE_DIR}
 git reset --hard
