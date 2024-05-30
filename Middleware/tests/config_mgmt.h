@@ -1,12 +1,23 @@
 /*
  *Description:持久化配置管理
-*/
+ */
 
 #ifndef _CONFIG_MGMT_H_
 #define _CONFIG_MGMT_H_
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <sqlite3.h>
+
+#define CONFIG_FILE_PREFIX "/home/hai/github/someSample/Middleware/tests/output"
+
+
+#ifndef PATH_MAX_LEN
+#define PATH_MAX_LEN (256)
+#endif
+
+#define SQL_STATEMENTS_LEN (1024)
+#define DB_STR_MAX_LEN (700)
 
 #ifndef MODULE_NAME
 #define MODULE_NAME "config_mgmt"
@@ -23,6 +34,7 @@
 #endif
 
 int32_t config_mgmt_init(void);
+int32_t config_mgmt_deinit(void);
 
 int32_t config_mgmt_set_char_value(char *name, char value);
 int32_t config_mgmt_get_char_value(char *name, char *value);
@@ -44,6 +56,9 @@ int32_t config_mgmt_get_uint64_value(char *name, uint64_t *value);
 
 int32_t config_mgmt_set_double_value(char *name, double value);
 int32_t config_mgmt_get_double_value(char *name, double *value);
+
+int32_t config_mgmt_set_float_value(char *name, float value);
+int32_t config_mgmt_get_float_value(char *name, float *value);
 
 int32_t config_mgmt_set_string_value(char *name, char *value);
 int32_t config_mgmt_get_string_value(char *name, char *value, uint32_t val_len);

@@ -2,110 +2,59 @@
 #include <stdlib.h>
 
 #include "middleware_db.h"
+#include "config_mgmt.h"
 
-static int callback(void *NotUsed, int argc, char **argv, char **azColName){
-   int i;
-   for(i=0; i<argc; i++){
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-   }
-   printf("\n");
-   return 0;
+static void test_config_mgmt(void)
+{
+    config_mgmt_init();
+
+    char test_char;
+    config_mgmt_set_char_value("property_char", 'a');
+    config_mgmt_get_char_value("property_char", &test_char);
+    printf("char value: %c\n", test_char);
+
+    bool test_bool;
+    config_mgmt_set_bool_value("property_bool", false);
+    config_mgmt_get_bool_value("property_bool", &test_bool);
+    printf("bool value: %d\n", test_bool);
+
+    int32_t test_int;
+    config_mgmt_set_int32_value("property_int", -1);
+    config_mgmt_get_int32_value("property_int", &test_int);
+    printf("int value: %d\n", test_int);
+
+    uint32_t test_uint32;
+    config_mgmt_set_uint32_value("property_uint32", 0xffffffff);
+    config_mgmt_get_uint32_value("property_uint32", &test_uint32);
+    printf("uint32 value: %u\n", test_uint32);
+
+    int64_t test_int64;
+    config_mgmt_set_int64_value("property_int64", -1);
+    config_mgmt_get_int64_value("property_int64", &test_int64);
+    printf("int64 value: %ld\n", test_int64);
+
+    uint64_t test_uint64;
+    config_mgmt_set_uint64_value("property_uint64", 0xffffffffffffffff);
+    config_mgmt_get_uint64_value("property_uint64", &test_uint64);
+    printf("uint64 value: %lu\n", test_uint64);
+
+    float test_float;
+    config_mgmt_set_float_value("property_float", 3.14159263);
+    config_mgmt_get_float_value("property_float", &test_float);
+    printf("float value: %f\n", test_float);
+
+    double test_double;
+    config_mgmt_set_double_value("property_double", -235423.14159265358979323846);
+    config_mgmt_get_double_value("property_double", &test_double);
+    printf("double value: %lf\n", test_double);
+
+    char test_string[100];
+    config_mgmt_set_string_value("property_string", "Hello, World!                              0xffffffff test");
+    config_mgmt_get_string_value("property_string", test_string, sizeof(test_string));
+    printf("string value: %s\n", test_string);
 }
-
-#include <syslog.h>
 
 int main(void)
 {
-   sqlite3 *db;
-   char *zErrMsg = 0;
-   int rc;
-   char *sql;
-
-   rc = sqlite3_open("test.db", &db);
-
-   if( rc ){
-      fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-      exit(0);
-   }else{
-      fprintf(stderr, "Opened database successfully\n");
-   }
-
-   /* Create SQL statement */
-   sql = "CREATE TABLE COMPANY("  \
-         "ID INT PRIMARY KEY     NOT NULL," \
-         "NAME           TEXT    NOT NULL," \
-         "AGE            INT     NOT NULL," \
-         "ADDRESS        CHAR(50)," \
-         "SALARY         BLOB );";
-
-   /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
-   if( rc != SQLITE_OK ){
-   fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      sqlite3_free(zErrMsg);
-   }else{
-      fprintf(stdout, "Table created successfully\n");
-   }
-
-   /* Create SQL statement */
-   sql = "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "  \
-         "VALUES (1, 'Paul', 32, 'California', 20000.00 ); " \
-         "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "  \
-         "VALUES (2, 'Allen', 25, 'Texas', 15000.00 ); "     \
-         "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)" \
-         "VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );" \
-         "INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)" \
-         "VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );";
-
-   /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
-   if( rc != SQLITE_OK ){
-      fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      sqlite3_free(zErrMsg);
-   }else{
-      fprintf(stdout, "Records created successfully\n");
-   }
-
-   /* Create SQL statement */
-   sql = "SELECT * from COMPANY";
-   const char* data = "Callback function called";
-
-   /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, (void*)data, &zErrMsg);
-   if( rc != SQLITE_OK ){
-      fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      sqlite3_free(zErrMsg);
-   }else{
-      fprintf(stdout, "Operation done successfully\n");
-   }
-
-   /* Create merged SQL statement */
-   sql = "UPDATE COMPANY set SALARY = 25000.1 where ID=1; " \
-         "SELECT * from COMPANY";
-
-   /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, (void*)data, &zErrMsg);
-   if( rc != SQLITE_OK ){
-      fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      sqlite3_free(zErrMsg);
-   }else{
-      fprintf(stdout, "Operation done successfully\n");
-   }
-
-   /* Create merged SQL statement */
-   sql = "DELETE from COMPANY where ID=2; " \
-         "SELECT * from COMPANY";
-
-   /* Execute SQL statement */
-   rc = sqlite3_exec(db, sql, callback, (void*)data, &zErrMsg);
-   if( rc != SQLITE_OK ){
-      fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      sqlite3_free(zErrMsg);
-   }else{
-      fprintf(stdout, "Operation done successfully\n");
-   }
-
-   syslog(LOG_NOTICE, "End of test");
-
-   sqlite3_close(db);
+    test_config_mgmt();
 }
