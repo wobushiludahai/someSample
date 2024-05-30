@@ -83,11 +83,42 @@ int32_t config_mgmt_deinit(void)
     return RET_OK;
 }
 
+static int32_t exec_insert(char *sql)
+{
+    int ret;
+    char *err_msg = NULL;
+
+    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
+    if (ret != SQLITE_OK)
+    {
+        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
+        sqlite3_free(err_msg);
+        return RET_ERR;
+    }
+
+    return RET_OK;
+}
+
+static int32_t exec_lookup(char *sql, sqlite3_callback callback_func, void *argc)
+{
+    int ret;
+    char *err_msg = NULL;
+
+    ret = sqlite3_exec(g_config_db, sql, callback_func, argc, &err_msg);
+    if (ret != SQLITE_OK)
+    {
+        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
+        sqlite3_free(err_msg);
+        return RET_ERR;
+    }
+
+    return RET_OK;
+}
+
 int32_t config_mgmt_set_char_value(char *name, char value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
     int ret;
-    char *err_msg = NULL;
 
     ret = snprintf(sql, SQL_STATEMENTS_LEN,
         "INSERT OR REPLACE INTO %s (PROPERTY_NAME,PROPERTY_VALUE) VALUES ('%s','%c');", MODULE_NAME, name, value);
@@ -97,22 +128,14 @@ int32_t config_mgmt_set_char_value(char *name, char value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_insert(sql);
 }
 
-static int callback_char(void *NotUsed, int argc, char **argv, char **azColName)
+static int fill_char(void *dest, int argc, char **argv, char **azColName)
 {
     if (argc != 0)
     {
-        *(char *)NotUsed = *argv[0];
+        *(char *)dest = *argv[0];
     }
 
     return 0;
@@ -121,39 +144,23 @@ static int callback_char(void *NotUsed, int argc, char **argv, char **azColName)
 int32_t config_mgmt_get_char_value(char *name, char *value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
-    char *err_msg = NULL;
     int ret;
 
     ret = snprintf(
         sql, SQL_STATEMENTS_LEN, "SELECT PROPERTY_VALUE FROM %s WHERE PROPERTY_NAME='%s';", MODULE_NAME, name);
-
     if (ret < 0)
     {
         syslog(LOG_ERR, "snprintf failed");
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, callback_char, value, &err_msg);
-    if (err_msg != NULL)
-    {
-        printf("SQL error: %s\n", err_msg);
-    }
-
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_lookup(sql, fill_char, value);
 }
 
 int32_t config_mgmt_set_bool_value(char *name, bool value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
     int ret;
-    char *err_msg = NULL;
 
     ret = snprintf(sql, SQL_STATEMENTS_LEN,
         "INSERT OR REPLACE INTO %s (PROPERTY_NAME,PROPERTY_VALUE) VALUES ('%s','%d');", MODULE_NAME, name, value);
@@ -163,28 +170,20 @@ int32_t config_mgmt_set_bool_value(char *name, bool value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_insert(sql);
 }
 
-static int callback_bool(void *NotUsed, int argc, char **argv, char **azColName)
+static int fill_bool(void *dest, int argc, char **argv, char **azColName)
 {
     if (argc != 0)
     {
         if (*argv[0] == true)
         {
-            *(bool *)NotUsed = true;
+            *(bool *)dest = true;
         }
         else
         {
-            *(bool *)NotUsed = false;
+            *(bool *)dest = false;
         }
     }
 
@@ -194,7 +193,6 @@ static int callback_bool(void *NotUsed, int argc, char **argv, char **azColName)
 int32_t config_mgmt_get_bool_value(char *name, bool *value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
-    char *err_msg = NULL;
     int ret;
 
     ret = snprintf(
@@ -205,38 +203,13 @@ int32_t config_mgmt_get_bool_value(char *name, bool *value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, callback_bool, value, &err_msg);
-    if (err_msg != NULL)
-    {
-        printf("SQL error: %s\n", err_msg);
-    }
-
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
-}
-
-int callback(void *NotUsed, int argc, char **argv, char **azColName)
-{
-    int i;
-    for (i = 0; i < argc; i++)
-    {
-        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    }
-    printf("\n");
-    return 0;
+    return exec_lookup(sql, fill_bool, value);
 }
 
 int32_t config_mgmt_set_int32_value(char *name, int32_t value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
     int ret;
-    char *err_msg = NULL;
 
     ret = snprintf(sql, SQL_STATEMENTS_LEN,
         "INSERT OR REPLACE INTO %s (PROPERTY_NAME,PROPERTY_VALUE) VALUES ('%s','%d');", MODULE_NAME, name, value);
@@ -246,22 +219,14 @@ int32_t config_mgmt_set_int32_value(char *name, int32_t value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_insert(sql);
 }
 
-static int callback_int32(void *NotUsed, int argc, char **argv, char **azColName)
+static int fill_int32(void *dest, int argc, char **argv, char **azColName)
 {
     if (argc != 0)
     {
-        *(int32_t *)NotUsed = atoi(argv[0]);
+        *(int32_t *)dest = atoi(argv[0]);
     }
 
     return 0;
@@ -270,7 +235,6 @@ static int callback_int32(void *NotUsed, int argc, char **argv, char **azColName
 int32_t config_mgmt_get_int32_value(char *name, int32_t *value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
-    char *err_msg = NULL;
     int ret;
 
     ret = snprintf(
@@ -281,27 +245,13 @@ int32_t config_mgmt_get_int32_value(char *name, int32_t *value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, callback_int32, value, &err_msg);
-    if (err_msg != NULL)
-    {
-        printf("SQL error: %s\n", err_msg);
-    }
-
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_lookup(sql, fill_int32, value);
 }
 
 int32_t config_mgmt_set_uint32_value(char *name, uint32_t value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
     int ret;
-    char *err_msg = NULL;
 
     ret = snprintf(sql, SQL_STATEMENTS_LEN,
         "INSERT OR REPLACE INTO %s (PROPERTY_NAME,PROPERTY_VALUE) VALUES ('%s','%u');", MODULE_NAME, name, value);
@@ -311,22 +261,14 @@ int32_t config_mgmt_set_uint32_value(char *name, uint32_t value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_insert(sql);
 }
 
-static int callback_uint32(void *NotUsed, int argc, char **argv, char **azColName)
+static int fill_uint32(void *dest, int argc, char **argv, char **azColName)
 {
     if (argc != 0)
     {
-        *(uint32_t *)NotUsed = strtoul(argv[0], NULL, 0);
+        *(uint32_t *)dest = strtoul(argv[0], NULL, 0);
     }
 
     return 0;
@@ -335,7 +277,6 @@ static int callback_uint32(void *NotUsed, int argc, char **argv, char **azColNam
 int32_t config_mgmt_get_uint32_value(char *name, uint32_t *value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
-    char *err_msg = NULL;
     int ret;
 
     ret = snprintf(
@@ -346,27 +287,13 @@ int32_t config_mgmt_get_uint32_value(char *name, uint32_t *value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, callback_uint32, value, &err_msg);
-    if (err_msg != NULL)
-    {
-        printf("SQL error: %s\n", err_msg);
-    }
-
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_lookup(sql, fill_uint32, value);
 }
 
 int32_t config_mgmt_set_int64_value(char *name, int64_t value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
     int ret;
-    char *err_msg = NULL;
 
     ret = snprintf(sql, SQL_STATEMENTS_LEN,
         "INSERT OR REPLACE INTO %s (PROPERTY_NAME,PROPERTY_VALUE) VALUES ('%s','%ld');", MODULE_NAME, name, value);
@@ -376,22 +303,14 @@ int32_t config_mgmt_set_int64_value(char *name, int64_t value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_insert(sql);
 }
 
-static int callback_int64(void *NotUsed, int argc, char **argv, char **azColName)
+static int fill_int64(void *dest, int argc, char **argv, char **azColName)
 {
     if (argc != 0)
     {
-        *(int64_t *)NotUsed = strtoll(argv[0], NULL, 0);
+        *(int64_t *)dest = strtoll(argv[0], NULL, 0);
     }
 
     return 0;
@@ -400,7 +319,6 @@ static int callback_int64(void *NotUsed, int argc, char **argv, char **azColName
 int32_t config_mgmt_get_int64_value(char *name, int64_t *value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
-    char *err_msg = NULL;
     int ret;
 
     ret = snprintf(
@@ -411,27 +329,13 @@ int32_t config_mgmt_get_int64_value(char *name, int64_t *value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, callback_int64, value, &err_msg);
-    if (err_msg != NULL)
-    {
-        printf("SQL error: %s\n", err_msg);
-    }
-
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_lookup(sql, fill_int64, value);
 }
 
 int32_t config_mgmt_set_uint64_value(char *name, uint64_t value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
     int ret;
-    char *err_msg = NULL;
 
     ret = snprintf(sql, SQL_STATEMENTS_LEN,
         "INSERT OR REPLACE INTO %s (PROPERTY_NAME,PROPERTY_VALUE) VALUES ('%s','%lu');", MODULE_NAME, name, value);
@@ -441,22 +345,14 @@ int32_t config_mgmt_set_uint64_value(char *name, uint64_t value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_insert(sql);
 }
 
-int callback_uint64(void *NotUsed, int argc, char **argv, char **azColName)
+int fill_uint64(void *dest, int argc, char **argv, char **azColName)
 {
     if (argc != 0)
     {
-        *(uint64_t *)NotUsed = strtoull(argv[0], NULL, 0);
+        *(uint64_t *)dest = strtoull(argv[0], NULL, 0);
     }
 
     return 0;
@@ -465,7 +361,6 @@ int callback_uint64(void *NotUsed, int argc, char **argv, char **azColName)
 int32_t config_mgmt_get_uint64_value(char *name, uint64_t *value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
-    char *err_msg = NULL;
     int ret;
 
     ret = snprintf(
@@ -476,27 +371,13 @@ int32_t config_mgmt_get_uint64_value(char *name, uint64_t *value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, callback_uint64, value, &err_msg);
-    if (err_msg != NULL)
-    {
-        printf("SQL error: %s\n", err_msg);
-    }
-
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_lookup(sql, fill_uint64, value);
 }
 
 int32_t config_mgmt_set_double_value(char *name, double value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
     int ret;
-    char *err_msg = NULL;
 
     ret = snprintf(sql, SQL_STATEMENTS_LEN,
         "INSERT OR REPLACE INTO %s (PROPERTY_NAME,PROPERTY_VALUE) VALUES ('%s','%lf');", MODULE_NAME, name, value);
@@ -506,22 +387,14 @@ int32_t config_mgmt_set_double_value(char *name, double value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_insert(sql);
 }
 
-int callback_double(void *NotUsed, int argc, char **argv, char **azColName)
+int fill_double(void *dest, int argc, char **argv, char **azColName)
 {
     if (argc != 0)
     {
-        *(double *)NotUsed = strtold(argv[0], NULL);
+        *(double *)dest = strtold(argv[0], NULL);
     }
 
     return 0;
@@ -530,7 +403,6 @@ int callback_double(void *NotUsed, int argc, char **argv, char **azColName)
 int32_t config_mgmt_get_double_value(char *name, double *value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
-    char *err_msg = NULL;
     int ret;
 
     ret = snprintf(
@@ -541,27 +413,13 @@ int32_t config_mgmt_get_double_value(char *name, double *value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, callback_double, value, &err_msg);
-    if (err_msg != NULL)
-    {
-        printf("SQL error: %s\n", err_msg);
-    }
-
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_lookup(sql, fill_double, value);
 }
 
 int32_t config_mgmt_set_float_value(char *name, float value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
     int ret;
-    char *err_msg = NULL;
 
     ret = snprintf(sql, SQL_STATEMENTS_LEN,
         "INSERT OR REPLACE INTO %s (PROPERTY_NAME,PROPERTY_VALUE) VALUES ('%s','%f');", MODULE_NAME, name, value);
@@ -571,22 +429,14 @@ int32_t config_mgmt_set_float_value(char *name, float value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_insert(sql);
 }
 
-int callback_float(void *NotUsed, int argc, char **argv, char **azColName)
+int fill_float(void *dest, int argc, char **argv, char **azColName)
 {
     if (argc != 0)
     {
-        *(float *)NotUsed = strtof(argv[0], NULL);
+        *(float *)dest = strtof(argv[0], NULL);
     }
 
     return 0;
@@ -595,7 +445,6 @@ int callback_float(void *NotUsed, int argc, char **argv, char **azColName)
 int32_t config_mgmt_get_float_value(char *name, float *value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
-    char *err_msg = NULL;
     int ret;
 
     ret = snprintf(
@@ -606,27 +455,13 @@ int32_t config_mgmt_get_float_value(char *name, float *value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, callback_float, value, &err_msg);
-    if (err_msg != NULL)
-    {
-        printf("SQL error: %s\n", err_msg);
-    }
-
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_lookup(sql, fill_float, value);
 }
 
 int32_t config_mgmt_set_string_value(char *name, char *value)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
     int ret;
-    char *err_msg = NULL;
 
     if (strlen(value) > DB_STR_MAX_LEN)
     {
@@ -642,20 +477,12 @@ int32_t config_mgmt_set_string_value(char *name, char *value)
         return RET_ERR;
     }
 
-    ret = sqlite3_exec(g_config_db, sql, NULL, NULL, &err_msg);
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_insert(sql);
 }
 
-int callback_str(void *NotUsed, int argc, char **argv, char **azColName)
+int fill_str(void *dest, int argc, char **argv, char **azColName)
 {
-    STR_T *str = (STR_T *)NotUsed;
+    STR_T *str = (STR_T *)dest;
 
     if (argc != 0)
     {
@@ -669,7 +496,6 @@ int callback_str(void *NotUsed, int argc, char **argv, char **azColName)
 int32_t config_mgmt_get_string_value(char *name, char *value, uint32_t val_len)
 {
     char sql[SQL_STATEMENTS_LEN] = { 0 };
-    char *err_msg = NULL;
     int ret;
     STR_T str;
 
@@ -684,18 +510,5 @@ int32_t config_mgmt_get_string_value(char *name, char *value, uint32_t val_len)
     str.str = value;
     str.str_len = val_len;
 
-    ret = sqlite3_exec(g_config_db, sql, callback_str, &str, &err_msg);
-    if (err_msg != NULL)
-    {
-        printf("SQL error: %s\n", err_msg);
-    }
-
-    if (ret != SQLITE_OK)
-    {
-        syslog(LOG_ERR, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        return RET_ERR;
-    }
-
-    return RET_OK;
+    return exec_lookup(sql, fill_str, &str);
 }
