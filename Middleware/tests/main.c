@@ -3,6 +3,7 @@
 
 #include "middleware_db.h"
 #include "config_mgmt.h"
+#include "glib.h"
 
 static void test_config_mgmt(void)
 {
