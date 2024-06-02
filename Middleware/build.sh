@@ -8,12 +8,10 @@ GLIB_DIR=${BASE_DIR}/glib
 SQLITE_DIR=${BASE_DIR}/sqlite
 CJSON_DIR=${BASE_DIR}/cJSON
 TEST_DIR=${BASE_DIR}/tests
-TEST_INCLUDE_DIR=${TEST_DIR}/test_include
 OUTPUT_DIR=${TEST_DIR}/output
 
 rm -rf ${OUTPUT_DIR}
 mkdir -p ${OUTPUT_DIR}
-mkdir -p ${TEST_INCLUDE_DIR}
 
 cd ${GLIB_DIR}
 git reset --hard
