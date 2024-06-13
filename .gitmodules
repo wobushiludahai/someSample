@@ -7,3 +7,9 @@
 [submodule "Middleware/cJSON"]
 	path = Middleware/cJSON
 	url = git@github.com:DaveGamble/cJSON.git
+[submodule "Middleware/POPT"]
+	path = Middleware/POPT
+	url = https://github.com/devzero2000/POPT
+[submodule "Middleware/logrotate"]
+	path = Middleware/logrotate
+	url = https://github.com/logrotate/logrotate
