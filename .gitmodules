@@ -16,3 +16,6 @@
 [submodule "Middleware/busybox"]
 	path = Middleware/busybox
 	url = https://github.com/mirror/busybox.git
+[submodule "Middleware/rsyslog"]
+	path = Middleware/rsyslog
+	url = https://github.com/rsyslog/rsyslog.git
