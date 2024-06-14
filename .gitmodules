@@ -13,3 +13,6 @@
 [submodule "Middleware/logrotate"]
 	path = Middleware/logrotate
 	url = https://github.com/logrotate/logrotate
+[submodule "Middleware/busybox"]
+	path = Middleware/busybox
+	url = https://github.com/mirror/busybox.git
