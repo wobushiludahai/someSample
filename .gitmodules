@@ -19,3 +19,9 @@
 [submodule "Middleware/rsyslog"]
 	path = Middleware/rsyslog
 	url = https://github.com/rsyslog/rsyslog.git
+[submodule "Middleware/libestr"]
+	path = Middleware/libestr
+	url = https://github.com/rsyslog/libestr.git
+[submodule "Middleware/libfastjson"]
+	path = Middleware/libfastjson
+	url = https://github.com/rsyslog/libfastjson.git
