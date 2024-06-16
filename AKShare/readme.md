@@ -36,3 +36,11 @@ https://github.com/mpquant/Ashare
 
 ## 注意
 - AKShare 运行时，文件名、文件夹名不能是：akshare
+- wsl 运行plot必须使用以下代码：
+```
+# 显示图例
+plt.legend()
+ 
+# 显示图形
+plt.show()
+```
