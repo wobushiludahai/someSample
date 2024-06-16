@@ -1,7 +1,11 @@
-import akshare as ak
-import mplfinance as mpf  # Please install mplfinance as follows: pip install mplfinance
+import numpy as np
+import pandas as pd
+from pylab import mpl, plt
+import os
 
-from Toolset import *
+plt.style.use('ggplot')  # 设置matplotlib样式
+mpl.rcParams['font.family'] = ['serif']  # 指定默认字体
 
-stock_szse_summary_df = ak.stock_szse_summary(date=get_today_date())
-print(stock_szse_summary_df)
+file_path = os.path.abspath(os.path.dirname(__file__))
+
+print(file_path)

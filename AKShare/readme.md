@@ -9,7 +9,11 @@ sudo apt install python3-venv
 python3 -m venv myenv
 source myenv/bin/activate
 pip3 install package-name
+
+pip3 freeze > requirements.txt
 ```
+- 使用vscode配置
+ctrl+shift+p，然后输入：python create env然后一路选择即可
 ## 运行
 ```
 python3 run.py

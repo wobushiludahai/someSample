@@ -5,3 +5,4 @@ output
 test_include
 .vscode
 __pycache__
+.venv
