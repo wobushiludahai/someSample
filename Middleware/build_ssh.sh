@@ -8,4 +8,6 @@ SSH_DIR=${BASE_DIR}/openssh-portable
 
 cd ${SSH_DIR}
 
-autoconf
+autoreconf
+./configure --without-zlib-version-check
+make
