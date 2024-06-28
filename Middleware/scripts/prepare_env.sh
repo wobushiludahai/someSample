@@ -8,3 +8,5 @@ sudo apt install -y autoconf
 sudo apt install -y autopoint
 sudo apt install -y libtool-bin
 sudo apt install -y gettext
+# openssh need
+sudo apt-get install -y libssl-dev
