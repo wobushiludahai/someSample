@@ -30,4 +30,6 @@ target_include_directories(middleware PRIVATE ${PROJECT_DIR}/dbus)
 target_include_directories(middleware PRIVATE ${TEST_DIR})
 
 # 链接库
-target_link_libraries(middleware sqlite3 cjson)
+target_link_libraries(middleware sqlite3 cjson glib-2.0)
+
+add_subdirectory(${TEST_DIR}/gdbus)

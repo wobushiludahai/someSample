@@ -14,6 +14,8 @@ cmake ..
 make
 
 cp ${BUILD_DIR}/middleware ${OUTPUT_DIR}/
+cp ${BUILD_DIR}/gdbus/client ${OUTPUT_DIR}/
+cp ${BUILD_DIR}/gdbus/server ${OUTPUT_DIR}/
 
 rm -rf ${OUTPUT_DIR}/test.db
 
@@ -21,4 +23,9 @@ cd ${OUTPUT_DIR}
 echo
 echo
 echo "Run the middleware:"
-./middleware
+
+./server &
+./client &
+sleep 10
+killall server
+killall client
