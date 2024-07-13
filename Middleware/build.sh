@@ -5,6 +5,7 @@ ROOT_DIR=$(pwd)
 BASE_DIR=${ROOT_DIR}
 
 GLIB_DIR=${BASE_DIR}/glib
+DBUS_DIR=${BASE_DIR}/dbus
 SQLITE_DIR=${BASE_DIR}/sqlite
 CJSON_DIR=${BASE_DIR}/cJSON
 TEST_DIR=${BASE_DIR}/tests
@@ -14,6 +15,16 @@ rm -rf ${OUTPUT_DIR}
 mkdir -p ${OUTPUT_DIR}
 
 cd ${GLIB_DIR}
+git reset --hard
+git clean -dfx
+rm -rf _build
+mkdir -p _build
+cd _build
+meson setup .. --prefix=${OUTPUT_DIR} --buildtype=release
+ninja
+ninja install
+
+cd ${DBUS_DIR}
 git reset --hard
 git clean -dfx
 rm -rf _build
