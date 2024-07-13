@@ -1,5 +1,5 @@
 akracer==0.0.13
-akshare==1.14.1
+akshare==1.14.29
 beautifulsoup4==4.12.3
 certifi==2024.6.2
 charset-normalizer==3.3.2
