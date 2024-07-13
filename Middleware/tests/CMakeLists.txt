@@ -33,3 +33,4 @@ target_include_directories(middleware PRIVATE ${TEST_DIR})
 target_link_libraries(middleware sqlite3 cjson glib-2.0)
 
 add_subdirectory(${TEST_DIR}/gdbus)
+add_subdirectory(${TEST_DIR}/libdbus)

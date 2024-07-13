@@ -12,6 +12,7 @@ mkdir -p ${OUTPUT_DIR}
 cd ${BUILD_DIR}
 cmake ..
 make
+make install
 
 cp ${BUILD_DIR}/middleware ${OUTPUT_DIR}/
 cp ${BUILD_DIR}/gdbus/client ${OUTPUT_DIR}/
