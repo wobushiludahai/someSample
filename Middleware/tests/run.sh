@@ -25,8 +25,9 @@ echo
 echo
 echo "Run the middleware:"
 
-./server &
-./client &
-sleep 10
-killall server
-killall client
+./middleware
+
+# ./server &
+# ./client &
+# sleep 10
+# killall server

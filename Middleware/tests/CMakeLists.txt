@@ -22,6 +22,8 @@ target_include_directories(middleware PRIVATE ${TEST_DIR}/output/include)
 target_include_directories(middleware PRIVATE ${TEST_DIR}/output/include/cjson)
 target_include_directories(middleware PRIVATE ${TEST_DIR}/output/lib/x86_64-linux-gnu/glib-2.0/include)
 target_include_directories(middleware PRIVATE ${TEST_DIR}/output/include/glib-2.0)
+target_include_directories(${PROJECT_NAME} PRIVATE ${TEST_DIR}/output/lib/x86_64-linux-gnu/dbus-1.0/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${TEST_DIR}/output/include/dbus-1.0)
 
 target_include_directories(middleware PRIVATE ${TEST_DIR}/test_cases)
 target_include_directories(middleware PRIVATE ${PROJECT_DIR}/db)
@@ -30,7 +32,7 @@ target_include_directories(middleware PRIVATE ${PROJECT_DIR}/dbus)
 target_include_directories(middleware PRIVATE ${TEST_DIR})
 
 # 链接库
-target_link_libraries(middleware sqlite3 cjson glib-2.0)
+target_link_libraries(middleware sqlite3 cjson gio-2.0 gobject-2.0 gmodule-2.0 gthread-2.0 rt glib-2.0 dbus-1)
 
 add_subdirectory(${TEST_DIR}/gdbus)
 add_subdirectory(${TEST_DIR}/libdbus)
