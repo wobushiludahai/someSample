@@ -7,12 +7,13 @@
 
 void test_call_method(void);
 void test_get_property(void);
+void test_haidbus(void);
 
 int main(void)
 {
-    test_call_method();
-    test_get_property();
-    printf("\nEnd\n");
+    // test_call_method();
+    // test_get_property();
+    test_haidbus();
 
     // 因为我们使用了异步调用，所以这里需要进入主循环等待回调
     GMainLoop *loop = g_main_loop_new(NULL, FALSE);

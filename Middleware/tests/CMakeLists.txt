@@ -35,4 +35,4 @@ target_include_directories(middleware PRIVATE ${TEST_DIR})
 target_link_libraries(middleware sqlite3 cjson gio-2.0 gobject-2.0 gmodule-2.0 gthread-2.0 rt glib-2.0 dbus-1)
 
 add_subdirectory(${TEST_DIR}/gdbus)
-add_subdirectory(${TEST_DIR}/libdbus)
+add_subdirectory(${TEST_DIR}/rpc)

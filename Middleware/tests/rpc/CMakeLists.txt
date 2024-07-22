@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(haidbus)
+project(rpc)
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../.. CACHE STRING "base dir")
 set(CUR_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE STRING "base dir")
 set(TEST_DIR ${CUR_DIR}/../ CACHE STRING "base dir")
