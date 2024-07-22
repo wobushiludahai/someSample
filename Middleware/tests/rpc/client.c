@@ -1,12 +1,7 @@
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <stdio.h>
 #include <glib.h>
 #include <dbus/dbus.h>
-
-#include "rpc.h"
+#include "rpc_middleware.h"
 
 #define METHOD_CALL_TIMEOUT (300 * 1000)
 
@@ -14,7 +9,7 @@
 #define DBUS_INTERFACE_OBJECT_MANAGER DBUS_INTERFACE_DBUS ".ObjectManager"
 #endif
 
-struct GDBusClient
+struct RpcClient
 {
     int ref_count;
     DBusConnection *dbus_conn;
@@ -27,33 +22,33 @@ struct GDBusClient
     GPtrArray *match_rules;
     DBusPendingCall *pending_call;
     DBusPendingCall *get_objects_call;
-    GDBusWatchFunction connect_func;
+    RpcWatchFunction connect_func;
     void *connect_data;
-    GDBusWatchFunction disconn_func;
+    RpcWatchFunction disconn_func;
     gboolean connected;
     void *disconn_data;
-    GDBusMessageFunction signal_func;
+    RpcMessageFunction signal_func;
     void *signal_data;
-    GDBusProxyFunction proxy_added;
-    GDBusProxyFunction proxy_removed;
-    GDBusClientFunction ready;
+    RpcProxyFunction proxy_added;
+    RpcProxyFunction proxy_removed;
+    RpcClientFunction ready;
     void *ready_data;
-    GDBusPropertyFunction property_changed;
+    RpcPropertyFunction property_changed;
     void *user_data;
     GList *proxy_list;
 };
 
-struct GDBusProxy
+struct RpcProxy
 {
     int ref_count;
-    GDBusClient *client;
+    RpcClient *client;
     char *obj_path;
     char *interface;
     GHashTable *prop_list;
     guint watch;
-    GDBusPropertyFunction prop_func;
+    RpcPropertyFunction prop_func;
     void *prop_data;
-    GDBusProxyFunction removed_func;
+    RpcProxyFunction removed_func;
     void *removed_data;
 };
 
@@ -88,7 +83,7 @@ static gboolean modify_match(DBusConnection *conn, const char *member, const cha
 
     dbus_message_append_args(msg, DBUS_TYPE_STRING, &rule, DBUS_TYPE_INVALID);
 
-    if (g_dbus_send_message_with_reply(conn, msg, &call, -1) == FALSE)
+    if (rpc_send_message_with_reply(conn, msg, &call, -1) == FALSE)
     {
         dbus_message_unref(msg);
         return FALSE;
@@ -195,9 +190,9 @@ static void prop_entry_free(gpointer data)
     g_free(prop);
 }
 
-static void add_property(GDBusProxy *proxy, const char *name, DBusMessageIter *iter, gboolean send_changed)
+static void add_property(RpcProxy *proxy, const char *name, DBusMessageIter *iter, gboolean send_changed)
 {
-    GDBusClient *client = proxy->client;
+    RpcClient *client = proxy->client;
     DBusMessageIter value;
     struct prop_entry *prop;
 
@@ -230,7 +225,7 @@ done:
         client->property_changed(proxy, name, &value, client->user_data);
 }
 
-static void update_properties(GDBusProxy *proxy, DBusMessageIter *iter, gboolean send_changed)
+static void update_properties(RpcProxy *proxy, DBusMessageIter *iter, gboolean send_changed)
 {
     DBusMessageIter dict;
 
@@ -260,8 +255,8 @@ static void update_properties(GDBusProxy *proxy, DBusMessageIter *iter, gboolean
 
 static void get_all_properties_reply(DBusPendingCall *call, void *user_data)
 {
-    GDBusProxy *proxy = user_data;
-    GDBusClient *client = proxy->client;
+    RpcProxy *proxy = user_data;
+    RpcClient *client = proxy->client;
     DBusMessage *reply = dbus_pending_call_steal_reply(call);
     DBusMessageIter iter;
     DBusError error;
@@ -289,12 +284,12 @@ done:
 
     dbus_message_unref(reply);
 
-    g_dbus_client_unref(client);
+    rpc_client_unref(client);
 }
 
-static void get_all_properties(GDBusProxy *proxy)
+static void get_all_properties(RpcProxy *proxy)
 {
-    GDBusClient *client = proxy->client;
+    RpcClient *client = proxy->client;
     const char *service_name = client->service_name;
     DBusMessage *msg;
     DBusPendingCall *call;
@@ -305,13 +300,13 @@ static void get_all_properties(GDBusProxy *proxy)
 
     dbus_message_append_args(msg, DBUS_TYPE_STRING, &proxy->interface, DBUS_TYPE_INVALID);
 
-    if (g_dbus_send_message_with_reply(client->dbus_conn, msg, &call, -1) == FALSE)
+    if (rpc_send_message_with_reply(client->dbus_conn, msg, &call, -1) == FALSE)
     {
         dbus_message_unref(msg);
         return;
     }
 
-    g_dbus_client_ref(client);
+    rpc_client_ref(client);
 
     dbus_pending_call_set_notify(call, get_all_properties_reply, proxy, NULL);
     dbus_pending_call_unref(call);
@@ -319,13 +314,13 @@ static void get_all_properties(GDBusProxy *proxy)
     dbus_message_unref(msg);
 }
 
-static GDBusProxy *proxy_lookup(GDBusClient *client, const char *path, const char *interface)
+static RpcProxy *proxy_lookup(RpcClient *client, const char *path, const char *interface)
 {
     GList *list;
 
     for (list = g_list_first(client->proxy_list); list; list = g_list_next(list))
     {
-        GDBusProxy *proxy = list->data;
+        RpcProxy *proxy = list->data;
 
         if (g_str_equal(proxy->interface, interface) == TRUE && g_str_equal(proxy->obj_path, path) == TRUE)
             return proxy;
@@ -336,8 +331,8 @@ static GDBusProxy *proxy_lookup(GDBusClient *client, const char *path, const cha
 
 static gboolean properties_changed(DBusConnection *conn, DBusMessage *msg, void *user_data)
 {
-    GDBusProxy *proxy = user_data;
-    GDBusClient *client = proxy->client;
+    RpcProxy *proxy = user_data;
+    RpcClient *client = proxy->client;
     DBusMessageIter iter, entry;
     const char *interface;
 
@@ -379,11 +374,11 @@ static gboolean properties_changed(DBusConnection *conn, DBusMessage *msg, void 
     return TRUE;
 }
 
-static GDBusProxy *proxy_new(GDBusClient *client, const char *path, const char *interface)
+static RpcProxy *proxy_new(RpcClient *client, const char *path, const char *interface)
 {
-    GDBusProxy *proxy;
+    RpcProxy *proxy;
 
-    proxy = g_try_new0(GDBusProxy, 1);
+    proxy = g_try_new0(RpcProxy, 1);
     if (proxy == NULL)
         return NULL;
 
@@ -392,24 +387,24 @@ static GDBusProxy *proxy_new(GDBusClient *client, const char *path, const char *
     proxy->interface = g_strdup(interface);
 
     proxy->prop_list = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, prop_entry_free);
-    proxy->watch = g_dbus_add_properties_watch(
+    proxy->watch = rpc_add_properties_watch(
         client->dbus_conn, client->service_name, proxy->obj_path, proxy->interface, properties_changed, proxy, NULL);
 
-    return g_dbus_proxy_ref(proxy);
+    return rpc_proxy_ref(proxy);
 }
 
 static void proxy_free(gpointer data)
 {
-    GDBusProxy *proxy = data;
+    RpcProxy *proxy = data;
 
     if (proxy->client)
     {
-        GDBusClient *client = proxy->client;
+        RpcClient *client = proxy->client;
 
         if (client->proxy_removed)
             client->proxy_removed(proxy, client->user_data);
 
-        g_dbus_remove_watch(client->dbus_conn, proxy->watch);
+        rpc_remove_watch(client->dbus_conn, proxy->watch);
 
         g_hash_table_remove_all(proxy->prop_list);
 
@@ -419,16 +414,16 @@ static void proxy_free(gpointer data)
     if (proxy->removed_func)
         proxy->removed_func(proxy, proxy->removed_data);
 
-    g_dbus_proxy_unref(proxy);
+    rpc_proxy_unref(proxy);
 }
 
-static void proxy_remove(GDBusClient *client, const char *path, const char *interface)
+static void proxy_remove(RpcClient *client, const char *path, const char *interface)
 {
     GList *list;
 
     for (list = g_list_first(client->proxy_list); list; list = g_list_next(list))
     {
-        GDBusProxy *proxy = list->data;
+        RpcProxy *proxy = list->data;
 
         if (g_str_equal(proxy->interface, interface) == TRUE && g_str_equal(proxy->obj_path, path) == TRUE)
         {
@@ -439,16 +434,16 @@ static void proxy_remove(GDBusClient *client, const char *path, const char *inte
     }
 }
 
-GDBusProxy *g_dbus_proxy_new(GDBusClient *client, const char *path, const char *interface)
+RpcProxy *rpc_proxy_new(RpcClient *client, const char *path, const char *interface)
 {
-    GDBusProxy *proxy;
+    RpcProxy *proxy;
 
     if (client == NULL)
         return NULL;
 
     proxy = proxy_lookup(client, path, interface);
     if (proxy)
-        return g_dbus_proxy_ref(proxy);
+        return rpc_proxy_ref(proxy);
 
     proxy = proxy_new(client, path, interface);
     if (proxy == NULL)
@@ -456,10 +451,10 @@ GDBusProxy *g_dbus_proxy_new(GDBusClient *client, const char *path, const char *
 
     get_all_properties(proxy);
 
-    return g_dbus_proxy_ref(proxy);
+    return rpc_proxy_ref(proxy);
 }
 
-GDBusProxy *g_dbus_proxy_ref(GDBusProxy *proxy)
+RpcProxy *rpc_proxy_ref(RpcProxy *proxy)
 {
     if (proxy == NULL)
         return NULL;
@@ -469,7 +464,7 @@ GDBusProxy *g_dbus_proxy_ref(GDBusProxy *proxy)
     return proxy;
 }
 
-void g_dbus_proxy_unref(GDBusProxy *proxy)
+void rpc_proxy_unref(RpcProxy *proxy)
 {
     if (proxy == NULL)
         return;
@@ -485,7 +480,7 @@ void g_dbus_proxy_unref(GDBusProxy *proxy)
     g_free(proxy);
 }
 
-const char *g_dbus_proxy_get_path(GDBusProxy *proxy)
+const char *rpc_proxy_get_path(RpcProxy *proxy)
 {
     if (proxy == NULL)
         return NULL;
@@ -493,7 +488,7 @@ const char *g_dbus_proxy_get_path(GDBusProxy *proxy)
     return proxy->obj_path;
 }
 
-const char *g_dbus_proxy_get_interface(GDBusProxy *proxy)
+const char *rpc_proxy_get_interface(RpcProxy *proxy)
 {
     if (proxy == NULL)
         return NULL;
@@ -501,7 +496,7 @@ const char *g_dbus_proxy_get_interface(GDBusProxy *proxy)
     return proxy->interface;
 }
 
-gboolean g_dbus_proxy_get_property(GDBusProxy *proxy, const char *name, DBusMessageIter *iter)
+gboolean rpc_proxy_get_property(RpcProxy *proxy, const char *name, DBusMessageIter *iter)
 {
     struct prop_entry *prop;
 
@@ -523,7 +518,7 @@ gboolean g_dbus_proxy_get_property(GDBusProxy *proxy, const char *name, DBusMess
 
 struct refresh_property_data
 {
-    GDBusProxy *proxy;
+    RpcProxy *proxy;
     char *name;
 };
 
@@ -557,10 +552,10 @@ static void refresh_property_reply(DBusPendingCall *call, void *user_data)
     dbus_message_unref(reply);
 }
 
-gboolean g_dbus_proxy_refresh_property(GDBusProxy *proxy, const char *name)
+gboolean rpc_proxy_refresh_property(RpcProxy *proxy, const char *name)
 {
     struct refresh_property_data *data;
-    GDBusClient *client;
+    RpcClient *client;
     DBusMessage *msg;
     DBusMessageIter iter;
     DBusPendingCall *call;
@@ -590,7 +585,7 @@ gboolean g_dbus_proxy_refresh_property(GDBusProxy *proxy, const char *name)
     dbus_message_iter_append_basic(&iter, DBUS_TYPE_STRING, &proxy->interface);
     dbus_message_iter_append_basic(&iter, DBUS_TYPE_STRING, &name);
 
-    if (g_dbus_send_message_with_reply(client->dbus_conn, msg, &call, -1) == FALSE)
+    if (rpc_send_message_with_reply(client->dbus_conn, msg, &call, -1) == FALSE)
     {
         dbus_message_unref(msg);
         refresh_property_free(data);
@@ -607,9 +602,9 @@ gboolean g_dbus_proxy_refresh_property(GDBusProxy *proxy, const char *name)
 
 struct set_property_data
 {
-    GDBusResultFunction function;
+    RpcResultFunction function;
     void *user_data;
-    GDBusDestroyFunction destroy;
+    RpcDestroyFunction destroy;
 };
 
 static void set_property_reply(DBusPendingCall *call, void *user_data)
@@ -633,11 +628,11 @@ static void set_property_reply(DBusPendingCall *call, void *user_data)
     dbus_message_unref(reply);
 }
 
-gboolean g_dbus_proxy_set_property_basic(GDBusProxy *proxy, const char *name, int type, const void *value,
-    GDBusResultFunction function, void *user_data, GDBusDestroyFunction destroy)
+gboolean rpc_proxy_set_property_basic(RpcProxy *proxy, const char *name, int type, const void *value,
+    RpcResultFunction function, void *user_data, RpcDestroyFunction destroy)
 {
     struct set_property_data *data;
-    GDBusClient *client;
+    RpcClient *client;
     DBusMessage *msg;
     DBusMessageIter iter, variant;
     DBusPendingCall *call;
@@ -679,7 +674,7 @@ gboolean g_dbus_proxy_set_property_basic(GDBusProxy *proxy, const char *name, in
     dbus_message_iter_append_basic(&variant, type, value);
     dbus_message_iter_close_container(&iter, &variant);
 
-    if (g_dbus_send_message_with_reply(client->dbus_conn, msg, &call, -1) == FALSE)
+    if (rpc_send_message_with_reply(client->dbus_conn, msg, &call, -1) == FALSE)
     {
         dbus_message_unref(msg);
         g_free(data);
@@ -694,11 +689,11 @@ gboolean g_dbus_proxy_set_property_basic(GDBusProxy *proxy, const char *name, in
     return TRUE;
 }
 
-gboolean g_dbus_proxy_set_property_array(GDBusProxy *proxy, const char *name, int type, const void *value, size_t size,
-    GDBusResultFunction function, void *user_data, GDBusDestroyFunction destroy)
+gboolean rpc_proxy_set_property_array(RpcProxy *proxy, const char *name, int type, const void *value, size_t size,
+    RpcResultFunction function, void *user_data, RpcDestroyFunction destroy)
 {
     struct set_property_data *data;
-    GDBusClient *client;
+    RpcClient *client;
     DBusMessage *msg;
     DBusMessageIter iter, variant, array;
     DBusPendingCall *call;
@@ -759,7 +754,7 @@ gboolean g_dbus_proxy_set_property_array(GDBusProxy *proxy, const char *name, in
     dbus_message_iter_close_container(&variant, &array);
     dbus_message_iter_close_container(&iter, &variant);
 
-    if (g_dbus_send_message_with_reply(client->dbus_conn, msg, &call, -1) == FALSE)
+    if (rpc_send_message_with_reply(client->dbus_conn, msg, &call, -1) == FALSE)
     {
         dbus_message_unref(msg);
         g_free(data);
@@ -776,9 +771,9 @@ gboolean g_dbus_proxy_set_property_array(GDBusProxy *proxy, const char *name, in
 
 struct method_call_data
 {
-    GDBusReturnFunction function;
+    RpcReturnFunction function;
     void *user_data;
-    GDBusDestroyFunction destroy;
+    RpcDestroyFunction destroy;
 };
 
 static void method_call_reply(DBusPendingCall *call, void *user_data)
@@ -795,11 +790,11 @@ static void method_call_reply(DBusPendingCall *call, void *user_data)
     dbus_message_unref(reply);
 }
 
-gboolean g_dbus_proxy_method_call(GDBusProxy *proxy, const char *method, GDBusSetupFunction setup,
-    GDBusReturnFunction function, void *user_data, GDBusDestroyFunction destroy)
+gboolean rpc_proxy_method_call(RpcProxy *proxy, const char *method, RpcSetupFunction setup, RpcReturnFunction function,
+    void *user_data, RpcDestroyFunction destroy)
 {
     struct method_call_data *data;
-    GDBusClient *client;
+    RpcClient *client;
     DBusMessage *msg;
     DBusPendingCall *call;
 
@@ -823,7 +818,7 @@ gboolean g_dbus_proxy_method_call(GDBusProxy *proxy, const char *method, GDBusSe
     }
 
     if (!function)
-        return g_dbus_send_message(client->dbus_conn, msg);
+        return rpc_send_message(client->dbus_conn, msg);
 
     data = g_try_new0(struct method_call_data, 1);
     if (data == NULL)
@@ -833,7 +828,7 @@ gboolean g_dbus_proxy_method_call(GDBusProxy *proxy, const char *method, GDBusSe
     data->user_data = user_data;
     data->destroy = destroy;
 
-    if (g_dbus_send_message_with_reply(client->dbus_conn, msg, &call, METHOD_CALL_TIMEOUT) == FALSE)
+    if (rpc_send_message_with_reply(client->dbus_conn, msg, &call, METHOD_CALL_TIMEOUT) == FALSE)
     {
         dbus_message_unref(msg);
         g_free(data);
@@ -848,7 +843,7 @@ gboolean g_dbus_proxy_method_call(GDBusProxy *proxy, const char *method, GDBusSe
     return TRUE;
 }
 
-gboolean g_dbus_proxy_set_property_watch(GDBusProxy *proxy, GDBusPropertyFunction function, void *user_data)
+gboolean rpc_proxy_set_property_watch(RpcProxy *proxy, RpcPropertyFunction function, void *user_data)
 {
     if (proxy == NULL)
         return FALSE;
@@ -859,7 +854,7 @@ gboolean g_dbus_proxy_set_property_watch(GDBusProxy *proxy, GDBusPropertyFunctio
     return TRUE;
 }
 
-gboolean g_dbus_proxy_set_removed_watch(GDBusProxy *proxy, GDBusProxyFunction function, void *user_data)
+gboolean rpc_proxy_set_removed_watch(RpcProxy *proxy, RpcProxyFunction function, void *user_data)
 {
     if (proxy == NULL)
         return FALSE;
@@ -870,21 +865,21 @@ gboolean g_dbus_proxy_set_removed_watch(GDBusProxy *proxy, GDBusProxyFunction fu
     return TRUE;
 }
 
-static void refresh_properties(GDBusClient *client)
+static void refresh_properties(RpcClient *client)
 {
     GList *list;
 
     for (list = g_list_first(client->proxy_list); list; list = g_list_next(list))
     {
-        GDBusProxy *proxy = list->data;
+        RpcProxy *proxy = list->data;
 
         get_all_properties(proxy);
     }
 }
 
-static void parse_properties(GDBusClient *client, const char *path, const char *interface, DBusMessageIter *iter)
+static void parse_properties(RpcClient *client, const char *path, const char *interface, DBusMessageIter *iter)
 {
-    GDBusProxy *proxy;
+    RpcProxy *proxy;
 
     if (g_str_equal(interface, DBUS_INTERFACE_INTROSPECTABLE) == TRUE)
         return;
@@ -911,7 +906,7 @@ static void parse_properties(GDBusClient *client, const char *path, const char *
     client->proxy_list = g_list_append(client->proxy_list, proxy);
 }
 
-static void parse_interfaces(GDBusClient *client, const char *path, DBusMessageIter *iter)
+static void parse_interfaces(RpcClient *client, const char *path, DBusMessageIter *iter)
 {
     DBusMessageIter dict;
 
@@ -941,7 +936,7 @@ static void parse_interfaces(GDBusClient *client, const char *path, DBusMessageI
 
 static gboolean interfaces_added(DBusConnection *conn, DBusMessage *msg, void *user_data)
 {
-    GDBusClient *client = user_data;
+    RpcClient *client = user_data;
     DBusMessageIter iter;
     const char *path;
 
@@ -954,18 +949,18 @@ static gboolean interfaces_added(DBusConnection *conn, DBusMessage *msg, void *u
     dbus_message_iter_get_basic(&iter, &path);
     dbus_message_iter_next(&iter);
 
-    g_dbus_client_ref(client);
+    rpc_client_ref(client);
 
     parse_interfaces(client, path, &iter);
 
-    g_dbus_client_unref(client);
+    rpc_client_unref(client);
 
     return TRUE;
 }
 
 static gboolean interfaces_removed(DBusConnection *conn, DBusMessage *msg, void *user_data)
 {
-    GDBusClient *client = user_data;
+    RpcClient *client = user_data;
     DBusMessageIter iter, entry;
     const char *path;
 
@@ -983,7 +978,7 @@ static gboolean interfaces_removed(DBusConnection *conn, DBusMessage *msg, void 
 
     dbus_message_iter_recurse(&iter, &entry);
 
-    g_dbus_client_ref(client);
+    rpc_client_ref(client);
 
     while (dbus_message_iter_get_arg_type(&entry) == DBUS_TYPE_STRING)
     {
@@ -994,12 +989,12 @@ static gboolean interfaces_removed(DBusConnection *conn, DBusMessage *msg, void 
         dbus_message_iter_next(&entry);
     }
 
-    g_dbus_client_unref(client);
+    rpc_client_unref(client);
 
     return TRUE;
 }
 
-static void parse_managed_objects(GDBusClient *client, DBusMessage *msg)
+static void parse_managed_objects(RpcClient *client, DBusMessage *msg)
 {
     DBusMessageIter iter, dict;
 
@@ -1032,11 +1027,11 @@ static void parse_managed_objects(GDBusClient *client, DBusMessage *msg)
 
 static void get_managed_objects_reply(DBusPendingCall *call, void *user_data)
 {
-    GDBusClient *client = user_data;
+    RpcClient *client = user_data;
     DBusMessage *reply = dbus_pending_call_steal_reply(call);
     DBusError error;
 
-    g_dbus_client_ref(client);
+    rpc_client_ref(client);
 
     dbus_error_init(&error);
 
@@ -1057,10 +1052,10 @@ done:
     dbus_pending_call_unref(client->get_objects_call);
     client->get_objects_call = NULL;
 
-    g_dbus_client_unref(client);
+    rpc_client_unref(client);
 }
 
-static void get_managed_objects(GDBusClient *client)
+static void get_managed_objects(RpcClient *client)
 {
     DBusMessage *msg;
 
@@ -1083,7 +1078,7 @@ static void get_managed_objects(GDBusClient *client)
 
     dbus_message_append_args(msg, DBUS_TYPE_INVALID);
 
-    if (g_dbus_send_message_with_reply(client->dbus_conn, msg, &client->get_objects_call, -1) == FALSE)
+    if (rpc_send_message_with_reply(client->dbus_conn, msg, &client->get_objects_call, -1) == FALSE)
     {
         dbus_message_unref(msg);
         return;
@@ -1096,9 +1091,9 @@ static void get_managed_objects(GDBusClient *client)
 
 static void service_connect(DBusConnection *conn, void *user_data)
 {
-    GDBusClient *client = user_data;
+    RpcClient *client = user_data;
 
-    g_dbus_client_ref(client);
+    rpc_client_ref(client);
 
     client->connected = TRUE;
 
@@ -1107,12 +1102,12 @@ static void service_connect(DBusConnection *conn, void *user_data)
 
     get_managed_objects(client);
 
-    g_dbus_client_unref(client);
+    rpc_client_unref(client);
 }
 
 static void service_disconnect(DBusConnection *conn, void *user_data)
 {
-    GDBusClient *client = user_data;
+    RpcClient *client = user_data;
 
     client->connected = FALSE;
 
@@ -1125,7 +1120,7 @@ static void service_disconnect(DBusConnection *conn, void *user_data)
 
 static DBusHandlerResult message_filter(DBusConnection *connection, DBusMessage *message, void *user_data)
 {
-    GDBusClient *client = user_data;
+    RpcClient *client = user_data;
     const char *sender, *path, *interface;
 
     if (dbus_message_get_type(message) != DBUS_MESSAGE_TYPE_SIGNAL)
@@ -1150,21 +1145,20 @@ static DBusHandlerResult message_filter(DBusConnection *connection, DBusMessage 
     return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 }
 
-GDBusClient *g_dbus_client_new(DBusConnection *connection, const char *service, const char *path)
+RpcClient *rpc_client_new(DBusConnection *connection, const char *service, const char *path)
 {
-    return g_dbus_client_new_full(connection, service, path, "/");
+    return rpc_client_new_full(connection, service, path, "/");
 }
 
-GDBusClient *g_dbus_client_new_full(
-    DBusConnection *connection, const char *service, const char *path, const char *root_path)
+RpcClient *rpc_client_new_full(DBusConnection *connection, const char *service, const char *path, const char *root_path)
 {
-    GDBusClient *client;
+    RpcClient *client;
     unsigned int i;
 
     if (!connection || !service)
         return NULL;
 
-    client = g_try_new0(GDBusClient, 1);
+    client = g_try_new0(RpcClient, 1);
     if (client == NULL)
         return NULL;
 
@@ -1183,15 +1177,15 @@ GDBusClient *g_dbus_client_new_full(
     client->match_rules = g_ptr_array_sized_new(1);
     g_ptr_array_set_free_func(client->match_rules, g_free);
 
-    client->watch = g_dbus_add_service_watch(connection, service, service_connect, service_disconnect, client, NULL);
+    client->watch = rpc_add_service_watch(connection, service, service_connect, service_disconnect, client, NULL);
 
     if (!root_path)
-        return g_dbus_client_ref(client);
+        return rpc_client_ref(client);
 
-    client->added_watch = g_dbus_add_signal_watch(connection, service, client->root_path, DBUS_INTERFACE_OBJECT_MANAGER,
+    client->added_watch = rpc_add_signal_watch(connection, service, client->root_path, DBUS_INTERFACE_OBJECT_MANAGER,
         "InterfacesAdded", interfaces_added, client, NULL);
-    client->removed_watch = g_dbus_add_signal_watch(connection, service, client->root_path,
-        DBUS_INTERFACE_OBJECT_MANAGER, "InterfacesRemoved", interfaces_removed, client, NULL);
+    client->removed_watch = rpc_add_signal_watch(connection, service, client->root_path, DBUS_INTERFACE_OBJECT_MANAGER,
+        "InterfacesRemoved", interfaces_removed, client, NULL);
     g_ptr_array_add(client->match_rules,
         g_strdup_printf("type='signal',"
                         "sender='%s',path_namespace='%s'",
@@ -1202,10 +1196,10 @@ GDBusClient *g_dbus_client_new_full(
         modify_match(client->dbus_conn, "AddMatch", g_ptr_array_index(client->match_rules, i));
     }
 
-    return g_dbus_client_ref(client);
+    return rpc_client_ref(client);
 }
 
-GDBusClient *g_dbus_client_ref(GDBusClient *client)
+RpcClient *rpc_client_ref(RpcClient *client)
 {
     if (client == NULL)
         return NULL;
@@ -1215,7 +1209,7 @@ GDBusClient *g_dbus_client_ref(GDBusClient *client)
     return client;
 }
 
-void g_dbus_client_unref(GDBusClient *client)
+void rpc_client_unref(RpcClient *client)
 {
     unsigned int i;
 
@@ -1255,9 +1249,9 @@ void g_dbus_client_unref(GDBusClient *client)
     if (client->disconn_func && client->connected)
         client->disconn_func(client->dbus_conn, client->disconn_data);
 
-    g_dbus_remove_watch(client->dbus_conn, client->watch);
-    g_dbus_remove_watch(client->dbus_conn, client->added_watch);
-    g_dbus_remove_watch(client->dbus_conn, client->removed_watch);
+    rpc_remove_watch(client->dbus_conn, client->watch);
+    rpc_remove_watch(client->dbus_conn, client->added_watch);
+    rpc_remove_watch(client->dbus_conn, client->removed_watch);
 
     dbus_connection_unref(client->dbus_conn);
 
@@ -1268,7 +1262,7 @@ void g_dbus_client_unref(GDBusClient *client)
     g_free(client);
 }
 
-gboolean g_dbus_client_set_connect_watch(GDBusClient *client, GDBusWatchFunction function, void *user_data)
+gboolean rpc_client_set_connect_watch(RpcClient *client, RpcWatchFunction function, void *user_data)
 {
     if (client == NULL)
         return FALSE;
@@ -1279,7 +1273,7 @@ gboolean g_dbus_client_set_connect_watch(GDBusClient *client, GDBusWatchFunction
     return TRUE;
 }
 
-gboolean g_dbus_client_set_disconnect_watch(GDBusClient *client, GDBusWatchFunction function, void *user_data)
+gboolean rpc_client_set_disconnect_watch(RpcClient *client, RpcWatchFunction function, void *user_data)
 {
     if (client == NULL)
         return FALSE;
@@ -1290,7 +1284,7 @@ gboolean g_dbus_client_set_disconnect_watch(GDBusClient *client, GDBusWatchFunct
     return TRUE;
 }
 
-gboolean g_dbus_client_set_signal_watch(GDBusClient *client, GDBusMessageFunction function, void *user_data)
+gboolean rpc_client_set_signal_watch(RpcClient *client, RpcMessageFunction function, void *user_data)
 {
     if (client == NULL)
         return FALSE;
@@ -1301,7 +1295,7 @@ gboolean g_dbus_client_set_signal_watch(GDBusClient *client, GDBusMessageFunctio
     return TRUE;
 }
 
-gboolean g_dbus_client_set_ready_watch(GDBusClient *client, GDBusClientFunction ready, void *user_data)
+gboolean rpc_client_set_ready_watch(RpcClient *client, RpcClientFunction ready, void *user_data)
 {
     if (client == NULL)
         return FALSE;
@@ -1312,8 +1306,8 @@ gboolean g_dbus_client_set_ready_watch(GDBusClient *client, GDBusClientFunction 
     return TRUE;
 }
 
-gboolean g_dbus_client_set_proxy_handlers(GDBusClient *client, GDBusProxyFunction proxy_added,
-    GDBusProxyFunction proxy_removed, GDBusPropertyFunction property_changed, void *user_data)
+gboolean rpc_client_set_proxy_handlers(RpcClient *client, RpcProxyFunction proxy_added, RpcProxyFunction proxy_removed,
+    RpcPropertyFunction property_changed, void *user_data)
 {
     if (client == NULL)
         return FALSE;

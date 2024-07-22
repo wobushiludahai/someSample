@@ -1,14 +1,8 @@
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <stdio.h>
 #include <string.h>
-
 #include <glib.h>
 #include <dbus/dbus.h>
-
-#include "rpc.h"
+#include "rpc_middleware.h"
 
 #define info(fmt...)
 #define error(fmt...)
@@ -31,10 +25,10 @@ struct service_data
 
 struct filter_callback
 {
-    GDBusWatchFunction conn_func;
-    GDBusWatchFunction disc_func;
-    GDBusSignalFunction signal_func;
-    GDBusDestroyFunction destroy_func;
+    RpcWatchFunction conn_func;
+    RpcWatchFunction disc_func;
+    RpcSignalFunction signal_func;
+    RpcDestroyFunction destroy_func;
     struct service_data *data;
     void *user_data;
     guint id;
@@ -184,7 +178,7 @@ static void filter_data_free(struct filter_data *data)
         g_free(l->data);
 
     g_slist_free(data->callbacks);
-    g_dbus_remove_watch(data->connection, data->name_watch);
+    rpc_remove_watch(data->connection, data->name_watch);
     g_free(data->name);
     g_free(data->owner);
     g_free(data->path);
@@ -283,8 +277,8 @@ static void filter_data_call_and_free(struct filter_data *data)
     filter_data_free(data);
 }
 
-static struct filter_callback *filter_data_add_callback(struct filter_data *data, GDBusWatchFunction connect,
-    GDBusWatchFunction disconnect, GDBusSignalFunction signal, GDBusDestroyFunction destroy, void *user_data)
+static struct filter_callback *filter_data_add_callback(struct filter_data *data, RpcWatchFunction connect,
+    RpcWatchFunction disconnect, RpcSignalFunction signal, RpcDestroyFunction destroy, void *user_data)
 {
     struct filter_callback *cb = NULL;
 
@@ -652,8 +646,8 @@ done:
     dbus_message_unref(message);
 }
 
-guint g_dbus_add_service_watch(DBusConnection *connection, const char *name, GDBusWatchFunction connect,
-    GDBusWatchFunction disconnect, void *user_data, GDBusDestroyFunction destroy)
+guint rpc_add_service_watch(DBusConnection *connection, const char *name, RpcWatchFunction connect,
+    RpcWatchFunction disconnect, void *user_data, RpcDestroyFunction destroy)
 {
     struct filter_data *data;
     struct filter_callback *cb;
@@ -676,14 +670,14 @@ guint g_dbus_add_service_watch(DBusConnection *connection, const char *name, GDB
     return cb->id;
 }
 
-guint g_dbus_add_disconnect_watch(DBusConnection *connection, const char *name, GDBusWatchFunction func,
-    void *user_data, GDBusDestroyFunction destroy)
+guint rpc_add_disconnect_watch(
+    DBusConnection *connection, const char *name, RpcWatchFunction func, void *user_data, RpcDestroyFunction destroy)
 {
-    return g_dbus_add_service_watch(connection, name, NULL, func, user_data, destroy);
+    return rpc_add_service_watch(connection, name, NULL, func, user_data, destroy);
 }
 
-guint g_dbus_add_signal_watch(DBusConnection *connection, const char *sender, const char *path, const char *interface,
-    const char *member, GDBusSignalFunction function, void *user_data, GDBusDestroyFunction destroy)
+guint rpc_add_signal_watch(DBusConnection *connection, const char *sender, const char *path, const char *interface,
+    const char *member, RpcSignalFunction function, void *user_data, RpcDestroyFunction destroy)
 {
     struct filter_data *data;
     struct filter_callback *cb;
@@ -697,13 +691,13 @@ guint g_dbus_add_signal_watch(DBusConnection *connection, const char *sender, co
         return 0;
 
     if (data->name != NULL && data->name_watch == 0)
-        data->name_watch = g_dbus_add_service_watch(connection, data->name, NULL, NULL, NULL, NULL);
+        data->name_watch = rpc_add_service_watch(connection, data->name, NULL, NULL, NULL, NULL);
 
     return cb->id;
 }
 
-guint g_dbus_add_properties_watch(DBusConnection *connection, const char *sender, const char *path,
-    const char *interface, GDBusSignalFunction function, void *user_data, GDBusDestroyFunction destroy)
+guint rpc_add_properties_watch(DBusConnection *connection, const char *sender, const char *path, const char *interface,
+    RpcSignalFunction function, void *user_data, RpcDestroyFunction destroy)
 {
     struct filter_data *data;
     struct filter_callback *cb;
@@ -718,12 +712,12 @@ guint g_dbus_add_properties_watch(DBusConnection *connection, const char *sender
         return 0;
 
     if (data->name != NULL && data->name_watch == 0)
-        data->name_watch = g_dbus_add_service_watch(connection, data->name, NULL, NULL, NULL, NULL);
+        data->name_watch = rpc_add_service_watch(connection, data->name, NULL, NULL, NULL, NULL);
 
     return cb->id;
 }
 
-gboolean g_dbus_remove_watch(DBusConnection *connection, guint id)
+gboolean rpc_remove_watch(DBusConnection *connection, guint id)
 {
     struct filter_data *data;
     struct filter_callback *cb;
@@ -747,7 +741,7 @@ gboolean g_dbus_remove_watch(DBusConnection *connection, guint id)
     return FALSE;
 }
 
-void g_dbus_remove_all_watches(DBusConnection *connection)
+void rpc_remove_all_watches(DBusConnection *connection)
 {
     struct filter_data *data;
 

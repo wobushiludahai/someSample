@@ -1,11 +1,6 @@
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <glib.h>
 #include <dbus/dbus.h>
-
-#include "rpc.h"
+#include "rpc_middleware.h"
 
 #define info(fmt...)
 #define error(fmt...)
@@ -26,7 +21,7 @@ struct watch_info
 
 struct disconnect_data
 {
-    GDBusWatchFunction function;
+    RpcWatchFunction function;
     void *user_data;
 };
 
@@ -246,7 +241,7 @@ static gboolean setup_bus(DBusConnection *conn, const char *name, DBusError *err
 
     if (name != NULL)
     {
-        result = g_dbus_request_name(conn, name, error);
+        result = rpc_request_name(conn, name, error);
 
         if (error != NULL)
         {
@@ -266,7 +261,7 @@ static gboolean setup_bus(DBusConnection *conn, const char *name, DBusError *err
     return TRUE;
 }
 
-DBusConnection *g_dbus_setup_bus(DBusBusType type, const char *name, DBusError *error)
+DBusConnection *rpc_setup_bus(DBusBusType type, const char *name, DBusError *error)
 {
     DBusConnection *conn;
 
@@ -290,7 +285,7 @@ DBusConnection *g_dbus_setup_bus(DBusBusType type, const char *name, DBusError *
     return conn;
 }
 
-DBusConnection *g_dbus_setup_private(DBusBusType type, const char *name, DBusError *error)
+DBusConnection *rpc_setup_private(DBusBusType type, const char *name, DBusError *error)
 {
     DBusConnection *conn;
 
@@ -315,7 +310,7 @@ DBusConnection *g_dbus_setup_private(DBusBusType type, const char *name, DBusErr
     return conn;
 }
 
-gboolean g_dbus_request_name(DBusConnection *connection, const char *name, DBusError *error)
+gboolean rpc_request_name(DBusConnection *connection, const char *name, DBusError *error)
 {
     int result;
 
@@ -338,8 +333,8 @@ gboolean g_dbus_request_name(DBusConnection *connection, const char *name, DBusE
     return TRUE;
 }
 
-gboolean g_dbus_set_disconnect_function(
-    DBusConnection *connection, GDBusWatchFunction function, void *user_data, DBusFreeFunction destroy)
+gboolean rpc_set_disconnect_function(
+    DBusConnection *connection, RpcWatchFunction function, void *user_data, DBusFreeFunction destroy)
 {
     struct disconnect_data *dc_data;
 
@@ -350,7 +345,7 @@ gboolean g_dbus_set_disconnect_function(
 
     dbus_connection_set_exit_on_disconnect(connection, FALSE);
 
-    if (g_dbus_add_signal_watch(
+    if (rpc_add_signal_watch(
             connection, NULL, NULL, DBUS_INTERFACE_LOCAL, "Disconnected", disconnected_signal, dc_data, g_free)
         == 0)
     {

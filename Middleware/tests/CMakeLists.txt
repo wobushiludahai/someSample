@@ -35,4 +35,4 @@ target_include_directories(middleware PRIVATE ${PROJECT_DIR}/dbus)
 target_include_directories(middleware PRIVATE ${TEST_DIR})
 
 # 链接库
-target_link_libraries(middleware sqlite3 cjson gio-2.0 gobject-2.0 gmodule-2.0 gthread-2.0 rt glib-2.0 dbus-1)
+target_link_libraries(middleware sqlite3 cjson gio-2.0 gobject-2.0 gmodule-2.0 gthread-2.0 rt glib-2.0 dbus-1 rpc)

@@ -15,11 +15,11 @@ int main(void)
     // test_get_property();
     test_rpc();
 
-    // 因为我们使用了异步调用，所以这里需要进入主循环等待回调
-    GMainLoop *loop = g_main_loop_new(NULL, FALSE);
-    g_main_loop_run(loop); // 这会阻塞，直到你退出主循环
+    // // 因为我们使用了异步调用，所以这里需要进入主循环等待回调
+    // GMainLoop *loop = g_main_loop_new(NULL, FALSE);
+    // g_main_loop_run(loop); // 这会阻塞，直到你退出主循环
 
-    g_main_loop_unref(loop);
+    // g_main_loop_unref(loop);
 
     return 0;
 }
