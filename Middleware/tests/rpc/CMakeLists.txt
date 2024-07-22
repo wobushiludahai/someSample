@@ -33,5 +33,5 @@ target_link_libraries(${PROJECT_NAME} pthread gio-2.0 gobject-2.0 gmodule-2.0 gt
 install(TARGETS ${PROJECT_NAME}
     LIBRARY DESTINATION ${TEST_DIR}/output/lib/)
     
-install(FILES gdbus.h
+install(FILES rpc.h
     DESTINATION ${TEST_DIR}/output/include/)

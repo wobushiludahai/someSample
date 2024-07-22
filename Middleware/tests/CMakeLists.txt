@@ -4,6 +4,9 @@ project(middleware)
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../ CACHE STRING "base dir")
 set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE STRING "base dir")
 
+add_subdirectory(${TEST_DIR}/gdbus)
+add_subdirectory(${TEST_DIR}/rpc)
+
 # 搜索目录下所有文件
 file(GLOB SOURCE_FILE "${TEST_DIR}/*.c")
 file(GLOB DB_FILE "${PROJECT_DIR}/db/*.c")
@@ -33,6 +36,3 @@ target_include_directories(middleware PRIVATE ${TEST_DIR})
 
 # 链接库
 target_link_libraries(middleware sqlite3 cjson gio-2.0 gobject-2.0 gmodule-2.0 gthread-2.0 rt glib-2.0 dbus-1)
-
-add_subdirectory(${TEST_DIR}/gdbus)
-add_subdirectory(${TEST_DIR}/rpc)

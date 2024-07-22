@@ -5,7 +5,7 @@
 #include <glib.h>
 #include <dbus/dbus.h>
 
-#include "gdbus.h"
+#include "rpc.h"
 
 #define info(fmt...)
 #define error(fmt...)

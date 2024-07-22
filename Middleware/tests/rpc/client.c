@@ -6,7 +6,7 @@
 #include <glib.h>
 #include <dbus/dbus.h>
 
-#include "gdbus.h"
+#include "rpc.h"
 
 #define METHOD_CALL_TIMEOUT (300 * 1000)
 
