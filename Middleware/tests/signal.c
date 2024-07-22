@@ -57,9 +57,32 @@ static void on_signal_received(GDBusConnection *connection, const gchar *sender_
 }
 
 GDBusConnection *c_test = NULL;
+
+static void release_name_cb(GObject *source, GAsyncResult *res, gpointer user_data)
+{
+    g_print("ReleaseName success\n");
+}
+
+static void release_name(GDBusConnection *connection, gboolean wait)
+{
+    g_dbus_connection_call(connection, DBUS_SERVICE_DBUS, DBUS_PATH_DBUS, DBUS_INTERFACE_DBUS, "ReleaseName",
+        g_variant_new("(s)", "org.freedesktop.ctest"), G_VARIANT_TYPE("(u)"), G_DBUS_CALL_FLAGS_NONE, -1, NULL,
+        release_name_cb, NULL);
+}
+
+static void request_name_cb(GObject *source, GAsyncResult *res, gpointer user_data)
+{
+    g_print("RequestName success\n");
+    release_name(c_test, TRUE);
+}
+
 void subscribe_signal_by_gdbus(void)
 {
-    c_test = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, NULL);
+    c_test = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, NULL);
+
+    g_dbus_connection_call(c_test, DBUS_SERVICE_DBUS, DBUS_PATH_DBUS, DBUS_INTERFACE_DBUS, "RequestName",
+        g_variant_new("(su)", "org.freedesktop.ctest", 0), G_VARIANT_TYPE("(u)"), G_DBUS_CALL_FLAGS_NONE, -1, NULL,
+        request_name_cb, NULL);
 
     g_dbus_connection_signal_subscribe(c_test, "org.freedesktop.DBus", "org.freedesktop.DBus", "NameLost",
         "/org/freedesktop/DBus", NULL, G_DBUS_SIGNAL_FLAGS_NONE, on_signal_received, NULL, NULL);
