@@ -1,5 +1,6 @@
 #include "glib.h"
 #include "gio/gio.h"
+#include "dbus/dbus.h"
 
 void get_perperty_by_gdbus(const gchar *service, const gchar *path, const gchar *interface, const gchar *property_name)
 {
@@ -45,7 +46,43 @@ void get_perperty_by_gdbus(const gchar *service, const gchar *path, const gchar 
     g_object_unref(c);
 }
 
-#include "dbus/dbus.h"
+void parse_variant(DBusMessageIter *arg_iter)
+{
+    DBusMessageIter variant_iter;
+    const char *contents;
+    dbus_bool_t value;
+    int type;
+
+    // 从 variant 类型参数中提取实际的值
+    dbus_message_iter_recurse(arg_iter, &variant_iter);
+
+    // 获取 variant 内部值的类型
+    type = dbus_message_iter_get_arg_type(&variant_iter);
+
+    // 根据类型处理不同的数据类型
+    switch (type)
+    {
+        case DBUS_TYPE_STRING:
+            dbus_message_iter_get_basic(&variant_iter, &contents);
+            g_print("Received string: %s\n", contents);
+            break;
+        case DBUS_TYPE_BOOLEAN:
+            dbus_message_iter_get_basic(&variant_iter, &value);
+            g_print("Received boolean: %s\n", value ? "true" : "false");
+            break;
+
+        case DBUS_TYPE_VARIANT:
+            g_print("Received variant\n");
+            parse_variant(&variant_iter);
+            break;
+
+        // 添加其他需要处理的类型
+        default:
+            g_print("Unhandled type: %c\n", type);
+            break;
+    }
+}
+
 void get_property_by_dbus(const gchar *service, const gchar *path, const gchar *interface, const gchar *property_name)
 {
     DBusConnection *conn = NULL;
@@ -59,46 +96,24 @@ void get_property_by_dbus(const gchar *service, const gchar *path, const gchar *
         return;
     }
 
-    // call_msg = dbus_message_new_method_call(service, path, "org.freedesktop.DBus.Properties", "Get");
-    call_msg = dbus_message_new_method_call("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "GetId");
+    call_msg = dbus_message_new_method_call(service, path, "org.freedesktop.DBus.Properties", "Get");
     if (call_msg == NULL)
     {
-
         g_print("Message Null\n");
     }
 
-    // dbus_message_append_args(
-    //     call_msg, DBUS_TYPE_STRING, &interface, DBUS_TYPE_STRING, &property_name, DBUS_TYPE_INVALID);
+    dbus_message_append_args(
+        call_msg, DBUS_TYPE_STRING, &interface, DBUS_TYPE_STRING, &property_name, DBUS_TYPE_INVALID);
 
     reply_msg = dbus_connection_send_with_reply_and_block(conn, call_msg, -1, NULL);
 
-    // dbus_message_get_args(reply_msg, NULL, DBUS_TYPE_VARIANT, &body, DBUS_TYPE_INVALID);
-    // if (body == NULL)
-    // {
-    //     g_print("body is null\n");
-    // }
-
     g_print("Type:%s\n", dbus_message_get_signature(reply_msg));
-    
 
-    // DBusError *error = NULL;
+    DBusMessageIter arg_iter;
+    // 假设我们知道 variant 类型参数位于消息的第一个位置
+    dbus_message_iter_init(reply_msg, &arg_iter);
+    parse_variant(&arg_iter);
 
-    gchar *body = NULL;
-    dbus_bool_t result = dbus_message_get_args(reply_msg, NULL, DBUS_TYPE_STRING, &body, DBUS_TYPE_INVALID);
-    if (result == FALSE)
-    {
-        g_print("Error occured\n");
-    }
-
-    // body = g_variant_get_child_value(body, 0);
-    g_print("Type:%s\n", body);
-    // body = g_variant_get_child_value(body, 0);
-    // g_print("Type:%s\n", g_variant_get_type_string(body));
-    // g_print("Result:%s\n", g_variant_get_string(body, NULL));
-
-    // g_print("\nResult:%s\n", g_variant_get_string(body, NULL));
-
-    // dbus_error_free(error);
     dbus_message_unref(call_msg);
     dbus_message_unref(reply_msg);
     dbus_connection_unref(conn);
