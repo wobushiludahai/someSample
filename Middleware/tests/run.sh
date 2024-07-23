@@ -9,6 +9,7 @@ OUTPUT_DIR=${BASE_DIR}/output
 mkdir -p ${BUILD_DIR}
 mkdir -p ${OUTPUT_DIR}
 
+gdbus-codegen --generate-c-code=gentest --interface-prefix=com.example --c-generate-object-manager interface.xml
 cp ${BASE_DIR}/rpc/rpc_middleware.h ${OUTPUT_DIR}/include
 
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${OUTPUT_DIR}/lib/x86_64-linux-gnu
