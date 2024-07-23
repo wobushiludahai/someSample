@@ -21,10 +21,11 @@ add_executable(middleware ${SOURCE_FILE} ${DB_FILE} ${DBUS_FILE} ${TEST_CASES_FI
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -O3 -ggdb -gdwarf -funwind-tables -rdynamic -Wno-unused-parameter -D_GNU_SOURCE")
 set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -O3")
 
-target_include_directories(middleware PRIVATE ${TEST_DIR}/output/include)
-target_include_directories(middleware PRIVATE ${TEST_DIR}/output/include/cjson)
-target_include_directories(middleware PRIVATE ${TEST_DIR}/output/lib/x86_64-linux-gnu/glib-2.0/include)
-target_include_directories(middleware PRIVATE ${TEST_DIR}/output/include/glib-2.0)
+target_include_directories(${PROJECT_NAME} PRIVATE ${TEST_DIR}/output/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${TEST_DIR}/output/include/cjson)
+target_include_directories(${PROJECT_NAME} PRIVATE ${TEST_DIR}/output/lib/x86_64-linux-gnu/glib-2.0/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${TEST_DIR}/output/include/glib-2.0)
+target_include_directories(${PROJECT_NAME} PRIVATE ${TEST_DIR}/output/include/gio-unix-2.0)
 target_include_directories(${PROJECT_NAME} PRIVATE ${TEST_DIR}/output/lib/x86_64-linux-gnu/dbus-1.0/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${TEST_DIR}/output/include/dbus-1.0)
 

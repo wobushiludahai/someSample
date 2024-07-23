@@ -9,8 +9,8 @@ link_directories(${TEST_DIR}/output/lib)
 link_directories(${TEST_DIR}/output/lib/x86_64-linux-gnu)
 
 
-add_executable(client client.c)
-add_executable(server server.c)
+add_executable(client bus_client.c interface.c)
+add_executable(server bus_server.c interface.c)
 
 # 设置编译参数
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -O3 -ggdb -gdwarf -funwind-tables -rdynamic -Wno-unused-parameter -D_GNU_SOURCE")

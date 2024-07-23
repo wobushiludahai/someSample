@@ -9,7 +9,8 @@ OUTPUT_DIR=${BASE_DIR}/output
 mkdir -p ${BUILD_DIR}
 mkdir -p ${OUTPUT_DIR}
 
-gdbus-codegen --generate-c-code=gentest --interface-prefix=com.example --c-generate-object-manager interface.xml
+GDB_FILE_NAME=interface
+gdbus-codegen --generate-c-code=gdbus/${GDB_FILE_NAME} --interface-prefix=com.example --c-generate-object-manager ${GDB_FILE_NAME}.xml
 cp ${BASE_DIR}/rpc/rpc_middleware.h ${OUTPUT_DIR}/include
 
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${OUTPUT_DIR}/lib/x86_64-linux-gnu
@@ -28,11 +29,11 @@ rm -rf ${OUTPUT_DIR}/test.db
 cd ${OUTPUT_DIR}
 echo
 echo
-echo "Run the middleware:"
+echo "Run the dbus_test:"
 
-./middleware
+# ./middleware
 
-# ./server &
+./server
 # ./client &
 # sleep 10
 # killall server

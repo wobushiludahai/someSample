@@ -1,7 +1,7 @@
 <node>
   <interface name="com.example.MyInterface">
     <method name="MyMethod">
-      <arg name="in_arg1" type="as" direction="in"/>
+      <arg name="in_arg1" type="s" direction="in"/>
       <arg name="in_arg2" type="i" direction="in"/>
       <arg name="out_arg1" type="s" direction="out"/>
       <arg name="out_arg2" type="i" direction="out"/>
@@ -19,7 +19,7 @@
     <property name="Uint32Property" type="u" access="readwrite"/>
     <property name="Int64Property" type="x" access="readwrite"/>
     <property name="Uint64Property" type="t" access="read"/>
-    <property name="Double64Property" type="d" access="read"/>
+    <property name="DoubleProperty" type="d" access="read"/>
     <property name="ArrayStrProperty" type="as" access="read"/>
     <property name="ArrayUint32Property" type="au" access="readwrite"/>
   </interface>
