@@ -10,12 +10,11 @@ void test_get_property(void);
 void test_rpc(void);
 void test_signal(void);
 
-
 int main(void)
 {
+    test_signal();
     test_call_method();
-    // test_get_property();
-    // test_signal();
+    test_get_property();
 
     // 因为我们使用了异步调用，所以这里需要进入主循环等待回调
     GMainLoop *loop = g_main_loop_new(NULL, FALSE);

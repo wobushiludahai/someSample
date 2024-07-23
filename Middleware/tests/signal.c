@@ -57,7 +57,6 @@ static void on_signal_received(GDBusConnection *connection, const gchar *sender_
 }
 
 GDBusConnection *c_test = NULL;
-
 static void release_name_cb(GObject *source, GAsyncResult *res, gpointer user_data)
 {
     g_print("ReleaseName success\n");
@@ -78,13 +77,13 @@ static void request_name_cb(GObject *source, GAsyncResult *res, gpointer user_da
 
 void subscribe_signal_by_gdbus(void)
 {
-    c_test = g_bus_get_sync(G_BUS_TYPE_SYSTEM, NULL, NULL);
+    c_test = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, NULL);
 
     g_dbus_connection_call(c_test, DBUS_SERVICE_DBUS, DBUS_PATH_DBUS, DBUS_INTERFACE_DBUS, "RequestName",
         g_variant_new("(su)", "org.freedesktop.ctest", 0), G_VARIANT_TYPE("(u)"), G_DBUS_CALL_FLAGS_NONE, -1, NULL,
         request_name_cb, NULL);
 
-    g_dbus_connection_signal_subscribe(c_test, "org.freedesktop.DBus", "org.freedesktop.DBus", "NameLost",
+    g_dbus_connection_signal_subscribe(c_test, "org.freedesktop.DBus", "org.freedesktop.DBus", "NameOwnerChanged",
         "/org/freedesktop/DBus", NULL, G_DBUS_SIGNAL_FLAGS_NONE, on_signal_received, NULL, NULL);
 
     g_print("Subscribe signal success\n");
