@@ -27,6 +27,17 @@ void onPropertyChangedtest(GDBusProxy *proxy, GVariant *changed_properties, cons
 {
     g_print("onPropertyChanged  %s  %s\n", g_dbus_proxy_get_interface_name(proxy),
         g_variant_get_type_string(changed_properties));
+
+    GVariantIter iter;
+    g_variant_iter_init(&iter, changed_properties);
+
+    const gchar *key;
+    GVariant *value;
+    while (g_variant_iter_next(&iter, "{sv}", &key, &value))
+    {
+        g_print("key: %s, value: %u\n", key, g_variant_get_uint16(value));
+        g_variant_unref(value);
+    }
 }
 
 guint16 temp_test = 0;
