@@ -8,7 +8,7 @@
 #  include "config.h"
 #endif
 
-#include "interface.h"
+#include "photo.h"
 
 #include <string.h>
 #ifdef G_OS_UNIX
@@ -150,21 +150,21 @@ _g_value_equal (const GValue *a, const GValue *b)
 }
 
 /* ------------------------------------------------------------------------
- * Code for interface com.example.MyInterface
+ * Code for interface com.example.photo
  * ------------------------------------------------------------------------
  */
 
 /**
- * SECTION:MyInterface
- * @title: MyInterface
- * @short_description: Generated C code for the com.example.MyInterface D-Bus interface
+ * SECTION:Photo
+ * @title: Photo
+ * @short_description: Generated C code for the com.example.photo D-Bus interface
  *
- * This section contains code for working with the <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link> D-Bus interface in C.
+ * This section contains code for working with the <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link> D-Bus interface in C.
  */
 
-/* ---- Introspection data for com.example.MyInterface ---- */
+/* ---- Introspection data for com.example.photo ---- */
 
-static const _ExtendedGDBusArgInfo _my_interface_method_info_my_method_IN_ARG_in_arg1 =
+static const _ExtendedGDBusArgInfo _photo_method_info_take_photo_IN_ARG_in_arg1 =
 {
   {
     -1,
@@ -175,7 +175,7 @@ static const _ExtendedGDBusArgInfo _my_interface_method_info_my_method_IN_ARG_in
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo _my_interface_method_info_my_method_IN_ARG_in_arg2 =
+static const _ExtendedGDBusArgInfo _photo_method_info_take_photo_IN_ARG_in_arg2 =
 {
   {
     -1,
@@ -186,14 +186,14 @@ static const _ExtendedGDBusArgInfo _my_interface_method_info_my_method_IN_ARG_in
   FALSE
 };
 
-static const GDBusArgInfo * const _my_interface_method_info_my_method_IN_ARG_pointers[] =
+static const GDBusArgInfo * const _photo_method_info_take_photo_IN_ARG_pointers[] =
 {
-  &_my_interface_method_info_my_method_IN_ARG_in_arg1.parent_struct,
-  &_my_interface_method_info_my_method_IN_ARG_in_arg2.parent_struct,
+  &_photo_method_info_take_photo_IN_ARG_in_arg1.parent_struct,
+  &_photo_method_info_take_photo_IN_ARG_in_arg2.parent_struct,
   NULL
 };
 
-static const _ExtendedGDBusArgInfo _my_interface_method_info_my_method_OUT_ARG_out_arg1 =
+static const _ExtendedGDBusArgInfo _photo_method_info_take_photo_OUT_ARG_out_arg1 =
 {
   {
     -1,
@@ -204,7 +204,7 @@ static const _ExtendedGDBusArgInfo _my_interface_method_info_my_method_OUT_ARG_o
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo _my_interface_method_info_my_method_OUT_ARG_out_arg2 =
+static const _ExtendedGDBusArgInfo _photo_method_info_take_photo_OUT_ARG_out_arg2 =
 {
   {
     -1,
@@ -215,33 +215,33 @@ static const _ExtendedGDBusArgInfo _my_interface_method_info_my_method_OUT_ARG_o
   FALSE
 };
 
-static const GDBusArgInfo * const _my_interface_method_info_my_method_OUT_ARG_pointers[] =
+static const GDBusArgInfo * const _photo_method_info_take_photo_OUT_ARG_pointers[] =
 {
-  &_my_interface_method_info_my_method_OUT_ARG_out_arg1.parent_struct,
-  &_my_interface_method_info_my_method_OUT_ARG_out_arg2.parent_struct,
+  &_photo_method_info_take_photo_OUT_ARG_out_arg1.parent_struct,
+  &_photo_method_info_take_photo_OUT_ARG_out_arg2.parent_struct,
   NULL
 };
 
-static const _ExtendedGDBusMethodInfo _my_interface_method_info_my_method =
+static const _ExtendedGDBusMethodInfo _photo_method_info_take_photo =
 {
   {
     -1,
-    (gchar *) "MyMethod",
-    (GDBusArgInfo **) &_my_interface_method_info_my_method_IN_ARG_pointers,
-    (GDBusArgInfo **) &_my_interface_method_info_my_method_OUT_ARG_pointers,
+    (gchar *) "TakePhoto",
+    (GDBusArgInfo **) &_photo_method_info_take_photo_IN_ARG_pointers,
+    (GDBusArgInfo **) &_photo_method_info_take_photo_OUT_ARG_pointers,
     NULL
   },
-  "handle-my-method",
+  "handle-take-photo",
   FALSE
 };
 
-static const GDBusMethodInfo * const _my_interface_method_info_pointers[] =
+static const GDBusMethodInfo * const _photo_method_info_pointers[] =
 {
-  &_my_interface_method_info_my_method.parent_struct,
+  &_photo_method_info_take_photo.parent_struct,
   NULL
 };
 
-static const _ExtendedGDBusArgInfo _my_interface_signal_info_bar_signal_ARG_blah =
+static const _ExtendedGDBusArgInfo _photo_signal_info_bar_signal_ARG_blah =
 {
   {
     -1,
@@ -252,7 +252,7 @@ static const _ExtendedGDBusArgInfo _my_interface_signal_info_bar_signal_ARG_blah
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo _my_interface_signal_info_bar_signal_ARG_boo =
+static const _ExtendedGDBusArgInfo _photo_signal_info_bar_signal_ARG_boo =
 {
   {
     -1,
@@ -263,31 +263,31 @@ static const _ExtendedGDBusArgInfo _my_interface_signal_info_bar_signal_ARG_boo 
   FALSE
 };
 
-static const GDBusArgInfo * const _my_interface_signal_info_bar_signal_ARG_pointers[] =
+static const GDBusArgInfo * const _photo_signal_info_bar_signal_ARG_pointers[] =
 {
-  &_my_interface_signal_info_bar_signal_ARG_blah.parent_struct,
-  &_my_interface_signal_info_bar_signal_ARG_boo.parent_struct,
+  &_photo_signal_info_bar_signal_ARG_blah.parent_struct,
+  &_photo_signal_info_bar_signal_ARG_boo.parent_struct,
   NULL
 };
 
-static const _ExtendedGDBusSignalInfo _my_interface_signal_info_bar_signal =
+static const _ExtendedGDBusSignalInfo _photo_signal_info_bar_signal =
 {
   {
     -1,
     (gchar *) "BarSignal",
-    (GDBusArgInfo **) &_my_interface_signal_info_bar_signal_ARG_pointers,
+    (GDBusArgInfo **) &_photo_signal_info_bar_signal_ARG_pointers,
     NULL
   },
   "bar-signal"
 };
 
-static const GDBusSignalInfo * const _my_interface_signal_info_pointers[] =
+static const GDBusSignalInfo * const _photo_signal_info_pointers[] =
 {
-  &_my_interface_signal_info_bar_signal.parent_struct,
+  &_photo_signal_info_bar_signal.parent_struct,
   NULL
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_str_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_str_property =
 {
   {
     -1,
@@ -301,7 +301,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_str_property
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_byte_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_byte_property =
 {
   {
     -1,
@@ -315,7 +315,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_byte_propert
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_bool_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_bool_property =
 {
   {
     -1,
@@ -329,7 +329,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_bool_propert
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int16_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_int16_property =
 {
   {
     -1,
@@ -343,7 +343,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int16_proper
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint16_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_uint16_property =
 {
   {
     -1,
@@ -357,7 +357,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint16_prope
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int32_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_int32_property =
 {
   {
     -1,
@@ -371,7 +371,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int32_proper
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint32_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_uint32_property =
 {
   {
     -1,
@@ -385,7 +385,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint32_prope
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int64_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_int64_property =
 {
   {
     -1,
@@ -399,7 +399,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int64_proper
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint64_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_uint64_property =
 {
   {
     -1,
@@ -413,7 +413,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint64_prope
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_double_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_double_property =
 {
   {
     -1,
@@ -427,7 +427,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_double_prope
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_str_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_array_str_property =
 {
   {
     -1,
@@ -441,7 +441,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_str_pr
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_uint32_property =
+static const _ExtendedGDBusPropertyInfo _photo_property_info_array_uint32_property =
 {
   {
     -1,
@@ -455,62 +455,62 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_uint32
   TRUE
 };
 
-static const GDBusPropertyInfo * const _my_interface_property_info_pointers[] =
+static const GDBusPropertyInfo * const _photo_property_info_pointers[] =
 {
-  &_my_interface_property_info_str_property.parent_struct,
-  &_my_interface_property_info_byte_property.parent_struct,
-  &_my_interface_property_info_bool_property.parent_struct,
-  &_my_interface_property_info_int16_property.parent_struct,
-  &_my_interface_property_info_uint16_property.parent_struct,
-  &_my_interface_property_info_int32_property.parent_struct,
-  &_my_interface_property_info_uint32_property.parent_struct,
-  &_my_interface_property_info_int64_property.parent_struct,
-  &_my_interface_property_info_uint64_property.parent_struct,
-  &_my_interface_property_info_double_property.parent_struct,
-  &_my_interface_property_info_array_str_property.parent_struct,
-  &_my_interface_property_info_array_uint32_property.parent_struct,
+  &_photo_property_info_str_property.parent_struct,
+  &_photo_property_info_byte_property.parent_struct,
+  &_photo_property_info_bool_property.parent_struct,
+  &_photo_property_info_int16_property.parent_struct,
+  &_photo_property_info_uint16_property.parent_struct,
+  &_photo_property_info_int32_property.parent_struct,
+  &_photo_property_info_uint32_property.parent_struct,
+  &_photo_property_info_int64_property.parent_struct,
+  &_photo_property_info_uint64_property.parent_struct,
+  &_photo_property_info_double_property.parent_struct,
+  &_photo_property_info_array_str_property.parent_struct,
+  &_photo_property_info_array_uint32_property.parent_struct,
   NULL
 };
 
-static const _ExtendedGDBusInterfaceInfo _my_interface_interface_info =
+static const _ExtendedGDBusInterfaceInfo _photo_interface_info =
 {
   {
     -1,
-    (gchar *) "com.example.MyInterface",
-    (GDBusMethodInfo **) &_my_interface_method_info_pointers,
-    (GDBusSignalInfo **) &_my_interface_signal_info_pointers,
-    (GDBusPropertyInfo **) &_my_interface_property_info_pointers,
+    (gchar *) "com.example.photo",
+    (GDBusMethodInfo **) &_photo_method_info_pointers,
+    (GDBusSignalInfo **) &_photo_signal_info_pointers,
+    (GDBusPropertyInfo **) &_photo_property_info_pointers,
     NULL
   },
-  "my-interface",
+  "photo",
 };
 
 
 /**
- * my_interface_interface_info:
+ * photo_interface_info:
  *
- * Gets a machine-readable description of the <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link> D-Bus interface.
+ * Gets a machine-readable description of the <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link> D-Bus interface.
  *
  * Returns: (transfer none): A #GDBusInterfaceInfo. Do not free.
  */
 GDBusInterfaceInfo *
-my_interface_interface_info (void)
+photo_interface_info (void)
 {
-  return (GDBusInterfaceInfo *) &_my_interface_interface_info.parent_struct;
+  return (GDBusInterfaceInfo *) &_photo_interface_info.parent_struct;
 }
 
 /**
- * my_interface_override_properties:
+ * photo_override_properties:
  * @klass: The class structure for a #GObject derived class.
  * @property_id_begin: The property id to assign to the first overridden property.
  *
- * Overrides all #GObject properties in the #MyInterface interface for a concrete class.
+ * Overrides all #GObject properties in the #Photo interface for a concrete class.
  * The properties are overridden in the order they are defined.
  *
  * Returns: The last property id.
  */
 guint
-my_interface_override_properties (GObjectClass *klass, guint property_id_begin)
+photo_override_properties (GObjectClass *klass, guint property_id_begin)
 {
   g_object_class_override_property (klass, property_id_begin++, "str-property");
   g_object_class_override_property (klass, property_id_begin++, "byte-property");
@@ -530,56 +530,56 @@ my_interface_override_properties (GObjectClass *klass, guint property_id_begin)
 
 
 /**
- * MyInterface:
+ * Photo:
  *
- * Abstract interface type for the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link>.
+ * Abstract interface type for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link>.
  */
 
 /**
- * MyInterfaceIface:
+ * PhotoIface:
  * @parent_iface: The parent interface.
- * @handle_my_method: Handler for the #MyInterface::handle-my-method signal.
- * @get_array_str_property: Getter for the #MyInterface:array-str-property property.
- * @get_array_uint32_property: Getter for the #MyInterface:array-uint32-property property.
- * @get_bool_property: Getter for the #MyInterface:bool-property property.
- * @get_byte_property: Getter for the #MyInterface:byte-property property.
- * @get_double_property: Getter for the #MyInterface:double-property property.
- * @get_int16_property: Getter for the #MyInterface:int16-property property.
- * @get_int32_property: Getter for the #MyInterface:int32-property property.
- * @get_int64_property: Getter for the #MyInterface:int64-property property.
- * @get_str_property: Getter for the #MyInterface:str-property property.
- * @get_uint16_property: Getter for the #MyInterface:uint16-property property.
- * @get_uint32_property: Getter for the #MyInterface:uint32-property property.
- * @get_uint64_property: Getter for the #MyInterface:uint64-property property.
- * @bar_signal: Handler for the #MyInterface::bar-signal signal.
+ * @handle_take_photo: Handler for the #Photo::handle-take-photo signal.
+ * @get_array_str_property: Getter for the #Photo:array-str-property property.
+ * @get_array_uint32_property: Getter for the #Photo:array-uint32-property property.
+ * @get_bool_property: Getter for the #Photo:bool-property property.
+ * @get_byte_property: Getter for the #Photo:byte-property property.
+ * @get_double_property: Getter for the #Photo:double-property property.
+ * @get_int16_property: Getter for the #Photo:int16-property property.
+ * @get_int32_property: Getter for the #Photo:int32-property property.
+ * @get_int64_property: Getter for the #Photo:int64-property property.
+ * @get_str_property: Getter for the #Photo:str-property property.
+ * @get_uint16_property: Getter for the #Photo:uint16-property property.
+ * @get_uint32_property: Getter for the #Photo:uint32-property property.
+ * @get_uint64_property: Getter for the #Photo:uint64-property property.
+ * @bar_signal: Handler for the #Photo::bar-signal signal.
  *
- * Virtual table for the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link>.
+ * Virtual table for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link>.
  */
 
-typedef MyInterfaceIface MyInterfaceInterface;
-G_DEFINE_INTERFACE (MyInterface, my_interface, G_TYPE_OBJECT)
+typedef PhotoIface PhotoInterface;
+G_DEFINE_INTERFACE (Photo, photo, G_TYPE_OBJECT)
 
 static void
-my_interface_default_init (MyInterfaceIface *iface)
+photo_default_init (PhotoIface *iface)
 {
   /* GObject signals for incoming D-Bus method calls: */
   /**
-   * MyInterface::handle-my-method:
-   * @object: A #MyInterface.
+   * Photo::handle-take-photo:
+   * @object: A #Photo.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_in_arg1: Argument passed by remote caller.
    * @arg_in_arg2: Argument passed by remote caller.
    *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-MyInterface.MyMethod">MyMethod()</link> D-Bus method.
+   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-photo.TakePhoto">TakePhoto()</link> D-Bus method.
    *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call my_interface_complete_my_method() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
+   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call photo_complete_take_photo() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-my-method",
+  g_signal_new ("handle-take-photo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (MyInterfaceIface, handle_my_method),
+    G_STRUCT_OFFSET (PhotoIface, handle_take_photo),
     g_signal_accumulator_true_handled,
     NULL,
     g_cclosure_marshal_generic,
@@ -589,19 +589,19 @@ my_interface_default_init (MyInterfaceIface *iface)
 
   /* GObject signals for received D-Bus signals: */
   /**
-   * MyInterface::bar-signal:
-   * @object: A #MyInterface.
+   * Photo::bar-signal:
+   * @object: A #Photo.
    * @arg_blah: Argument.
    * @arg_boo: Argument.
    *
-   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-MyInterface.BarSignal">"BarSignal"</link> is received.
+   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-photo.BarSignal">"BarSignal"</link> is received.
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
   g_signal_new ("bar-signal",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (MyInterfaceIface, bar_signal),
+    G_STRUCT_OFFSET (PhotoIface, bar_signal),
     NULL,
     NULL,
     g_cclosure_marshal_generic,
@@ -610,108 +610,108 @@ my_interface_default_init (MyInterfaceIface *iface)
 
   /* GObject properties for D-Bus properties: */
   /**
-   * MyInterface:str-property:
+   * Photo:str-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.StrProperty">"StrProperty"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_string ("str-property", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:byte-property:
+   * Photo:byte-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.ByteProperty">"ByteProperty"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uchar ("byte-property", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:bool-property:
+   * Photo:bool-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.BoolProperty">"BoolProperty"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_boolean ("bool-property", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:int16-property:
+   * Photo:int16-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Int16Property">"Int16Property"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_int ("int16-property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:uint16-property:
+   * Photo:uint16-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Uint16Property">"Uint16Property"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uint ("uint16-property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:int32-property:
+   * Photo:int32-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Int32Property">"Int32Property"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_int ("int32-property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:uint32-property:
+   * Photo:uint32-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Uint32Property">"Uint32Property"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uint ("uint32-property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:int64-property:
+   * Photo:int64-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Int64Property">"Int64Property"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_int64 ("int64-property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:uint64-property:
+   * Photo:uint64-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Uint64Property">"Uint64Property"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint64Property">"Uint64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uint64 ("uint64-property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:double-property:
+   * Photo:double-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.DoubleProperty">"DoubleProperty"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.DoubleProperty">"DoubleProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_double ("double-property", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:array-str-property:
+   * Photo:array-str-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.ArrayStrProperty">"ArrayStrProperty"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ArrayStrProperty">"ArrayStrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_boxed ("array-str-property", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:array-uint32-property:
+   * Photo:array-uint32-property:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.ArrayUint32Property">"ArrayUint32Property"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
@@ -720,37 +720,37 @@ my_interface_default_init (MyInterfaceIface *iface)
 }
 
 /**
- * my_interface_get_str_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_str_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.StrProperty">"StrProperty"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
- * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use my_interface_dup_str_property() if on another thread.
+ * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use photo_dup_str_property() if on another thread.
  *
  * Returns: (transfer none) (nullable): The property value or %NULL if the property is not set. Do not free the returned value, it belongs to @object.
  */
 const gchar *
-my_interface_get_str_property (MyInterface *object)
+photo_get_str_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), NULL);
+  g_return_val_if_fail (IS_PHOTO (object), NULL);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_str_property (object);
+  return PHOTO_GET_IFACE (object)->get_str_property (object);
 }
 
 /**
- * my_interface_dup_str_property: (skip)
- * @object: A #MyInterface.
+ * photo_dup_str_property: (skip)
+ * @object: A #Photo.
  *
- * Gets a copy of the <link linkend="gdbus-property-com-example-MyInterface.StrProperty">"StrProperty"</link> D-Bus property.
+ * Gets a copy of the <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_free().
  */
 gchar *
-my_interface_dup_str_property (MyInterface *object)
+photo_dup_str_property (Photo *object)
 {
   gchar *value;
   g_object_get (G_OBJECT (object), "str-property", &value, NULL);
@@ -758,349 +758,349 @@ my_interface_dup_str_property (MyInterface *object)
 }
 
 /**
- * my_interface_set_str_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_str_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.StrProperty">"StrProperty"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
-my_interface_set_str_property (MyInterface *object, const gchar *value)
+photo_set_str_property (Photo *object, const gchar *value)
 {
   g_object_set (G_OBJECT (object), "str-property", value, NULL);
 }
 
 /**
- * my_interface_get_byte_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_byte_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.ByteProperty">"ByteProperty"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
 guchar 
-my_interface_get_byte_property (MyInterface *object)
+photo_get_byte_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), '\0');
+  g_return_val_if_fail (IS_PHOTO (object), '\0');
 
-  return MY_INTERFACE_GET_IFACE (object)->get_byte_property (object);
+  return PHOTO_GET_IFACE (object)->get_byte_property (object);
 }
 
 /**
- * my_interface_set_byte_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_byte_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.ByteProperty">"ByteProperty"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
-my_interface_set_byte_property (MyInterface *object, guchar value)
+photo_set_byte_property (Photo *object, guchar value)
 {
   g_object_set (G_OBJECT (object), "byte-property", value, NULL);
 }
 
 /**
- * my_interface_get_bool_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_bool_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.BoolProperty">"BoolProperty"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
 gboolean 
-my_interface_get_bool_property (MyInterface *object)
+photo_get_bool_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), FALSE);
+  g_return_val_if_fail (IS_PHOTO (object), FALSE);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_bool_property (object);
+  return PHOTO_GET_IFACE (object)->get_bool_property (object);
 }
 
 /**
- * my_interface_set_bool_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_bool_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.BoolProperty">"BoolProperty"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
-my_interface_set_bool_property (MyInterface *object, gboolean value)
+photo_set_bool_property (Photo *object, gboolean value)
 {
   g_object_set (G_OBJECT (object), "bool-property", value, NULL);
 }
 
 /**
- * my_interface_get_int16_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_int16_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.Int16Property">"Int16Property"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
 gint16 
-my_interface_get_int16_property (MyInterface *object)
+photo_get_int16_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+  g_return_val_if_fail (IS_PHOTO (object), 0);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_int16_property (object);
+  return PHOTO_GET_IFACE (object)->get_int16_property (object);
 }
 
 /**
- * my_interface_set_int16_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_int16_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.Int16Property">"Int16Property"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
-my_interface_set_int16_property (MyInterface *object, gint16 value)
+photo_set_int16_property (Photo *object, gint16 value)
 {
   g_object_set (G_OBJECT (object), "int16-property", value, NULL);
 }
 
 /**
- * my_interface_get_uint16_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_uint16_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.Uint16Property">"Uint16Property"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
 guint16 
-my_interface_get_uint16_property (MyInterface *object)
+photo_get_uint16_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+  g_return_val_if_fail (IS_PHOTO (object), 0);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_uint16_property (object);
+  return PHOTO_GET_IFACE (object)->get_uint16_property (object);
 }
 
 /**
- * my_interface_set_uint16_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_uint16_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.Uint16Property">"Uint16Property"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
-my_interface_set_uint16_property (MyInterface *object, guint16 value)
+photo_set_uint16_property (Photo *object, guint16 value)
 {
   g_object_set (G_OBJECT (object), "uint16-property", value, NULL);
 }
 
 /**
- * my_interface_get_int32_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_int32_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.Int32Property">"Int32Property"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
 gint 
-my_interface_get_int32_property (MyInterface *object)
+photo_get_int32_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+  g_return_val_if_fail (IS_PHOTO (object), 0);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_int32_property (object);
+  return PHOTO_GET_IFACE (object)->get_int32_property (object);
 }
 
 /**
- * my_interface_set_int32_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_int32_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.Int32Property">"Int32Property"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
-my_interface_set_int32_property (MyInterface *object, gint value)
+photo_set_int32_property (Photo *object, gint value)
 {
   g_object_set (G_OBJECT (object), "int32-property", value, NULL);
 }
 
 /**
- * my_interface_get_uint32_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_uint32_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.Uint32Property">"Uint32Property"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
 guint 
-my_interface_get_uint32_property (MyInterface *object)
+photo_get_uint32_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+  g_return_val_if_fail (IS_PHOTO (object), 0);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_uint32_property (object);
+  return PHOTO_GET_IFACE (object)->get_uint32_property (object);
 }
 
 /**
- * my_interface_set_uint32_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_uint32_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.Uint32Property">"Uint32Property"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
-my_interface_set_uint32_property (MyInterface *object, guint value)
+photo_set_uint32_property (Photo *object, guint value)
 {
   g_object_set (G_OBJECT (object), "uint32-property", value, NULL);
 }
 
 /**
- * my_interface_get_int64_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_int64_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.Int64Property">"Int64Property"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
 gint64 
-my_interface_get_int64_property (MyInterface *object)
+photo_get_int64_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+  g_return_val_if_fail (IS_PHOTO (object), 0);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_int64_property (object);
+  return PHOTO_GET_IFACE (object)->get_int64_property (object);
 }
 
 /**
- * my_interface_set_int64_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_int64_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.Int64Property">"Int64Property"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
-my_interface_set_int64_property (MyInterface *object, gint64 value)
+photo_set_int64_property (Photo *object, gint64 value)
 {
   g_object_set (G_OBJECT (object), "int64-property", value, NULL);
 }
 
 /**
- * my_interface_get_uint64_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_uint64_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.Uint64Property">"Uint64Property"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.Uint64Property">"Uint64Property"</link> D-Bus property.
  *
  * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
 guint64 
-my_interface_get_uint64_property (MyInterface *object)
+photo_get_uint64_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+  g_return_val_if_fail (IS_PHOTO (object), 0);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_uint64_property (object);
+  return PHOTO_GET_IFACE (object)->get_uint64_property (object);
 }
 
 /**
- * my_interface_set_uint64_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_uint64_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.Uint64Property">"Uint64Property"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.Uint64Property">"Uint64Property"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
-my_interface_set_uint64_property (MyInterface *object, guint64 value)
+photo_set_uint64_property (Photo *object, guint64 value)
 {
   g_object_set (G_OBJECT (object), "uint64-property", value, NULL);
 }
 
 /**
- * my_interface_get_double_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_double_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.DoubleProperty">"DoubleProperty"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.DoubleProperty">"DoubleProperty"</link> D-Bus property.
  *
  * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
 gdouble 
-my_interface_get_double_property (MyInterface *object)
+photo_get_double_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), 0.0);
+  g_return_val_if_fail (IS_PHOTO (object), 0.0);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_double_property (object);
+  return PHOTO_GET_IFACE (object)->get_double_property (object);
 }
 
 /**
- * my_interface_set_double_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_double_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.DoubleProperty">"DoubleProperty"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.DoubleProperty">"DoubleProperty"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
-my_interface_set_double_property (MyInterface *object, gdouble value)
+photo_set_double_property (Photo *object, gdouble value)
 {
   g_object_set (G_OBJECT (object), "double-property", value, NULL);
 }
 
 /**
- * my_interface_get_array_str_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_array_str_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.ArrayStrProperty">"ArrayStrProperty"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.ArrayStrProperty">"ArrayStrProperty"</link> D-Bus property.
  *
  * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
- * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use my_interface_dup_array_str_property() if on another thread.
+ * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use photo_dup_array_str_property() if on another thread.
  *
  * Returns: (transfer none) (nullable): The property value or %NULL if the property is not set. Do not free the returned value, it belongs to @object.
  */
 const gchar *const *
-my_interface_get_array_str_property (MyInterface *object)
+photo_get_array_str_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), NULL);
+  g_return_val_if_fail (IS_PHOTO (object), NULL);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_array_str_property (object);
+  return PHOTO_GET_IFACE (object)->get_array_str_property (object);
 }
 
 /**
- * my_interface_dup_array_str_property: (skip)
- * @object: A #MyInterface.
+ * photo_dup_array_str_property: (skip)
+ * @object: A #Photo.
  *
- * Gets a copy of the <link linkend="gdbus-property-com-example-MyInterface.ArrayStrProperty">"ArrayStrProperty"</link> D-Bus property.
+ * Gets a copy of the <link linkend="gdbus-property-com-example-photo.ArrayStrProperty">"ArrayStrProperty"</link> D-Bus property.
  *
  * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_strfreev().
  */
 gchar **
-my_interface_dup_array_str_property (MyInterface *object)
+photo_dup_array_str_property (Photo *object)
 {
   gchar **value;
   g_object_get (G_OBJECT (object), "array-str-property", &value, NULL);
@@ -1108,52 +1108,52 @@ my_interface_dup_array_str_property (MyInterface *object)
 }
 
 /**
- * my_interface_set_array_str_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_array_str_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.ArrayStrProperty">"ArrayStrProperty"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.ArrayStrProperty">"ArrayStrProperty"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
-my_interface_set_array_str_property (MyInterface *object, const gchar *const *value)
+photo_set_array_str_property (Photo *object, const gchar *const *value)
 {
   g_object_set (G_OBJECT (object), "array-str-property", value, NULL);
 }
 
 /**
- * my_interface_get_array_uint32_property: (skip)
- * @object: A #MyInterface.
+ * photo_get_array_uint32_property: (skip)
+ * @object: A #Photo.
  *
- * Gets the value of the <link linkend="gdbus-property-com-example-MyInterface.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
- * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use my_interface_dup_array_uint32_property() if on another thread.
+ * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use photo_dup_array_uint32_property() if on another thread.
  *
  * Returns: (transfer none) (nullable): The property value or %NULL if the property is not set. Do not free the returned value, it belongs to @object.
  */
 GVariant *
-my_interface_get_array_uint32_property (MyInterface *object)
+photo_get_array_uint32_property (Photo *object)
 {
-  g_return_val_if_fail (IS_MY_INTERFACE (object), NULL);
+  g_return_val_if_fail (IS_PHOTO (object), NULL);
 
-  return MY_INTERFACE_GET_IFACE (object)->get_array_uint32_property (object);
+  return PHOTO_GET_IFACE (object)->get_array_uint32_property (object);
 }
 
 /**
- * my_interface_dup_array_uint32_property: (skip)
- * @object: A #MyInterface.
+ * photo_dup_array_uint32_property: (skip)
+ * @object: A #Photo.
  *
- * Gets a copy of the <link linkend="gdbus-property-com-example-MyInterface.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
+ * Gets a copy of the <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_variant_unref().
  */
 GVariant *
-my_interface_dup_array_uint32_property (MyInterface *object)
+photo_dup_array_uint32_property (Photo *object)
 {
   GVariant *value;
   g_object_get (G_OBJECT (object), "array-uint32-property", &value, NULL);
@@ -1161,31 +1161,31 @@ my_interface_dup_array_uint32_property (MyInterface *object)
 }
 
 /**
- * my_interface_set_array_uint32_property: (skip)
- * @object: A #MyInterface.
+ * photo_set_array_uint32_property: (skip)
+ * @object: A #Photo.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-com-example-MyInterface.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
-my_interface_set_array_uint32_property (MyInterface *object, GVariant *value)
+photo_set_array_uint32_property (Photo *object, GVariant *value)
 {
   g_object_set (G_OBJECT (object), "array-uint32-property", value, NULL);
 }
 
 /**
- * my_interface_emit_bar_signal:
- * @object: A #MyInterface.
+ * photo_emit_bar_signal:
+ * @object: A #Photo.
  * @arg_blah: Argument to pass with the signal.
  * @arg_boo: Argument to pass with the signal.
  *
- * Emits the <link linkend="gdbus-signal-com-example-MyInterface.BarSignal">"BarSignal"</link> D-Bus signal.
+ * Emits the <link linkend="gdbus-signal-com-example-photo.BarSignal">"BarSignal"</link> D-Bus signal.
  */
 void
-my_interface_emit_bar_signal (
-    MyInterface *object,
+photo_emit_bar_signal (
+    Photo *object,
     const gchar *arg_blah,
     const gchar *arg_boo)
 {
@@ -1193,23 +1193,23 @@ my_interface_emit_bar_signal (
 }
 
 /**
- * my_interface_call_my_method:
- * @proxy: A #MyInterfaceProxy.
+ * photo_call_take_photo:
+ * @proxy: A #PhotoProxy.
  * @arg_in_arg1: Argument to pass with the method invocation.
  * @arg_in_arg2: Argument to pass with the method invocation.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
  * @user_data: User data to pass to @callback.
  *
- * Asynchronously invokes the <link linkend="gdbus-method-com-example-MyInterface.MyMethod">MyMethod()</link> D-Bus method on @proxy.
+ * Asynchronously invokes the <link linkend="gdbus-method-com-example-photo.TakePhoto">TakePhoto()</link> D-Bus method on @proxy.
  * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call my_interface_call_my_method_finish() to get the result of the operation.
+ * You can then call photo_call_take_photo_finish() to get the result of the operation.
  *
- * See my_interface_call_my_method_sync() for the synchronous, blocking version of this method.
+ * See photo_call_take_photo_sync() for the synchronous, blocking version of this method.
  */
 void
-my_interface_call_my_method (
-    MyInterface *proxy,
+photo_call_take_photo (
+    Photo *proxy,
     const gchar *arg_in_arg1,
     gint arg_in_arg2,
     GCancellable *cancellable,
@@ -1217,7 +1217,7 @@ my_interface_call_my_method (
     gpointer user_data)
 {
   g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "MyMethod",
+    "TakePhoto",
     g_variant_new ("(si)",
                    arg_in_arg1,
                    arg_in_arg2),
@@ -1229,20 +1229,20 @@ my_interface_call_my_method (
 }
 
 /**
- * my_interface_call_my_method_finish:
- * @proxy: A #MyInterfaceProxy.
+ * photo_call_take_photo_finish:
+ * @proxy: A #PhotoProxy.
  * @out_out_arg1: (out) (optional): Return location for return parameter or %NULL to ignore.
  * @out_out_arg2: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to my_interface_call_my_method().
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to photo_call_take_photo().
  * @error: Return location for error or %NULL.
  *
- * Finishes an operation started with my_interface_call_my_method().
+ * Finishes an operation started with photo_call_take_photo().
  *
  * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
  */
 gboolean
-my_interface_call_my_method_finish (
-    MyInterface *proxy,
+photo_call_take_photo_finish (
+    Photo *proxy,
     gchar **out_out_arg1,
     gint *out_out_arg2,
     GAsyncResult *res,
@@ -1262,8 +1262,8 @@ _out:
 }
 
 /**
- * my_interface_call_my_method_sync:
- * @proxy: A #MyInterfaceProxy.
+ * photo_call_take_photo_sync:
+ * @proxy: A #PhotoProxy.
  * @arg_in_arg1: Argument to pass with the method invocation.
  * @arg_in_arg2: Argument to pass with the method invocation.
  * @out_out_arg1: (out) (optional): Return location for return parameter or %NULL to ignore.
@@ -1271,15 +1271,15 @@ _out:
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL.
  *
- * Synchronously invokes the <link linkend="gdbus-method-com-example-MyInterface.MyMethod">MyMethod()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
+ * Synchronously invokes the <link linkend="gdbus-method-com-example-photo.TakePhoto">TakePhoto()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
  *
- * See my_interface_call_my_method() for the asynchronous version of this method.
+ * See photo_call_take_photo() for the asynchronous version of this method.
  *
  * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
  */
 gboolean
-my_interface_call_my_method_sync (
-    MyInterface *proxy,
+photo_call_take_photo_sync (
+    Photo *proxy,
     const gchar *arg_in_arg1,
     gint arg_in_arg2,
     gchar **out_out_arg1,
@@ -1289,7 +1289,7 @@ my_interface_call_my_method_sync (
 {
   GVariant *_ret;
   _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "MyMethod",
+    "TakePhoto",
     g_variant_new ("(si)",
                    arg_in_arg1,
                    arg_in_arg2),
@@ -1309,19 +1309,19 @@ _out:
 }
 
 /**
- * my_interface_complete_my_method:
- * @object: A #MyInterface.
+ * photo_complete_take_photo:
+ * @object: A #Photo.
  * @invocation: (transfer full): A #GDBusMethodInvocation.
  * @out_arg1: Parameter to return.
  * @out_arg2: Parameter to return.
  *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-MyInterface.MyMethod">MyMethod()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
+ * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-photo.TakePhoto">TakePhoto()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
  *
  * This method will free @invocation, you cannot use it afterwards.
  */
 void
-my_interface_complete_my_method (
-    MyInterface *object G_GNUC_UNUSED,
+photo_complete_take_photo (
+    Photo *object G_GNUC_UNUSED,
     GDBusMethodInvocation *invocation,
     const gchar *out_arg1,
     gint out_arg2)
@@ -1335,45 +1335,45 @@ my_interface_complete_my_method (
 /* ------------------------------------------------------------------------ */
 
 /**
- * MyInterfaceProxy:
+ * PhotoProxy:
  *
- * The #MyInterfaceProxy structure contains only private data and should only be accessed using the provided API.
+ * The #PhotoProxy structure contains only private data and should only be accessed using the provided API.
  */
 
 /**
- * MyInterfaceProxyClass:
+ * PhotoProxyClass:
  * @parent_class: The parent class.
  *
- * Class structure for #MyInterfaceProxy.
+ * Class structure for #PhotoProxy.
  */
 
-struct _MyInterfaceProxyPrivate
+struct _PhotoProxyPrivate
 {
   GData *qdata;
 };
 
-static void my_interface_proxy_iface_init (MyInterfaceIface *iface);
+static void photo_proxy_iface_init (PhotoIface *iface);
 
 #if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-G_DEFINE_TYPE_WITH_CODE (MyInterfaceProxy, my_interface_proxy, G_TYPE_DBUS_PROXY,
-                         G_ADD_PRIVATE (MyInterfaceProxy)
-                         G_IMPLEMENT_INTERFACE (TYPE_MY_INTERFACE, my_interface_proxy_iface_init))
+G_DEFINE_TYPE_WITH_CODE (PhotoProxy, photo_proxy, G_TYPE_DBUS_PROXY,
+                         G_ADD_PRIVATE (PhotoProxy)
+                         G_IMPLEMENT_INTERFACE (TYPE_PHOTO, photo_proxy_iface_init))
 
 #else
-G_DEFINE_TYPE_WITH_CODE (MyInterfaceProxy, my_interface_proxy, G_TYPE_DBUS_PROXY,
-                         G_IMPLEMENT_INTERFACE (TYPE_MY_INTERFACE, my_interface_proxy_iface_init))
+G_DEFINE_TYPE_WITH_CODE (PhotoProxy, photo_proxy, G_TYPE_DBUS_PROXY,
+                         G_IMPLEMENT_INTERFACE (TYPE_PHOTO, photo_proxy_iface_init))
 
 #endif
 static void
-my_interface_proxy_finalize (GObject *object)
+photo_proxy_finalize (GObject *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   g_datalist_clear (&proxy->priv->qdata);
-  G_OBJECT_CLASS (my_interface_proxy_parent_class)->finalize (object);
+  G_OBJECT_CLASS (photo_proxy_parent_class)->finalize (object);
 }
 
 static void
-my_interface_proxy_get_property (GObject      *object,
+photo_proxy_get_property (GObject      *object,
   guint         prop_id,
   GValue       *value,
   GParamSpec   *pspec G_GNUC_UNUSED)
@@ -1381,7 +1381,7 @@ my_interface_proxy_get_property (GObject      *object,
   const _ExtendedGDBusPropertyInfo *info;
   GVariant *variant;
   g_assert (prop_id != 0 && prop_id - 1 < 12);
-  info = (const _ExtendedGDBusPropertyInfo *) _my_interface_property_info_pointers[prop_id - 1];
+  info = (const _ExtendedGDBusPropertyInfo *) _photo_property_info_pointers[prop_id - 1];
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (object), info->parent_struct.name);
   if (info->use_gvariant)
     {
@@ -1397,7 +1397,7 @@ my_interface_proxy_get_property (GObject      *object,
 }
 
 void
-my_interface_proxy_set_property_cb (GDBusProxy *proxy,
+photo_proxy_set_property_cb (GDBusProxy *proxy,
   GAsyncResult *res,
   gpointer      user_data)
 {
@@ -1408,7 +1408,7 @@ my_interface_proxy_set_property_cb (GDBusProxy *proxy,
   _ret = g_dbus_proxy_call_finish (proxy, res, &error);
   if (!_ret)
     {
-      g_warning ("Error setting property '%s' on interface com.example.MyInterface: %s (%s, %d)",
+      g_warning ("Error setting property '%s' on interface com.example.photo: %s (%s, %d)",
                  info->parent_struct.name, 
                  error->message, g_quark_to_string (error->domain), error->code);
       g_error_free (error);
@@ -1420,7 +1420,7 @@ my_interface_proxy_set_property_cb (GDBusProxy *proxy,
 }
 
 static void
-my_interface_proxy_set_property (GObject      *object,
+photo_proxy_set_property (GObject      *object,
   guint         prop_id,
   const GValue *value,
   GParamSpec   *pspec G_GNUC_UNUSED)
@@ -1428,10 +1428,10 @@ my_interface_proxy_set_property (GObject      *object,
   const _ExtendedGDBusPropertyInfo *info;
   GVariant *variant;
   g_assert (prop_id != 0 && prop_id - 1 < 12);
-  info = (const _ExtendedGDBusPropertyInfo *) _my_interface_property_info_pointers[prop_id - 1];
+  info = (const _ExtendedGDBusPropertyInfo *) _photo_property_info_pointers[prop_id - 1];
   variant = g_dbus_gvalue_to_gvariant (value, G_VARIANT_TYPE (info->parent_struct.signature));
   GError *proxyerror = NULL;
-  GVariant *params = g_variant_new ("(ssv)", "com.example.MyInterface", info->parent_struct.name, variant);
+  GVariant *params = g_variant_new ("(ssv)", "com.example.photo", info->parent_struct.name, variant);
   GVariant *ret = g_dbus_proxy_call_sync(G_DBUS_PROXY (object),
       "org.freedesktop.DBus.Properties.Set", params,
       G_DBUS_CALL_FLAGS_NONE,
@@ -1447,7 +1447,7 @@ my_interface_proxy_set_property (GObject      *object,
 }
 
 static void
-my_interface_proxy_g_signal (GDBusProxy *proxy,
+photo_proxy_g_signal (GDBusProxy *proxy,
   const gchar *sender_name G_GNUC_UNUSED,
   const gchar *signal_name,
   GVariant *parameters)
@@ -1459,12 +1459,12 @@ my_interface_proxy_g_signal (GDBusProxy *proxy,
   gsize num_params;
   gsize n;
   guint signal_id;
-  info = (_ExtendedGDBusSignalInfo *) g_dbus_interface_info_lookup_signal ((GDBusInterfaceInfo *) &_my_interface_interface_info.parent_struct, signal_name);
+  info = (_ExtendedGDBusSignalInfo *) g_dbus_interface_info_lookup_signal ((GDBusInterfaceInfo *) &_photo_interface_info.parent_struct, signal_name);
   if (info == NULL)
     return;
   num_params = g_variant_n_children (parameters);
   paramv = g_new0 (GValue, num_params + 1);
-  g_value_init (&paramv[0], TYPE_MY_INTERFACE);
+  g_value_init (&paramv[0], TYPE_PHOTO);
   g_value_set_object (&paramv[0], proxy);
   g_variant_iter_init (&iter, parameters);
   n = 1;
@@ -1481,7 +1481,7 @@ my_interface_proxy_g_signal (GDBusProxy *proxy,
         g_dbus_gvariant_to_gvalue (child, &paramv[n++]);
       g_variant_unref (child);
     }
-  signal_id = g_signal_lookup (info->signal_name, TYPE_MY_INTERFACE);
+  signal_id = g_signal_lookup (info->signal_name, TYPE_PHOTO);
   g_signal_emitv (paramv, signal_id, 0, NULL);
   for (n = 0; n < num_params + 1; n++)
     g_value_unset (&paramv[n]);
@@ -1489,11 +1489,11 @@ my_interface_proxy_g_signal (GDBusProxy *proxy,
 }
 
 static void
-my_interface_proxy_g_properties_changed (GDBusProxy *_proxy,
+photo_proxy_g_properties_changed (GDBusProxy *_proxy,
   GVariant *changed_properties,
   const gchar *const *invalidated_properties)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (_proxy);
+  PhotoProxy *proxy = PHOTO_PROXY (_proxy);
   guint n;
   const gchar *key;
   GVariantIter *iter;
@@ -1501,7 +1501,7 @@ my_interface_proxy_g_properties_changed (GDBusProxy *_proxy,
   g_variant_get (changed_properties, "a{sv}", &iter);
   while (g_variant_iter_next (iter, "{&sv}", &key, NULL))
     {
-      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_my_interface_interface_info.parent_struct, key);
+      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_photo_interface_info.parent_struct, key);
       g_datalist_remove_data (&proxy->priv->qdata, key);
       if (info != NULL)
         g_object_notify (G_OBJECT (proxy), info->hyphen_name);
@@ -1509,7 +1509,7 @@ my_interface_proxy_g_properties_changed (GDBusProxy *_proxy,
   g_variant_iter_free (iter);
   for (n = 0; invalidated_properties[n] != NULL; n++)
     {
-      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_my_interface_interface_info.parent_struct, invalidated_properties[n]);
+      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_photo_interface_info.parent_struct, invalidated_properties[n]);
       g_datalist_remove_data (&proxy->priv->qdata, invalidated_properties[n]);
       if (info != NULL)
         g_object_notify (G_OBJECT (proxy), info->hyphen_name);
@@ -1517,9 +1517,9 @@ my_interface_proxy_g_properties_changed (GDBusProxy *_proxy,
 }
 
 static const gchar *
-my_interface_proxy_get_str_property (MyInterface *object)
+photo_proxy_get_str_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   const gchar *value = NULL;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "StrProperty");
@@ -1532,9 +1532,9 @@ my_interface_proxy_get_str_property (MyInterface *object)
 }
 
 static guchar 
-my_interface_proxy_get_byte_property (MyInterface *object)
+photo_proxy_get_byte_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   guchar value = '\0';
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "ByteProperty");
@@ -1547,9 +1547,9 @@ my_interface_proxy_get_byte_property (MyInterface *object)
 }
 
 static gboolean 
-my_interface_proxy_get_bool_property (MyInterface *object)
+photo_proxy_get_bool_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   gboolean value = FALSE;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "BoolProperty");
@@ -1562,9 +1562,9 @@ my_interface_proxy_get_bool_property (MyInterface *object)
 }
 
 static gint16 
-my_interface_proxy_get_int16_property (MyInterface *object)
+photo_proxy_get_int16_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   gint16 value = 0;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Int16Property");
@@ -1577,9 +1577,9 @@ my_interface_proxy_get_int16_property (MyInterface *object)
 }
 
 static guint16 
-my_interface_proxy_get_uint16_property (MyInterface *object)
+photo_proxy_get_uint16_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   guint16 value = 0;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Uint16Property");
@@ -1592,9 +1592,9 @@ my_interface_proxy_get_uint16_property (MyInterface *object)
 }
 
 static gint 
-my_interface_proxy_get_int32_property (MyInterface *object)
+photo_proxy_get_int32_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   gint value = 0;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Int32Property");
@@ -1607,9 +1607,9 @@ my_interface_proxy_get_int32_property (MyInterface *object)
 }
 
 static guint 
-my_interface_proxy_get_uint32_property (MyInterface *object)
+photo_proxy_get_uint32_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   guint value = 0;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Uint32Property");
@@ -1622,9 +1622,9 @@ my_interface_proxy_get_uint32_property (MyInterface *object)
 }
 
 static gint64 
-my_interface_proxy_get_int64_property (MyInterface *object)
+photo_proxy_get_int64_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   gint64 value = 0;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Int64Property");
@@ -1637,9 +1637,9 @@ my_interface_proxy_get_int64_property (MyInterface *object)
 }
 
 static guint64 
-my_interface_proxy_get_uint64_property (MyInterface *object)
+photo_proxy_get_uint64_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   guint64 value = 0;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Uint64Property");
@@ -1652,9 +1652,9 @@ my_interface_proxy_get_uint64_property (MyInterface *object)
 }
 
 static gdouble 
-my_interface_proxy_get_double_property (MyInterface *object)
+photo_proxy_get_double_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   gdouble value = 0.0;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "DoubleProperty");
@@ -1667,9 +1667,9 @@ my_interface_proxy_get_double_property (MyInterface *object)
 }
 
 static const gchar *const *
-my_interface_proxy_get_array_str_property (MyInterface *object)
+photo_proxy_get_array_str_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   const gchar *const *value = NULL;
   value = g_datalist_get_data (&proxy->priv->qdata, "ArrayStrProperty");
@@ -1686,9 +1686,9 @@ my_interface_proxy_get_array_str_property (MyInterface *object)
 }
 
 static GVariant *
-my_interface_proxy_get_array_uint32_property (MyInterface *object)
+photo_proxy_get_array_uint32_property (Photo *object)
 {
-  MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
+  PhotoProxy *proxy = PHOTO_PROXY (object);
   GVariant *variant;
   GVariant *value = NULL;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "ArrayUint32Property");
@@ -1699,58 +1699,58 @@ my_interface_proxy_get_array_uint32_property (MyInterface *object)
 }
 
 static void
-my_interface_proxy_init (MyInterfaceProxy *proxy)
+photo_proxy_init (PhotoProxy *proxy)
 {
 #if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-  proxy->priv = my_interface_proxy_get_instance_private (proxy);
+  proxy->priv = photo_proxy_get_instance_private (proxy);
 #else
-  proxy->priv = G_TYPE_INSTANCE_GET_PRIVATE (proxy, TYPE_MY_INTERFACE_PROXY, MyInterfaceProxyPrivate);
+  proxy->priv = G_TYPE_INSTANCE_GET_PRIVATE (proxy, TYPE_PHOTO_PROXY, PhotoProxyPrivate);
 #endif
 
-  g_dbus_proxy_set_interface_info (G_DBUS_PROXY (proxy), my_interface_interface_info ());
+  g_dbus_proxy_set_interface_info (G_DBUS_PROXY (proxy), photo_interface_info ());
 }
 
 static void
-my_interface_proxy_class_init (MyInterfaceProxyClass *klass)
+photo_proxy_class_init (PhotoProxyClass *klass)
 {
   GObjectClass *gobject_class;
   GDBusProxyClass *proxy_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
-  gobject_class->finalize     = my_interface_proxy_finalize;
-  gobject_class->get_property = my_interface_proxy_get_property;
-  gobject_class->set_property = my_interface_proxy_set_property;
+  gobject_class->finalize     = photo_proxy_finalize;
+  gobject_class->get_property = photo_proxy_get_property;
+  gobject_class->set_property = photo_proxy_set_property;
 
   proxy_class = G_DBUS_PROXY_CLASS (klass);
-  proxy_class->g_signal = my_interface_proxy_g_signal;
-  proxy_class->g_properties_changed = my_interface_proxy_g_properties_changed;
+  proxy_class->g_signal = photo_proxy_g_signal;
+  proxy_class->g_properties_changed = photo_proxy_g_properties_changed;
 
-  my_interface_override_properties (gobject_class, 1);
+  photo_override_properties (gobject_class, 1);
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
-  g_type_class_add_private (klass, sizeof (MyInterfaceProxyPrivate));
+  g_type_class_add_private (klass, sizeof (PhotoProxyPrivate));
 #endif
 }
 
 static void
-my_interface_proxy_iface_init (MyInterfaceIface *iface)
+photo_proxy_iface_init (PhotoIface *iface)
 {
-  iface->get_str_property = my_interface_proxy_get_str_property;
-  iface->get_byte_property = my_interface_proxy_get_byte_property;
-  iface->get_bool_property = my_interface_proxy_get_bool_property;
-  iface->get_int16_property = my_interface_proxy_get_int16_property;
-  iface->get_uint16_property = my_interface_proxy_get_uint16_property;
-  iface->get_int32_property = my_interface_proxy_get_int32_property;
-  iface->get_uint32_property = my_interface_proxy_get_uint32_property;
-  iface->get_int64_property = my_interface_proxy_get_int64_property;
-  iface->get_uint64_property = my_interface_proxy_get_uint64_property;
-  iface->get_double_property = my_interface_proxy_get_double_property;
-  iface->get_array_str_property = my_interface_proxy_get_array_str_property;
-  iface->get_array_uint32_property = my_interface_proxy_get_array_uint32_property;
+  iface->get_str_property = photo_proxy_get_str_property;
+  iface->get_byte_property = photo_proxy_get_byte_property;
+  iface->get_bool_property = photo_proxy_get_bool_property;
+  iface->get_int16_property = photo_proxy_get_int16_property;
+  iface->get_uint16_property = photo_proxy_get_uint16_property;
+  iface->get_int32_property = photo_proxy_get_int32_property;
+  iface->get_uint32_property = photo_proxy_get_uint32_property;
+  iface->get_int64_property = photo_proxy_get_int64_property;
+  iface->get_uint64_property = photo_proxy_get_uint64_property;
+  iface->get_double_property = photo_proxy_get_double_property;
+  iface->get_array_str_property = photo_proxy_get_array_str_property;
+  iface->get_array_uint32_property = photo_proxy_get_array_uint32_property;
 }
 
 /**
- * my_interface_proxy_new:
+ * photo_proxy_new:
  * @connection: A #GDBusConnection.
  * @flags: Flags from the #GDBusProxyFlags enumeration.
  * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
@@ -1759,15 +1759,15 @@ my_interface_proxy_iface_init (MyInterfaceIface *iface)
  * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
  * @user_data: User data to pass to @callback.
  *
- * Asynchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link>. See g_dbus_proxy_new() for more details.
+ * Asynchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link>. See g_dbus_proxy_new() for more details.
  *
  * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call my_interface_proxy_new_finish() to get the result of the operation.
+ * You can then call photo_proxy_new_finish() to get the result of the operation.
  *
- * See my_interface_proxy_new_sync() for the synchronous, blocking version of this constructor.
+ * See photo_proxy_new_sync() for the synchronous, blocking version of this constructor.
  */
 void
-my_interface_proxy_new (
+photo_proxy_new (
     GDBusConnection     *connection,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -1776,20 +1776,20 @@ my_interface_proxy_new (
     GAsyncReadyCallback  callback,
     gpointer             user_data)
 {
-  g_async_initable_new_async (TYPE_MY_INTERFACE_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "com.example.MyInterface", NULL);
+  g_async_initable_new_async (TYPE_PHOTO_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "com.example.photo", NULL);
 }
 
 /**
- * my_interface_proxy_new_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to my_interface_proxy_new().
+ * photo_proxy_new_finish:
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to photo_proxy_new().
  * @error: Return location for error or %NULL
  *
- * Finishes an operation started with my_interface_proxy_new().
+ * Finishes an operation started with photo_proxy_new().
  *
- * Returns: (transfer full) (type MyInterfaceProxy): The constructed proxy object or %NULL if @error is set.
+ * Returns: (transfer full) (type PhotoProxy): The constructed proxy object or %NULL if @error is set.
  */
-MyInterface *
-my_interface_proxy_new_finish (
+Photo *
+photo_proxy_new_finish (
     GAsyncResult        *res,
     GError             **error)
 {
@@ -1799,13 +1799,13 @@ my_interface_proxy_new_finish (
   ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
   g_object_unref (source_object);
   if (ret != NULL)
-    return MY_INTERFACE (ret);
+    return PHOTO (ret);
   else
     return NULL;
 }
 
 /**
- * my_interface_proxy_new_sync:
+ * photo_proxy_new_sync:
  * @connection: A #GDBusConnection.
  * @flags: Flags from the #GDBusProxyFlags enumeration.
  * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
@@ -1813,16 +1813,16 @@ my_interface_proxy_new_finish (
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL
  *
- * Synchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link>. See g_dbus_proxy_new_sync() for more details.
+ * Synchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link>. See g_dbus_proxy_new_sync() for more details.
  *
  * The calling thread is blocked until a reply is received.
  *
- * See my_interface_proxy_new() for the asynchronous version of this constructor.
+ * See photo_proxy_new() for the asynchronous version of this constructor.
  *
- * Returns: (transfer full) (type MyInterfaceProxy): The constructed proxy object or %NULL if @error is set.
+ * Returns: (transfer full) (type PhotoProxy): The constructed proxy object or %NULL if @error is set.
  */
-MyInterface *
-my_interface_proxy_new_sync (
+Photo *
+photo_proxy_new_sync (
     GDBusConnection     *connection,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -1831,16 +1831,16 @@ my_interface_proxy_new_sync (
     GError             **error)
 {
   GInitable *ret;
-  ret = g_initable_new (TYPE_MY_INTERFACE_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "com.example.MyInterface", NULL);
+  ret = g_initable_new (TYPE_PHOTO_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "com.example.photo", NULL);
   if (ret != NULL)
-    return MY_INTERFACE (ret);
+    return PHOTO (ret);
   else
     return NULL;
 }
 
 
 /**
- * my_interface_proxy_new_for_bus:
+ * photo_proxy_new_for_bus:
  * @bus_type: A #GBusType.
  * @flags: Flags from the #GDBusProxyFlags enumeration.
  * @name: A bus name (well-known or unique).
@@ -1849,15 +1849,15 @@ my_interface_proxy_new_sync (
  * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
  * @user_data: User data to pass to @callback.
  *
- * Like my_interface_proxy_new() but takes a #GBusType instead of a #GDBusConnection.
+ * Like photo_proxy_new() but takes a #GBusType instead of a #GDBusConnection.
  *
  * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call my_interface_proxy_new_for_bus_finish() to get the result of the operation.
+ * You can then call photo_proxy_new_for_bus_finish() to get the result of the operation.
  *
- * See my_interface_proxy_new_for_bus_sync() for the synchronous, blocking version of this constructor.
+ * See photo_proxy_new_for_bus_sync() for the synchronous, blocking version of this constructor.
  */
 void
-my_interface_proxy_new_for_bus (
+photo_proxy_new_for_bus (
     GBusType             bus_type,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -1866,20 +1866,20 @@ my_interface_proxy_new_for_bus (
     GAsyncReadyCallback  callback,
     gpointer             user_data)
 {
-  g_async_initable_new_async (TYPE_MY_INTERFACE_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "com.example.MyInterface", NULL);
+  g_async_initable_new_async (TYPE_PHOTO_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "com.example.photo", NULL);
 }
 
 /**
- * my_interface_proxy_new_for_bus_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to my_interface_proxy_new_for_bus().
+ * photo_proxy_new_for_bus_finish:
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to photo_proxy_new_for_bus().
  * @error: Return location for error or %NULL
  *
- * Finishes an operation started with my_interface_proxy_new_for_bus().
+ * Finishes an operation started with photo_proxy_new_for_bus().
  *
- * Returns: (transfer full) (type MyInterfaceProxy): The constructed proxy object or %NULL if @error is set.
+ * Returns: (transfer full) (type PhotoProxy): The constructed proxy object or %NULL if @error is set.
  */
-MyInterface *
-my_interface_proxy_new_for_bus_finish (
+Photo *
+photo_proxy_new_for_bus_finish (
     GAsyncResult        *res,
     GError             **error)
 {
@@ -1889,13 +1889,13 @@ my_interface_proxy_new_for_bus_finish (
   ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
   g_object_unref (source_object);
   if (ret != NULL)
-    return MY_INTERFACE (ret);
+    return PHOTO (ret);
   else
     return NULL;
 }
 
 /**
- * my_interface_proxy_new_for_bus_sync:
+ * photo_proxy_new_for_bus_sync:
  * @bus_type: A #GBusType.
  * @flags: Flags from the #GDBusProxyFlags enumeration.
  * @name: A bus name (well-known or unique).
@@ -1903,16 +1903,16 @@ my_interface_proxy_new_for_bus_finish (
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL
  *
- * Like my_interface_proxy_new_sync() but takes a #GBusType instead of a #GDBusConnection.
+ * Like photo_proxy_new_sync() but takes a #GBusType instead of a #GDBusConnection.
  *
  * The calling thread is blocked until a reply is received.
  *
- * See my_interface_proxy_new_for_bus() for the asynchronous version of this constructor.
+ * See photo_proxy_new_for_bus() for the asynchronous version of this constructor.
  *
- * Returns: (transfer full) (type MyInterfaceProxy): The constructed proxy object or %NULL if @error is set.
+ * Returns: (transfer full) (type PhotoProxy): The constructed proxy object or %NULL if @error is set.
  */
-MyInterface *
-my_interface_proxy_new_for_bus_sync (
+Photo *
+photo_proxy_new_for_bus_sync (
     GBusType             bus_type,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -1921,9 +1921,9 @@ my_interface_proxy_new_for_bus_sync (
     GError             **error)
 {
   GInitable *ret;
-  ret = g_initable_new (TYPE_MY_INTERFACE_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "com.example.MyInterface", NULL);
+  ret = g_initable_new (TYPE_PHOTO_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "com.example.photo", NULL);
   if (ret != NULL)
-    return MY_INTERFACE (ret);
+    return PHOTO (ret);
   else
     return NULL;
 }
@@ -1932,19 +1932,19 @@ my_interface_proxy_new_for_bus_sync (
 /* ------------------------------------------------------------------------ */
 
 /**
- * MyInterfaceSkeleton:
+ * PhotoSkeleton:
  *
- * The #MyInterfaceSkeleton structure contains only private data and should only be accessed using the provided API.
+ * The #PhotoSkeleton structure contains only private data and should only be accessed using the provided API.
  */
 
 /**
- * MyInterfaceSkeletonClass:
+ * PhotoSkeletonClass:
  * @parent_class: The parent class.
  *
- * Class structure for #MyInterfaceSkeleton.
+ * Class structure for #PhotoSkeleton.
  */
 
-struct _MyInterfaceSkeletonPrivate
+struct _PhotoSkeletonPrivate
 {
   GValue *properties;
   GList *changed_properties;
@@ -1954,7 +1954,7 @@ struct _MyInterfaceSkeletonPrivate
 };
 
 static void
-_my_interface_skeleton_handle_method_call (
+_photo_skeleton_handle_method_call (
   GDBusConnection *connection G_GNUC_UNUSED,
   const gchar *sender G_GNUC_UNUSED,
   const gchar *object_path G_GNUC_UNUSED,
@@ -1964,7 +1964,7 @@ _my_interface_skeleton_handle_method_call (
   GDBusMethodInvocation *invocation,
   gpointer user_data)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (user_data);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (user_data);
   _ExtendedGDBusMethodInfo *info;
   GVariantIter iter;
   GVariant *child;
@@ -1979,7 +1979,7 @@ _my_interface_skeleton_handle_method_call (
   num_params = g_variant_n_children (parameters);
   num_extra = info->pass_fdlist ? 3 : 2;  paramv = g_new0 (GValue, num_params + num_extra);
   n = 0;
-  g_value_init (&paramv[n], TYPE_MY_INTERFACE);
+  g_value_init (&paramv[n], TYPE_PHOTO);
   g_value_set_object (&paramv[n++], skeleton);
   g_value_init (&paramv[n], G_TYPE_DBUS_METHOD_INVOCATION);
   g_value_set_object (&paramv[n++], invocation);
@@ -2006,7 +2006,7 @@ _my_interface_skeleton_handle_method_call (
         g_dbus_gvariant_to_gvalue (child, &paramv[n++]);
       g_variant_unref (child);
     }
-  signal_id = g_signal_lookup (info->signal_name, TYPE_MY_INTERFACE);
+  signal_id = g_signal_lookup (info->signal_name, TYPE_PHOTO);
   g_value_init (&return_value, G_TYPE_BOOLEAN);
   g_signal_emitv (paramv, signal_id, 0, &return_value);
   if (!g_value_get_boolean (&return_value))
@@ -2018,7 +2018,7 @@ _my_interface_skeleton_handle_method_call (
 }
 
 static GVariant *
-_my_interface_skeleton_handle_get_property (
+_photo_skeleton_handle_get_property (
   GDBusConnection *connection G_GNUC_UNUSED,
   const gchar *sender G_GNUC_UNUSED,
   const gchar *object_path G_GNUC_UNUSED,
@@ -2027,13 +2027,13 @@ _my_interface_skeleton_handle_get_property (
   GError **error,
   gpointer user_data)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (user_data);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (user_data);
   GValue value = G_VALUE_INIT;
   GParamSpec *pspec;
   _ExtendedGDBusPropertyInfo *info;
   GVariant *ret;
   ret = NULL;
-  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_my_interface_interface_info.parent_struct, property_name);
+  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_photo_interface_info.parent_struct, property_name);
   g_assert (info != NULL);
   pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (skeleton), info->hyphen_name);
   if (pspec == NULL)
@@ -2051,7 +2051,7 @@ _my_interface_skeleton_handle_get_property (
 }
 
 static gboolean
-_my_interface_skeleton_handle_set_property (
+_photo_skeleton_handle_set_property (
   GDBusConnection *connection G_GNUC_UNUSED,
   const gchar *sender G_GNUC_UNUSED,
   const gchar *object_path G_GNUC_UNUSED,
@@ -2061,13 +2061,13 @@ _my_interface_skeleton_handle_set_property (
   GError **error,
   gpointer user_data)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (user_data);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (user_data);
   GValue value = G_VALUE_INIT;
   GParamSpec *pspec;
   _ExtendedGDBusPropertyInfo *info;
   gboolean ret;
   ret = FALSE;
-  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_my_interface_interface_info.parent_struct, property_name);
+  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_photo_interface_info.parent_struct, property_name);
   g_assert (info != NULL);
   pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (skeleton), info->hyphen_name);
   if (pspec == NULL)
@@ -2087,43 +2087,43 @@ _my_interface_skeleton_handle_set_property (
   return ret;
 }
 
-static const GDBusInterfaceVTable _my_interface_skeleton_vtable =
+static const GDBusInterfaceVTable _photo_skeleton_vtable =
 {
-  _my_interface_skeleton_handle_method_call,
-  _my_interface_skeleton_handle_get_property,
-  _my_interface_skeleton_handle_set_property,
+  _photo_skeleton_handle_method_call,
+  _photo_skeleton_handle_get_property,
+  _photo_skeleton_handle_set_property,
   {NULL}
 };
 
 static GDBusInterfaceInfo *
-my_interface_skeleton_dbus_interface_get_info (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
+photo_skeleton_dbus_interface_get_info (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
 {
-  return my_interface_interface_info ();
+  return photo_interface_info ();
 }
 
 static GDBusInterfaceVTable *
-my_interface_skeleton_dbus_interface_get_vtable (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
+photo_skeleton_dbus_interface_get_vtable (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
 {
-  return (GDBusInterfaceVTable *) &_my_interface_skeleton_vtable;
+  return (GDBusInterfaceVTable *) &_photo_skeleton_vtable;
 }
 
 static GVariant *
-my_interface_skeleton_dbus_interface_get_properties (GDBusInterfaceSkeleton *_skeleton)
+photo_skeleton_dbus_interface_get_properties (GDBusInterfaceSkeleton *_skeleton)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (_skeleton);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (_skeleton);
 
   GVariantBuilder builder;
   guint n;
   g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
-  if (_my_interface_interface_info.parent_struct.properties == NULL)
+  if (_photo_interface_info.parent_struct.properties == NULL)
     goto out;
-  for (n = 0; _my_interface_interface_info.parent_struct.properties[n] != NULL; n++)
+  for (n = 0; _photo_interface_info.parent_struct.properties[n] != NULL; n++)
     {
-      GDBusPropertyInfo *info = _my_interface_interface_info.parent_struct.properties[n];
+      GDBusPropertyInfo *info = _photo_interface_info.parent_struct.properties[n];
       if (info->flags & G_DBUS_PROPERTY_INFO_FLAGS_READABLE)
         {
           GVariant *value;
-          value = _my_interface_skeleton_handle_get_property (g_dbus_interface_skeleton_get_connection (G_DBUS_INTERFACE_SKELETON (skeleton)), NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.MyInterface", info->name, NULL, skeleton);
+          value = _photo_skeleton_handle_get_property (g_dbus_interface_skeleton_get_connection (G_DBUS_INTERFACE_SKELETON (skeleton)), NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.photo", info->name, NULL, skeleton);
           if (value != NULL)
             {
               g_variant_take_ref (value);
@@ -2136,12 +2136,12 @@ out:
   return g_variant_builder_end (&builder);
 }
 
-static gboolean _my_interface_emit_changed (gpointer user_data);
+static gboolean _photo_emit_changed (gpointer user_data);
 
 static void
-my_interface_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)
+photo_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (_skeleton);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (_skeleton);
   gboolean emit_changed = FALSE;
 
   g_mutex_lock (&skeleton->priv->lock);
@@ -2154,16 +2154,16 @@ my_interface_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)
   g_mutex_unlock (&skeleton->priv->lock);
 
   if (emit_changed)
-    _my_interface_emit_changed (skeleton);
+    _photo_emit_changed (skeleton);
 }
 
 static void
-_my_interface_on_signal_bar_signal (
-    MyInterface *object,
+_photo_on_signal_bar_signal (
+    Photo *object,
     const gchar *arg_blah,
     const gchar *arg_boo)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
 
   GList      *connections, *l;
   GVariant   *signal_variant;
@@ -2176,28 +2176,28 @@ _my_interface_on_signal_bar_signal (
     {
       GDBusConnection *connection = l->data;
       g_dbus_connection_emit_signal (connection,
-        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.MyInterface", "BarSignal",
+        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.photo", "BarSignal",
         signal_variant, NULL);
     }
   g_variant_unref (signal_variant);
   g_list_free_full (connections, g_object_unref);
 }
 
-static void my_interface_skeleton_iface_init (MyInterfaceIface *iface);
+static void photo_skeleton_iface_init (PhotoIface *iface);
 #if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-G_DEFINE_TYPE_WITH_CODE (MyInterfaceSkeleton, my_interface_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
-                         G_ADD_PRIVATE (MyInterfaceSkeleton)
-                         G_IMPLEMENT_INTERFACE (TYPE_MY_INTERFACE, my_interface_skeleton_iface_init))
+G_DEFINE_TYPE_WITH_CODE (PhotoSkeleton, photo_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
+                         G_ADD_PRIVATE (PhotoSkeleton)
+                         G_IMPLEMENT_INTERFACE (TYPE_PHOTO, photo_skeleton_iface_init))
 
 #else
-G_DEFINE_TYPE_WITH_CODE (MyInterfaceSkeleton, my_interface_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
-                         G_IMPLEMENT_INTERFACE (TYPE_MY_INTERFACE, my_interface_skeleton_iface_init))
+G_DEFINE_TYPE_WITH_CODE (PhotoSkeleton, photo_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
+                         G_IMPLEMENT_INTERFACE (TYPE_PHOTO, photo_skeleton_iface_init))
 
 #endif
 static void
-my_interface_skeleton_finalize (GObject *object)
+photo_skeleton_finalize (GObject *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   guint n;
   for (n = 0; n < 12; n++)
     g_value_unset (&skeleton->priv->properties[n]);
@@ -2207,16 +2207,16 @@ my_interface_skeleton_finalize (GObject *object)
     g_source_destroy (skeleton->priv->changed_properties_idle_source);
   g_main_context_unref (skeleton->priv->context);
   g_mutex_clear (&skeleton->priv->lock);
-  G_OBJECT_CLASS (my_interface_skeleton_parent_class)->finalize (object);
+  G_OBJECT_CLASS (photo_skeleton_parent_class)->finalize (object);
 }
 
 static void
-my_interface_skeleton_get_property (GObject      *object,
+photo_skeleton_get_property (GObject      *object,
   guint         prop_id,
   GValue       *value,
   GParamSpec   *pspec G_GNUC_UNUSED)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   g_assert (prop_id != 0 && prop_id - 1 < 12);
   g_mutex_lock (&skeleton->priv->lock);
   g_value_copy (&skeleton->priv->properties[prop_id - 1], value);
@@ -2224,9 +2224,9 @@ my_interface_skeleton_get_property (GObject      *object,
 }
 
 static gboolean
-_my_interface_emit_changed (gpointer user_data)
+_photo_emit_changed (gpointer user_data)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (user_data);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (user_data);
   GList *l;
   GVariantBuilder builder;
   GVariantBuilder invalidated_builder;
@@ -2254,7 +2254,7 @@ _my_interface_emit_changed (gpointer user_data)
     {
       GList *connections, *ll;
       GVariant *signal_variant;
-      signal_variant = g_variant_ref_sink (g_variant_new ("(sa{sv}as)", "com.example.MyInterface",
+      signal_variant = g_variant_ref_sink (g_variant_new ("(sa{sv}as)", "com.example.photo",
                                            &builder, &invalidated_builder));
       connections = g_dbus_interface_skeleton_get_connections (G_DBUS_INTERFACE_SKELETON (skeleton));
       for (ll = connections; ll != NULL; ll = ll->next)
@@ -2284,7 +2284,7 @@ _my_interface_emit_changed (gpointer user_data)
 }
 
 static void
-_my_interface_schedule_emit_changed (MyInterfaceSkeleton *skeleton, const _ExtendedGDBusPropertyInfo *info, guint prop_id, const GValue *orig_value)
+_photo_schedule_emit_changed (PhotoSkeleton *skeleton, const _ExtendedGDBusPropertyInfo *info, guint prop_id, const GValue *orig_value)
 {
   ChangedProperty *cp;
   GList *l;
@@ -2310,18 +2310,18 @@ _my_interface_schedule_emit_changed (MyInterfaceSkeleton *skeleton, const _Exten
 }
 
 static void
-my_interface_skeleton_notify (GObject      *object,
+photo_skeleton_notify (GObject      *object,
   GParamSpec *pspec G_GNUC_UNUSED)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   g_mutex_lock (&skeleton->priv->lock);
   if (skeleton->priv->changed_properties != NULL &&
       skeleton->priv->changed_properties_idle_source == NULL)
     {
       skeleton->priv->changed_properties_idle_source = g_idle_source_new ();
       g_source_set_priority (skeleton->priv->changed_properties_idle_source, G_PRIORITY_DEFAULT);
-      g_source_set_callback (skeleton->priv->changed_properties_idle_source, _my_interface_emit_changed, g_object_ref (skeleton), (GDestroyNotify) g_object_unref);
-      g_source_set_name (skeleton->priv->changed_properties_idle_source, "[generated] _my_interface_emit_changed");
+      g_source_set_callback (skeleton->priv->changed_properties_idle_source, _photo_emit_changed, g_object_ref (skeleton), (GDestroyNotify) g_object_unref);
+      g_source_set_name (skeleton->priv->changed_properties_idle_source, "[generated] _photo_emit_changed");
       g_source_attach (skeleton->priv->changed_properties_idle_source, skeleton->priv->context);
       g_source_unref (skeleton->priv->changed_properties_idle_source);
     }
@@ -2329,22 +2329,22 @@ my_interface_skeleton_notify (GObject      *object,
 }
 
 static void
-my_interface_skeleton_set_property (GObject      *object,
+photo_skeleton_set_property (GObject      *object,
   guint         prop_id,
   const GValue *value,
   GParamSpec   *pspec)
 {
   const _ExtendedGDBusPropertyInfo *info;
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   g_assert (prop_id != 0 && prop_id - 1 < 12);
-  info = (const _ExtendedGDBusPropertyInfo *) _my_interface_property_info_pointers[prop_id - 1];
+  info = (const _ExtendedGDBusPropertyInfo *) _photo_property_info_pointers[prop_id - 1];
   g_mutex_lock (&skeleton->priv->lock);
   g_object_freeze_notify (object);
   if (!_g_value_equal (value, &skeleton->priv->properties[prop_id - 1]))
     {
       if (g_dbus_interface_skeleton_get_connection (G_DBUS_INTERFACE_SKELETON (skeleton)) != NULL &&
           info->emits_changed_signal)
-        _my_interface_schedule_emit_changed (skeleton, info, prop_id, &skeleton->priv->properties[prop_id - 1]);
+        _photo_schedule_emit_changed (skeleton, info, prop_id, &skeleton->priv->properties[prop_id - 1]);
       g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);
       g_object_notify_by_pspec (object, pspec);
     }
@@ -2353,12 +2353,12 @@ my_interface_skeleton_set_property (GObject      *object,
 }
 
 static void
-my_interface_skeleton_init (MyInterfaceSkeleton *skeleton)
+photo_skeleton_init (PhotoSkeleton *skeleton)
 {
 #if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-  skeleton->priv = my_interface_skeleton_get_instance_private (skeleton);
+  skeleton->priv = photo_skeleton_get_instance_private (skeleton);
 #else
-  skeleton->priv = G_TYPE_INSTANCE_GET_PRIVATE (skeleton, TYPE_MY_INTERFACE_SKELETON, MyInterfaceSkeletonPrivate);
+  skeleton->priv = G_TYPE_INSTANCE_GET_PRIVATE (skeleton, TYPE_PHOTO_SKELETON, PhotoSkeletonPrivate);
 #endif
 
   g_mutex_init (&skeleton->priv->lock);
@@ -2379,9 +2379,9 @@ my_interface_skeleton_init (MyInterfaceSkeleton *skeleton)
 }
 
 static const gchar *
-my_interface_skeleton_get_str_property (MyInterface *object)
+photo_skeleton_get_str_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   const gchar *value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_string (&(skeleton->priv->properties[0]));
@@ -2390,9 +2390,9 @@ my_interface_skeleton_get_str_property (MyInterface *object)
 }
 
 static guchar 
-my_interface_skeleton_get_byte_property (MyInterface *object)
+photo_skeleton_get_byte_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   guchar value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_uchar (&(skeleton->priv->properties[1]));
@@ -2401,9 +2401,9 @@ my_interface_skeleton_get_byte_property (MyInterface *object)
 }
 
 static gboolean 
-my_interface_skeleton_get_bool_property (MyInterface *object)
+photo_skeleton_get_bool_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   gboolean value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_boolean (&(skeleton->priv->properties[2]));
@@ -2412,9 +2412,9 @@ my_interface_skeleton_get_bool_property (MyInterface *object)
 }
 
 static gint16 
-my_interface_skeleton_get_int16_property (MyInterface *object)
+photo_skeleton_get_int16_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   gint value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_int (&(skeleton->priv->properties[3]));
@@ -2423,9 +2423,9 @@ my_interface_skeleton_get_int16_property (MyInterface *object)
 }
 
 static guint16 
-my_interface_skeleton_get_uint16_property (MyInterface *object)
+photo_skeleton_get_uint16_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   guint value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_uint (&(skeleton->priv->properties[4]));
@@ -2434,9 +2434,9 @@ my_interface_skeleton_get_uint16_property (MyInterface *object)
 }
 
 static gint 
-my_interface_skeleton_get_int32_property (MyInterface *object)
+photo_skeleton_get_int32_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   gint value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_int (&(skeleton->priv->properties[5]));
@@ -2445,9 +2445,9 @@ my_interface_skeleton_get_int32_property (MyInterface *object)
 }
 
 static guint 
-my_interface_skeleton_get_uint32_property (MyInterface *object)
+photo_skeleton_get_uint32_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   guint value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_uint (&(skeleton->priv->properties[6]));
@@ -2456,9 +2456,9 @@ my_interface_skeleton_get_uint32_property (MyInterface *object)
 }
 
 static gint64 
-my_interface_skeleton_get_int64_property (MyInterface *object)
+photo_skeleton_get_int64_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   gint64 value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_int64 (&(skeleton->priv->properties[7]));
@@ -2467,9 +2467,9 @@ my_interface_skeleton_get_int64_property (MyInterface *object)
 }
 
 static guint64 
-my_interface_skeleton_get_uint64_property (MyInterface *object)
+photo_skeleton_get_uint64_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   guint64 value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_uint64 (&(skeleton->priv->properties[8]));
@@ -2478,9 +2478,9 @@ my_interface_skeleton_get_uint64_property (MyInterface *object)
 }
 
 static gdouble 
-my_interface_skeleton_get_double_property (MyInterface *object)
+photo_skeleton_get_double_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   gdouble value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_double (&(skeleton->priv->properties[9]));
@@ -2489,9 +2489,9 @@ my_interface_skeleton_get_double_property (MyInterface *object)
 }
 
 static const gchar *const *
-my_interface_skeleton_get_array_str_property (MyInterface *object)
+photo_skeleton_get_array_str_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   const gchar *const *value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_boxed (&(skeleton->priv->properties[10]));
@@ -2500,9 +2500,9 @@ my_interface_skeleton_get_array_str_property (MyInterface *object)
 }
 
 static GVariant *
-my_interface_skeleton_get_array_uint32_property (MyInterface *object)
+photo_skeleton_get_array_uint32_property (Photo *object)
 {
-  MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
   GVariant *value;
   g_mutex_lock (&skeleton->priv->lock);
   value = g_value_get_variant (&(skeleton->priv->properties[11]));
@@ -2511,60 +2511,60 @@ my_interface_skeleton_get_array_uint32_property (MyInterface *object)
 }
 
 static void
-my_interface_skeleton_class_init (MyInterfaceSkeletonClass *klass)
+photo_skeleton_class_init (PhotoSkeletonClass *klass)
 {
   GObjectClass *gobject_class;
   GDBusInterfaceSkeletonClass *skeleton_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
-  gobject_class->finalize = my_interface_skeleton_finalize;
-  gobject_class->get_property = my_interface_skeleton_get_property;
-  gobject_class->set_property = my_interface_skeleton_set_property;
-  gobject_class->notify       = my_interface_skeleton_notify;
+  gobject_class->finalize = photo_skeleton_finalize;
+  gobject_class->get_property = photo_skeleton_get_property;
+  gobject_class->set_property = photo_skeleton_set_property;
+  gobject_class->notify       = photo_skeleton_notify;
 
 
-  my_interface_override_properties (gobject_class, 1);
+  photo_override_properties (gobject_class, 1);
 
   skeleton_class = G_DBUS_INTERFACE_SKELETON_CLASS (klass);
-  skeleton_class->get_info = my_interface_skeleton_dbus_interface_get_info;
-  skeleton_class->get_properties = my_interface_skeleton_dbus_interface_get_properties;
-  skeleton_class->flush = my_interface_skeleton_dbus_interface_flush;
-  skeleton_class->get_vtable = my_interface_skeleton_dbus_interface_get_vtable;
+  skeleton_class->get_info = photo_skeleton_dbus_interface_get_info;
+  skeleton_class->get_properties = photo_skeleton_dbus_interface_get_properties;
+  skeleton_class->flush = photo_skeleton_dbus_interface_flush;
+  skeleton_class->get_vtable = photo_skeleton_dbus_interface_get_vtable;
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
-  g_type_class_add_private (klass, sizeof (MyInterfaceSkeletonPrivate));
+  g_type_class_add_private (klass, sizeof (PhotoSkeletonPrivate));
 #endif
 }
 
 static void
-my_interface_skeleton_iface_init (MyInterfaceIface *iface)
+photo_skeleton_iface_init (PhotoIface *iface)
 {
-  iface->bar_signal = _my_interface_on_signal_bar_signal;
-  iface->get_str_property = my_interface_skeleton_get_str_property;
-  iface->get_byte_property = my_interface_skeleton_get_byte_property;
-  iface->get_bool_property = my_interface_skeleton_get_bool_property;
-  iface->get_int16_property = my_interface_skeleton_get_int16_property;
-  iface->get_uint16_property = my_interface_skeleton_get_uint16_property;
-  iface->get_int32_property = my_interface_skeleton_get_int32_property;
-  iface->get_uint32_property = my_interface_skeleton_get_uint32_property;
-  iface->get_int64_property = my_interface_skeleton_get_int64_property;
-  iface->get_uint64_property = my_interface_skeleton_get_uint64_property;
-  iface->get_double_property = my_interface_skeleton_get_double_property;
-  iface->get_array_str_property = my_interface_skeleton_get_array_str_property;
-  iface->get_array_uint32_property = my_interface_skeleton_get_array_uint32_property;
+  iface->bar_signal = _photo_on_signal_bar_signal;
+  iface->get_str_property = photo_skeleton_get_str_property;
+  iface->get_byte_property = photo_skeleton_get_byte_property;
+  iface->get_bool_property = photo_skeleton_get_bool_property;
+  iface->get_int16_property = photo_skeleton_get_int16_property;
+  iface->get_uint16_property = photo_skeleton_get_uint16_property;
+  iface->get_int32_property = photo_skeleton_get_int32_property;
+  iface->get_uint32_property = photo_skeleton_get_uint32_property;
+  iface->get_int64_property = photo_skeleton_get_int64_property;
+  iface->get_uint64_property = photo_skeleton_get_uint64_property;
+  iface->get_double_property = photo_skeleton_get_double_property;
+  iface->get_array_str_property = photo_skeleton_get_array_str_property;
+  iface->get_array_uint32_property = photo_skeleton_get_array_uint32_property;
 }
 
 /**
- * my_interface_skeleton_new:
+ * photo_skeleton_new:
  *
- * Creates a skeleton object for the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link>.
+ * Creates a skeleton object for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link>.
  *
- * Returns: (transfer full) (type MyInterfaceSkeleton): The skeleton object.
+ * Returns: (transfer full) (type PhotoSkeleton): The skeleton object.
  */
-MyInterface *
-my_interface_skeleton_new (void)
+Photo *
+photo_skeleton_new (void)
 {
-  return MY_INTERFACE (g_object_new (TYPE_MY_INTERFACE_SKELETON, NULL));
+  return PHOTO (g_object_new (TYPE_PHOTO_SKELETON, NULL));
 }
 
 /* ------------------------------------------------------------------------
@@ -2600,52 +2600,52 @@ static void
 object_default_init (ObjectIface *iface)
 {
   /**
-   * Object:my-interface:
+   * Object:photo:
    *
-   * The #MyInterface instance corresponding to the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link>, if any.
+   * The #Photo instance corresponding to the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link>, if any.
    *
    * Connect to the #GObject::notify signal to get informed of property changes.
    */
-  g_object_interface_install_property (iface, g_param_spec_object ("my-interface", "my-interface", "my-interface", TYPE_MY_INTERFACE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+  g_object_interface_install_property (iface, g_param_spec_object ("photo", "photo", "photo", TYPE_PHOTO, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
 }
 
 /**
- * object_get_my_interface:
+ * object_get_photo:
  * @object: A #Object.
  *
- * Gets the #MyInterface instance for the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link> on @object, if any.
+ * Gets the #Photo instance for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link> on @object, if any.
  *
- * Returns: (transfer full) (nullable): A #MyInterface that must be freed with g_object_unref() or %NULL if @object does not implement the interface.
+ * Returns: (transfer full) (nullable): A #Photo that must be freed with g_object_unref() or %NULL if @object does not implement the interface.
  */
-MyInterface *object_get_my_interface (Object *object)
+Photo *object_get_photo (Object *object)
 {
   GDBusInterface *ret;
-  ret = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.MyInterface");
+  ret = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.photo");
   if (ret == NULL)
     return NULL;
-  return MY_INTERFACE (ret);
+  return PHOTO (ret);
 }
 
 
 /**
- * object_peek_my_interface: (skip)
+ * object_peek_photo: (skip)
  * @object: A #Object.
  *
- * Like object_get_my_interface() but doesn't increase the reference count on the returned object.
+ * Like object_get_photo() but doesn't increase the reference count on the returned object.
  *
  * It is not safe to use the returned object if you are on another thread than the one where the #GDBusObjectManagerClient or #GDBusObjectManagerServer for @object is running.
  *
- * Returns: (transfer none) (nullable): A #MyInterface or %NULL if @object does not implement the interface. Do not free the returned object, it is owned by @object.
+ * Returns: (transfer none) (nullable): A #Photo or %NULL if @object does not implement the interface. Do not free the returned object, it is owned by @object.
  */
-MyInterface *object_peek_my_interface (Object *object)
+Photo *object_peek_photo (Object *object)
 {
   GDBusInterface *ret;
-  ret = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.MyInterface");
+  ret = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.photo");
   if (ret == NULL)
     return NULL;
   g_object_unref (ret);
-  return MY_INTERFACE (ret);
+  return PHOTO (ret);
 }
 
 
@@ -2716,7 +2716,7 @@ object_proxy_get_property (GObject      *gobject,
   switch (prop_id)
     {
     case 1:
-      interface = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.MyInterface");
+      interface = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.photo");
       g_value_take_object (value, interface);
       break;
 
@@ -2734,7 +2734,7 @@ object_proxy_class_init (ObjectProxyClass *klass)
   gobject_class->set_property = object_proxy_set_property;
   gobject_class->get_property = object_proxy_get_property;
 
-  g_object_class_override_property (gobject_class, 1, "my-interface");
+  g_object_class_override_property (gobject_class, 1, "photo");
 }
 
 /**
@@ -2805,12 +2805,12 @@ object_skeleton_set_property (GObject      *gobject,
       interface = g_value_get_object (value);
       if (interface != NULL)
         {
-          g_warn_if_fail (IS_MY_INTERFACE (interface));
+          g_warn_if_fail (IS_PHOTO (interface));
           g_dbus_object_skeleton_add_interface (G_DBUS_OBJECT_SKELETON (object), interface);
         }
       else
         {
-          g_dbus_object_skeleton_remove_interface_by_name (G_DBUS_OBJECT_SKELETON (object), "com.example.MyInterface");
+          g_dbus_object_skeleton_remove_interface_by_name (G_DBUS_OBJECT_SKELETON (object), "com.example.photo");
         }
       break;
 
@@ -2832,7 +2832,7 @@ object_skeleton_get_property (GObject      *gobject,
   switch (prop_id)
     {
     case 1:
-      interface = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.MyInterface");
+      interface = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.photo");
       g_value_take_object (value, interface);
       break;
 
@@ -2850,7 +2850,7 @@ object_skeleton_class_init (ObjectSkeletonClass *klass)
   gobject_class->set_property = object_skeleton_set_property;
   gobject_class->get_property = object_skeleton_get_property;
 
-  g_object_class_override_property (gobject_class, 1, "my-interface");
+  g_object_class_override_property (gobject_class, 1, "photo");
 }
 
 /**
@@ -2869,15 +2869,15 @@ object_skeleton_new (const gchar *object_path)
 }
 
 /**
- * object_skeleton_set_my_interface:
+ * object_skeleton_set_photo:
  * @object: A #ObjectSkeleton.
- * @interface_: (nullable): A #MyInterface or %NULL to clear the interface.
+ * @interface_: (nullable): A #Photo or %NULL to clear the interface.
  *
- * Sets the #MyInterface instance for the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link> on @object.
+ * Sets the #Photo instance for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link> on @object.
  */
-void object_skeleton_set_my_interface (ObjectSkeleton *object, MyInterface *interface_)
+void object_skeleton_set_photo (ObjectSkeleton *object, Photo *interface_)
 {
-  g_object_set (G_OBJECT (object), "my-interface", interface_, NULL);
+  g_object_set (G_OBJECT (object), "photo", interface_, NULL);
 }
 
 
@@ -2942,7 +2942,7 @@ object_manager_client_get_proxy_type (GDBusObjectManagerClient *manager G_GNUC_U
   if (g_once_init_enter (&once_init_value))
     {
       lookup_hash = g_hash_table_new (g_str_hash, g_str_equal);
-      g_hash_table_insert (lookup_hash, (gpointer) "com.example.MyInterface", GSIZE_TO_POINTER (TYPE_MY_INTERFACE_PROXY));
+      g_hash_table_insert (lookup_hash, (gpointer) "com.example.photo", GSIZE_TO_POINTER (TYPE_PHOTO_PROXY));
       g_once_init_leave (&once_init_value, 1);
     }
   ret = (GType) GPOINTER_TO_SIZE (g_hash_table_lookup (lookup_hash, interface_name));

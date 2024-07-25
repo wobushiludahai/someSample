@@ -1,0 +1,46 @@
+<node>
+	<interface name="com.example.video">
+		<method name="StartVideo">
+			<arg name="in_arg1" type="s" direction="in" />
+			<arg name="in_arg2" type="i" direction="in" />
+			<arg name="out_arg1" type="s" direction="out" />
+			<arg name="out_arg2" type="i" direction="out" />
+		</method>
+		<method name="StopVideo">
+		</method>
+		<method name="PauseVideo">
+		</method>
+		<method name="ResumeVideo">
+		</method>
+		<method name="GetVideoStatus">
+			<arg name="status" type="y" direction="out" />
+		</method>
+		<method name="SetVideoStatus">
+			<arg name="status" type="y" direction="in" />
+		</method>
+		<method name="GetVideoInfo">
+			<arg name="info" type="s" direction="out" />
+		</method>
+		<method name="ShareVideo">
+			<arg name="path" type="s" direction="in" />
+			<arg name="time" type="u" direction="in" />
+		</method>
+		<signal name="RecoderStart">
+			<arg name="time" type="u" />
+		</signal>
+		<signal name="RecoderStop">
+		</signal>
+		<property name="StrProperty" type="s" access="readwrite" />
+		<property name="ByteProperty" type="y" access="readwrite" />
+		<property name="BoolProperty" type="b" access="readwrite" />
+		<property name="Int16Property" type="n" access="readwrite" />
+		<property name="Uint16Property" type="q" access="readwrite" />
+		<property name="Int32Property" type="i" access="readwrite" />
+		<property name="Uint32Property" type="u" access="readwrite" />
+		<property name="Int64Property" type="x" access="readwrite" />
+		<property name="Uint64Property" type="t" access="read" />
+		<property name="DoubleProperty" type="d" access="read" />
+		<property name="ArrayStrProperty" type="as" access="read" />
+		<property name="ArrayUint32Property" type="au" access="readwrite" />
+	</interface>
+</node>

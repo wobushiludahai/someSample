@@ -4,8 +4,8 @@
  * This file Needs to be Used as a dynamic link library.
  */
 
-#ifndef __INTERFACE_H__
-#define __INTERFACE_H__
+#ifndef __PHOTO_H__
+#define __PHOTO_H__
 
 #include <gio/gio.h>
 
@@ -13,69 +13,69 @@ G_BEGIN_DECLS
 
 
 /* ------------------------------------------------------------------------ */
-/* Declarations for com.example.MyInterface */
+/* Declarations for com.example.photo */
 
-#define TYPE_MY_INTERFACE (my_interface_get_type ())
-#define MY_INTERFACE(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_MY_INTERFACE, MyInterface))
-#define IS_MY_INTERFACE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_MY_INTERFACE))
-#define MY_INTERFACE_GET_IFACE(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), TYPE_MY_INTERFACE, MyInterfaceIface))
+#define TYPE_PHOTO (photo_get_type ())
+#define PHOTO(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_PHOTO, Photo))
+#define IS_PHOTO(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_PHOTO))
+#define PHOTO_GET_IFACE(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), TYPE_PHOTO, PhotoIface))
 
-struct _MyInterface;
-typedef struct _MyInterface MyInterface;
-typedef struct _MyInterfaceIface MyInterfaceIface;
+struct _Photo;
+typedef struct _Photo Photo;
+typedef struct _PhotoIface PhotoIface;
 
-struct _MyInterfaceIface
+struct _PhotoIface
 {
   GTypeInterface parent_iface;
 
 
 
-  gboolean (*handle_my_method) (
-    MyInterface *object,
+  gboolean (*handle_take_photo) (
+    Photo *object,
     GDBusMethodInvocation *invocation,
     const gchar *arg_in_arg1,
     gint arg_in_arg2);
 
-  const gchar *const * (*get_array_str_property) (MyInterface *object);
+  const gchar *const * (*get_array_str_property) (Photo *object);
 
-  GVariant * (*get_array_uint32_property) (MyInterface *object);
+  GVariant * (*get_array_uint32_property) (Photo *object);
 
-  gboolean  (*get_bool_property) (MyInterface *object);
+  gboolean  (*get_bool_property) (Photo *object);
 
-  guchar  (*get_byte_property) (MyInterface *object);
+  guchar  (*get_byte_property) (Photo *object);
 
-  gdouble  (*get_double_property) (MyInterface *object);
+  gdouble  (*get_double_property) (Photo *object);
 
-  gint16  (*get_int16_property) (MyInterface *object);
+  gint16  (*get_int16_property) (Photo *object);
 
-  gint  (*get_int32_property) (MyInterface *object);
+  gint  (*get_int32_property) (Photo *object);
 
-  gint64  (*get_int64_property) (MyInterface *object);
+  gint64  (*get_int64_property) (Photo *object);
 
-  const gchar * (*get_str_property) (MyInterface *object);
+  const gchar * (*get_str_property) (Photo *object);
 
-  guint16  (*get_uint16_property) (MyInterface *object);
+  guint16  (*get_uint16_property) (Photo *object);
 
-  guint  (*get_uint32_property) (MyInterface *object);
+  guint  (*get_uint32_property) (Photo *object);
 
-  guint64  (*get_uint64_property) (MyInterface *object);
+  guint64  (*get_uint64_property) (Photo *object);
 
   void (*bar_signal) (
-    MyInterface *object,
+    Photo *object,
     const gchar *arg_blah,
     const gchar *arg_boo);
 
 };
 
-GType my_interface_get_type (void) G_GNUC_CONST;
+GType photo_get_type (void) G_GNUC_CONST;
 
-GDBusInterfaceInfo *my_interface_interface_info (void);
-guint my_interface_override_properties (GObjectClass *klass, guint property_id_begin);
+GDBusInterfaceInfo *photo_interface_info (void);
+guint photo_override_properties (GObjectClass *klass, guint property_id_begin);
 
 
 /* D-Bus method call completion functions: */
-void my_interface_complete_my_method (
-    MyInterface *object,
+void photo_complete_take_photo (
+    Photo *object,
     GDBusMethodInvocation *invocation,
     const gchar *out_arg1,
     gint out_arg2);
@@ -83,31 +83,31 @@ void my_interface_complete_my_method (
 
 
 /* D-Bus signal emissions functions: */
-void my_interface_emit_bar_signal (
-    MyInterface *object,
+void photo_emit_bar_signal (
+    Photo *object,
     const gchar *arg_blah,
     const gchar *arg_boo);
 
 
 
 /* D-Bus method calls: */
-void my_interface_call_my_method (
-    MyInterface *proxy,
+void photo_call_take_photo (
+    Photo *proxy,
     const gchar *arg_in_arg1,
     gint arg_in_arg2,
     GCancellable *cancellable,
     GAsyncReadyCallback callback,
     gpointer user_data);
 
-gboolean my_interface_call_my_method_finish (
-    MyInterface *proxy,
+gboolean photo_call_take_photo_finish (
+    Photo *proxy,
     gchar **out_out_arg1,
     gint *out_out_arg2,
     GAsyncResult *res,
     GError **error);
 
-gboolean my_interface_call_my_method_sync (
-    MyInterface *proxy,
+gboolean photo_call_take_photo_sync (
+    Photo *proxy,
     const gchar *arg_in_arg1,
     gint arg_in_arg2,
     gchar **out_out_arg1,
@@ -118,78 +118,78 @@ gboolean my_interface_call_my_method_sync (
 
 
 /* D-Bus property accessors: */
-const gchar *my_interface_get_str_property (MyInterface *object);
-gchar *my_interface_dup_str_property (MyInterface *object);
-void my_interface_set_str_property (MyInterface *object, const gchar *value);
+const gchar *photo_get_str_property (Photo *object);
+gchar *photo_dup_str_property (Photo *object);
+void photo_set_str_property (Photo *object, const gchar *value);
 
-guchar my_interface_get_byte_property (MyInterface *object);
-void my_interface_set_byte_property (MyInterface *object, guchar value);
+guchar photo_get_byte_property (Photo *object);
+void photo_set_byte_property (Photo *object, guchar value);
 
-gboolean my_interface_get_bool_property (MyInterface *object);
-void my_interface_set_bool_property (MyInterface *object, gboolean value);
+gboolean photo_get_bool_property (Photo *object);
+void photo_set_bool_property (Photo *object, gboolean value);
 
-gint16 my_interface_get_int16_property (MyInterface *object);
-void my_interface_set_int16_property (MyInterface *object, gint16 value);
+gint16 photo_get_int16_property (Photo *object);
+void photo_set_int16_property (Photo *object, gint16 value);
 
-guint16 my_interface_get_uint16_property (MyInterface *object);
-void my_interface_set_uint16_property (MyInterface *object, guint16 value);
+guint16 photo_get_uint16_property (Photo *object);
+void photo_set_uint16_property (Photo *object, guint16 value);
 
-gint my_interface_get_int32_property (MyInterface *object);
-void my_interface_set_int32_property (MyInterface *object, gint value);
+gint photo_get_int32_property (Photo *object);
+void photo_set_int32_property (Photo *object, gint value);
 
-guint my_interface_get_uint32_property (MyInterface *object);
-void my_interface_set_uint32_property (MyInterface *object, guint value);
+guint photo_get_uint32_property (Photo *object);
+void photo_set_uint32_property (Photo *object, guint value);
 
-gint64 my_interface_get_int64_property (MyInterface *object);
-void my_interface_set_int64_property (MyInterface *object, gint64 value);
+gint64 photo_get_int64_property (Photo *object);
+void photo_set_int64_property (Photo *object, gint64 value);
 
-guint64 my_interface_get_uint64_property (MyInterface *object);
-void my_interface_set_uint64_property (MyInterface *object, guint64 value);
+guint64 photo_get_uint64_property (Photo *object);
+void photo_set_uint64_property (Photo *object, guint64 value);
 
-gdouble my_interface_get_double_property (MyInterface *object);
-void my_interface_set_double_property (MyInterface *object, gdouble value);
+gdouble photo_get_double_property (Photo *object);
+void photo_set_double_property (Photo *object, gdouble value);
 
-const gchar *const *my_interface_get_array_str_property (MyInterface *object);
-gchar **my_interface_dup_array_str_property (MyInterface *object);
-void my_interface_set_array_str_property (MyInterface *object, const gchar *const *value);
+const gchar *const *photo_get_array_str_property (Photo *object);
+gchar **photo_dup_array_str_property (Photo *object);
+void photo_set_array_str_property (Photo *object, const gchar *const *value);
 
-GVariant *my_interface_get_array_uint32_property (MyInterface *object);
-GVariant *my_interface_dup_array_uint32_property (MyInterface *object);
-void my_interface_set_array_uint32_property (MyInterface *object, GVariant *value);
+GVariant *photo_get_array_uint32_property (Photo *object);
+GVariant *photo_dup_array_uint32_property (Photo *object);
+void photo_set_array_uint32_property (Photo *object, GVariant *value);
 
 
 /* ---- */
 
-#define TYPE_MY_INTERFACE_PROXY (my_interface_proxy_get_type ())
-#define MY_INTERFACE_PROXY(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_MY_INTERFACE_PROXY, MyInterfaceProxy))
-#define MY_INTERFACE_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), TYPE_MY_INTERFACE_PROXY, MyInterfaceProxyClass))
-#define MY_INTERFACE_PROXY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), TYPE_MY_INTERFACE_PROXY, MyInterfaceProxyClass))
-#define IS_MY_INTERFACE_PROXY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_MY_INTERFACE_PROXY))
-#define IS_MY_INTERFACE_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), TYPE_MY_INTERFACE_PROXY))
+#define TYPE_PHOTO_PROXY (photo_proxy_get_type ())
+#define PHOTO_PROXY(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_PHOTO_PROXY, PhotoProxy))
+#define PHOTO_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), TYPE_PHOTO_PROXY, PhotoProxyClass))
+#define PHOTO_PROXY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), TYPE_PHOTO_PROXY, PhotoProxyClass))
+#define IS_PHOTO_PROXY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_PHOTO_PROXY))
+#define IS_PHOTO_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), TYPE_PHOTO_PROXY))
 
-typedef struct _MyInterfaceProxy MyInterfaceProxy;
-typedef struct _MyInterfaceProxyClass MyInterfaceProxyClass;
-typedef struct _MyInterfaceProxyPrivate MyInterfaceProxyPrivate;
+typedef struct _PhotoProxy PhotoProxy;
+typedef struct _PhotoProxyClass PhotoProxyClass;
+typedef struct _PhotoProxyPrivate PhotoProxyPrivate;
 
-struct _MyInterfaceProxy
+struct _PhotoProxy
 {
   /*< private >*/
   GDBusProxy parent_instance;
-  MyInterfaceProxyPrivate *priv;
+  PhotoProxyPrivate *priv;
 };
 
-struct _MyInterfaceProxyClass
+struct _PhotoProxyClass
 {
   GDBusProxyClass parent_class;
 };
 
-GType my_interface_proxy_get_type (void) G_GNUC_CONST;
+GType photo_proxy_get_type (void) G_GNUC_CONST;
 
 #if GLIB_CHECK_VERSION(2, 44, 0)
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (MyInterfaceProxy, g_object_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (PhotoProxy, g_object_unref)
 #endif
 
-void my_interface_proxy_new (
+void photo_proxy_new (
     GDBusConnection     *connection,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -197,10 +197,10 @@ void my_interface_proxy_new (
     GCancellable        *cancellable,
     GAsyncReadyCallback  callback,
     gpointer             user_data);
-MyInterface *my_interface_proxy_new_finish (
+Photo *photo_proxy_new_finish (
     GAsyncResult        *res,
     GError             **error);
-MyInterface *my_interface_proxy_new_sync (
+Photo *photo_proxy_new_sync (
     GDBusConnection     *connection,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -208,7 +208,7 @@ MyInterface *my_interface_proxy_new_sync (
     GCancellable        *cancellable,
     GError             **error);
 
-void my_interface_proxy_new_for_bus (
+void photo_proxy_new_for_bus (
     GBusType             bus_type,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -216,10 +216,10 @@ void my_interface_proxy_new_for_bus (
     GCancellable        *cancellable,
     GAsyncReadyCallback  callback,
     gpointer             user_data);
-MyInterface *my_interface_proxy_new_for_bus_finish (
+Photo *photo_proxy_new_for_bus_finish (
     GAsyncResult        *res,
     GError             **error);
-MyInterface *my_interface_proxy_new_for_bus_sync (
+Photo *photo_proxy_new_for_bus_sync (
     GBusType             bus_type,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -230,36 +230,36 @@ MyInterface *my_interface_proxy_new_for_bus_sync (
 
 /* ---- */
 
-#define TYPE_MY_INTERFACE_SKELETON (my_interface_skeleton_get_type ())
-#define MY_INTERFACE_SKELETON(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_MY_INTERFACE_SKELETON, MyInterfaceSkeleton))
-#define MY_INTERFACE_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), TYPE_MY_INTERFACE_SKELETON, MyInterfaceSkeletonClass))
-#define MY_INTERFACE_SKELETON_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), TYPE_MY_INTERFACE_SKELETON, MyInterfaceSkeletonClass))
-#define IS_MY_INTERFACE_SKELETON(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_MY_INTERFACE_SKELETON))
-#define IS_MY_INTERFACE_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), TYPE_MY_INTERFACE_SKELETON))
+#define TYPE_PHOTO_SKELETON (photo_skeleton_get_type ())
+#define PHOTO_SKELETON(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_PHOTO_SKELETON, PhotoSkeleton))
+#define PHOTO_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), TYPE_PHOTO_SKELETON, PhotoSkeletonClass))
+#define PHOTO_SKELETON_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), TYPE_PHOTO_SKELETON, PhotoSkeletonClass))
+#define IS_PHOTO_SKELETON(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_PHOTO_SKELETON))
+#define IS_PHOTO_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), TYPE_PHOTO_SKELETON))
 
-typedef struct _MyInterfaceSkeleton MyInterfaceSkeleton;
-typedef struct _MyInterfaceSkeletonClass MyInterfaceSkeletonClass;
-typedef struct _MyInterfaceSkeletonPrivate MyInterfaceSkeletonPrivate;
+typedef struct _PhotoSkeleton PhotoSkeleton;
+typedef struct _PhotoSkeletonClass PhotoSkeletonClass;
+typedef struct _PhotoSkeletonPrivate PhotoSkeletonPrivate;
 
-struct _MyInterfaceSkeleton
+struct _PhotoSkeleton
 {
   /*< private >*/
   GDBusInterfaceSkeleton parent_instance;
-  MyInterfaceSkeletonPrivate *priv;
+  PhotoSkeletonPrivate *priv;
 };
 
-struct _MyInterfaceSkeletonClass
+struct _PhotoSkeletonClass
 {
   GDBusInterfaceSkeletonClass parent_class;
 };
 
-GType my_interface_skeleton_get_type (void) G_GNUC_CONST;
+GType photo_skeleton_get_type (void) G_GNUC_CONST;
 
 #if GLIB_CHECK_VERSION(2, 44, 0)
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (MyInterfaceSkeleton, g_object_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (PhotoSkeleton, g_object_unref)
 #endif
 
-MyInterface *my_interface_skeleton_new (void);
+Photo *photo_skeleton_new (void);
 
 
 /* ---- */
@@ -280,8 +280,8 @@ struct _ObjectIface
 
 GType object_get_type (void) G_GNUC_CONST;
 
-MyInterface *object_get_my_interface (Object *object);
-MyInterface *object_peek_my_interface (Object *object);
+Photo *object_get_photo (Object *object);
+Photo *object_peek_photo (Object *object);
 
 #define TYPE_OBJECT_PROXY (object_proxy_get_type ())
 #define OBJECT_PROXY(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_OBJECT_PROXY, ObjectProxy))
@@ -344,7 +344,7 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC (ObjectSkeleton, g_object_unref)
 #endif
 
 ObjectSkeleton *object_skeleton_new (const gchar *object_path);
-void object_skeleton_set_my_interface (ObjectSkeleton *object, MyInterface *interface_);
+void object_skeleton_set_photo (ObjectSkeleton *object, Photo *interface_);
 
 /* ---- */
 
@@ -420,4 +420,4 @@ GDBusObjectManager *object_manager_client_new_for_bus_sync (
 
 G_END_DECLS
 
-#endif /* __INTERFACE_H__ */
+#endif /* __PHOTO_H__ */
