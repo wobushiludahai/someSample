@@ -31,17 +31,18 @@ void onPropertyChangedtest(GDBusProxy *proxy, GVariant *changed_properties, cons
     GVariantIter iter;
     g_variant_iter_init(&iter, changed_properties);
 
-    const gchar *key;
-    GVariant *value;
+    gchar *key = NULL;
+    GVariant *value = NULL;
     while (g_variant_iter_next(&iter, "{sv}", &key, &value))
     {
         g_print("key: %s, value: %u\n", key, g_variant_get_uint16(value));
         g_variant_unref(value);
+        g_free(key);
     }
 }
 
 guint16 temp_test = 0;
-static gboolean timeout_test(gpointer user_data)
+gboolean timeout_test(gpointer user_data)
 {
     my_interface_set_uint16_property(proxy, temp_test++);
 
@@ -49,6 +50,26 @@ static gboolean timeout_test(gpointer user_data)
     g_print("Emit signal  %u\n", ret);
 
     return TRUE;
+}
+
+gpointer test_thread(gpointer data)
+{
+    guint32 count = 0;
+
+    while (1)
+    {
+        count++;
+        my_interface_set_uint16_property(proxy, temp_test++);
+
+        if (count == 1000 * 10000)
+        {
+            break;
+        }
+
+        // g_usleep(1);
+    }
+
+    return NULL;
 }
 
 int main(int argc, char *argv[])
@@ -67,9 +88,10 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    g_timeout_add(2000, (GSourceFunc)timeout_test, NULL);
+    // g_timeout_add(1, (GSourceFunc)timeout_test, NULL);
 
-    my_interface_set_uint16_property(proxy, 0x01);
+    g_thread_new("thread_test", (GThreadFunc)test_thread, NULL);
+
     g_signal_connect(proxy, "bar-signal", G_CALLBACK(onValueChanged), NULL);
     g_signal_connect(proxy, "g-properties-changed", G_CALLBACK(onPropertyChangedtest), NULL);
 

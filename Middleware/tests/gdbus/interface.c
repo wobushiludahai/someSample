@@ -734,6 +734,8 @@ my_interface_default_init (MyInterfaceIface *iface)
 const gchar *
 my_interface_get_str_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), NULL);
+
   return MY_INTERFACE_GET_IFACE (object)->get_str_property (object);
 }
 
@@ -783,6 +785,8 @@ my_interface_set_str_property (MyInterface *object, const gchar *value)
 guchar 
 my_interface_get_byte_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), '\0');
+
   return MY_INTERFACE_GET_IFACE (object)->get_byte_property (object);
 }
 
@@ -814,6 +818,8 @@ my_interface_set_byte_property (MyInterface *object, guchar value)
 gboolean 
 my_interface_get_bool_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), FALSE);
+
   return MY_INTERFACE_GET_IFACE (object)->get_bool_property (object);
 }
 
@@ -845,6 +851,8 @@ my_interface_set_bool_property (MyInterface *object, gboolean value)
 gint16 
 my_interface_get_int16_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+
   return MY_INTERFACE_GET_IFACE (object)->get_int16_property (object);
 }
 
@@ -876,6 +884,8 @@ my_interface_set_int16_property (MyInterface *object, gint16 value)
 guint16 
 my_interface_get_uint16_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+
   return MY_INTERFACE_GET_IFACE (object)->get_uint16_property (object);
 }
 
@@ -907,6 +917,8 @@ my_interface_set_uint16_property (MyInterface *object, guint16 value)
 gint 
 my_interface_get_int32_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+
   return MY_INTERFACE_GET_IFACE (object)->get_int32_property (object);
 }
 
@@ -938,6 +950,8 @@ my_interface_set_int32_property (MyInterface *object, gint value)
 guint 
 my_interface_get_uint32_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+
   return MY_INTERFACE_GET_IFACE (object)->get_uint32_property (object);
 }
 
@@ -969,6 +983,8 @@ my_interface_set_uint32_property (MyInterface *object, guint value)
 gint64 
 my_interface_get_int64_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+
   return MY_INTERFACE_GET_IFACE (object)->get_int64_property (object);
 }
 
@@ -1000,6 +1016,8 @@ my_interface_set_int64_property (MyInterface *object, gint64 value)
 guint64 
 my_interface_get_uint64_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), 0);
+
   return MY_INTERFACE_GET_IFACE (object)->get_uint64_property (object);
 }
 
@@ -1031,6 +1049,8 @@ my_interface_set_uint64_property (MyInterface *object, guint64 value)
 gdouble 
 my_interface_get_double_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), 0.0);
+
   return MY_INTERFACE_GET_IFACE (object)->get_double_property (object);
 }
 
@@ -1064,6 +1084,8 @@ my_interface_set_double_property (MyInterface *object, gdouble value)
 const gchar *const *
 my_interface_get_array_str_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), NULL);
+
   return MY_INTERFACE_GET_IFACE (object)->get_array_str_property (object);
 }
 
@@ -1115,6 +1137,8 @@ my_interface_set_array_str_property (MyInterface *object, const gchar *const *va
 GVariant *
 my_interface_get_array_uint32_property (MyInterface *object)
 {
+  g_return_val_if_fail (IS_MY_INTERFACE (object), NULL);
+
   return MY_INTERFACE_GET_IFACE (object)->get_array_uint32_property (object);
 }
 
@@ -1505,7 +1529,7 @@ my_interface_proxy_get_byte_property (MyInterface *object)
 {
   MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
   GVariant *variant;
-  guchar value = 0;
+  guchar value = '\0';
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "ByteProperty");
   if (variant != NULL)
     {
@@ -1520,7 +1544,7 @@ my_interface_proxy_get_bool_property (MyInterface *object)
 {
   MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
   GVariant *variant;
-  gboolean value = 0;
+  gboolean value = FALSE;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "BoolProperty");
   if (variant != NULL)
     {
@@ -1625,7 +1649,7 @@ my_interface_proxy_get_double_property (MyInterface *object)
 {
   MyInterfaceProxy *proxy = MY_INTERFACE_PROXY (object);
   GVariant *variant;
-  gdouble value = 0;
+  gdouble value = 0.0;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "DoubleProperty");
   if (variant != NULL)
     {

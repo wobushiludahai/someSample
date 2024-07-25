@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     owner_id = g_bus_own_name(G_BUS_TYPE_SESSION, "org.hai.TestServer", G_BUS_NAME_OWNER_FLAGS_NONE, on_bus_acquired,
         on_name_acquired, on_name_lost, NULL, NULL);
 
-    g_timeout_add(3000, (GSourceFunc)emit_test_status_signal, NULL);
+    g_timeout_add(1, (GSourceFunc)emit_test_status_signal, NULL);
 
     loop = g_main_loop_new(NULL, FALSE);
     g_main_loop_run(loop);

@@ -55,6 +55,7 @@ class Arg:
         self.ctype_in = "GVariant *"
         self.ctype_in_dup = "GVariant *"
         self.ctype_out = "GVariant **"
+        self.ctype_in_default_value = "NULL"
         self.gtype = "G_TYPE_VARIANT"
         self.free_func = "g_variant_unref"
         self.format_in = "@" + self.signature
@@ -71,6 +72,7 @@ class Arg:
                 self.ctype_in = "gboolean "
                 self.ctype_out = "gboolean *"
                 self.gtype = "G_TYPE_BOOLEAN"
+                self.ctype_in_default_value = "FALSE"
                 self.free_func = None
                 self.format_in = "b"
                 self.format_out = "b"
@@ -81,6 +83,7 @@ class Arg:
                 self.ctype_in = "guchar "
                 self.ctype_out = "guchar *"
                 self.gtype = "G_TYPE_UCHAR"
+                self.ctype_in_default_value = "'\\0'"
                 self.free_func = None
                 self.format_in = "y"
                 self.format_out = "y"
@@ -91,6 +94,7 @@ class Arg:
                 self.ctype_in = "gint16 "
                 self.ctype_out = "gint16 *"
                 self.gtype = "G_TYPE_INT"
+                self.ctype_in_default_value = "0"
                 self.free_func = None
                 self.format_in = "n"
                 self.format_out = "n"
@@ -102,6 +106,7 @@ class Arg:
                 self.ctype_out = "guint16 *"
                 self.gtype = "G_TYPE_UINT"
                 self.free_func = None
+                self.ctype_in_default_value = "0"
                 self.format_in = "q"
                 self.format_out = "q"
                 self.gvariant_get = "g_variant_get_uint16"
@@ -113,6 +118,7 @@ class Arg:
                 self.gtype = "G_TYPE_INT"
                 self.free_func = None
                 self.format_in = "i"
+                self.ctype_in_default_value = "0"
                 self.format_out = "i"
                 self.gvariant_get = "g_variant_get_int32"
                 self.gvalue_get = "g_value_get_int"
@@ -121,6 +127,7 @@ class Arg:
                 self.ctype_in = "guint "
                 self.ctype_out = "guint *"
                 self.gtype = "G_TYPE_UINT"
+                self.ctype_in_default_value = "0"
                 self.free_func = None
                 self.format_in = "u"
                 self.format_out = "u"
@@ -133,6 +140,7 @@ class Arg:
                 self.gtype = "G_TYPE_INT64"
                 self.free_func = None
                 self.format_in = "x"
+                self.ctype_in_default_value = "0"
                 self.format_out = "x"
                 self.gvariant_get = "g_variant_get_int64"
                 self.gvalue_get = "g_value_get_int64"
@@ -143,6 +151,7 @@ class Arg:
                 self.gtype = "G_TYPE_UINT64"
                 self.free_func = None
                 self.format_in = "t"
+                self.ctype_in_default_value = "0"
                 self.format_out = "t"
                 self.gvariant_get = "g_variant_get_uint64"
                 self.gvalue_get = "g_value_get_uint64"
@@ -152,6 +161,7 @@ class Arg:
                 self.ctype_out = "gdouble *"
                 self.gtype = "G_TYPE_DOUBLE"
                 self.free_func = None
+                self.ctype_in_default_value = "0.0"
                 self.format_in = "d"
                 self.format_out = "d"
                 self.gvariant_get = "g_variant_get_double"
@@ -162,6 +172,7 @@ class Arg:
                 self.ctype_in_dup = "gchar *"
                 self.ctype_out = "gchar **"
                 self.gtype = "G_TYPE_STRING"
+                self.ctype_in_default_value = "NULL"
                 self.free_func = "g_free"
                 self.format_in = "s"
                 self.format_out = "s"
@@ -173,6 +184,7 @@ class Arg:
                 self.ctype_in_dup = "gchar *"
                 self.ctype_out = "gchar **"
                 self.gtype = "G_TYPE_STRING"
+                self.ctype_in_default_value = "NULL"
                 self.free_func = "g_free"
                 self.format_in = "o"
                 self.format_out = "o"
@@ -184,6 +196,7 @@ class Arg:
                 self.ctype_in_dup = "gchar *"
                 self.ctype_out = "gchar **"
                 self.gtype = "G_TYPE_STRING"
+                self.ctype_in_default_value = "NULL"
                 self.free_func = "g_free"
                 self.format_in = "g"
                 self.format_out = "g"
@@ -194,6 +207,7 @@ class Arg:
                 self.ctype_in = "const gchar *"
                 self.ctype_in_dup = "gchar *"
                 self.ctype_out = "gchar **"
+                self.ctype_in_default_value = "NULL"
                 self.gtype = "G_TYPE_STRING"
                 self.free_func = "g_free"
                 self.format_in = "^ay"
@@ -205,6 +219,7 @@ class Arg:
                 self.ctype_in = "const gchar *const *"
                 self.ctype_in_dup = "gchar **"
                 self.ctype_out = "gchar ***"
+                self.ctype_in_default_value = "NULL"
                 self.gtype = "G_TYPE_STRV"
                 self.free_func = "g_strfreev"
                 self.format_in = "^as"
@@ -218,6 +233,7 @@ class Arg:
                 self.ctype_in_dup = "gchar **"
                 self.ctype_out = "gchar ***"
                 self.gtype = "G_TYPE_STRV"
+                self.ctype_in_default_value = "NULL"
                 self.free_func = "g_strfreev"
                 self.format_in = "^ao"
                 self.format_out = "^ao"
@@ -231,6 +247,7 @@ class Arg:
                 self.ctype_out = "gchar ***"
                 self.gtype = "G_TYPE_STRV"
                 self.free_func = "g_strfreev"
+                self.ctype_in_default_value = "NULL"
                 self.format_in = "^aay"
                 self.format_out = "^aay"
                 self.gvariant_get = "g_variant_get_bytestring_array"
