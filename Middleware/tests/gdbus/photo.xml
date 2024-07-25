@@ -6,9 +6,21 @@
 			<arg name="out_arg1" type="s" direction="out" />
 			<arg name="out_arg2" type="i" direction="out" />
 		</method>
-		<signal name="BarSignal">
-			<arg name="blah" type="s" />
-			<arg name="boo" type="s" />
+		<method name="StopPhoto">
+		</method>
+		<method name="GetPhotoInfo">
+			<arg name="width" type="u" direction="out" />
+			<arg name="height" type="u" direction="out" />
+			<arg name="format" type="s" direction="out" />
+			<arg name="size" type="u" direction="out" />
+			<arg name="date" type="u" direction="out" />
+			<arg name="location" type="s" direction="out" />
+			<arg name="color" type="s" direction="out" />
+		</method>
+		<signal name="Start">
+			<arg name="time" type="u" />
+		</signal>
+		<signal name="Stop">
 		</signal>
 		<property name="StrProperty" type="s" access="readwrite" />
 		<property name="ByteProperty" type="y" access="readwrite" />

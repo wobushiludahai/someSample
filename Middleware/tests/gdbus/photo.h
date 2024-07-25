@@ -30,6 +30,14 @@ struct _PhotoIface
 
 
 
+  gboolean (*handle_get_photo_info) (
+    Photo *object,
+    GDBusMethodInvocation *invocation);
+
+  gboolean (*handle_stop_photo) (
+    Photo *object,
+    GDBusMethodInvocation *invocation);
+
   gboolean (*handle_take_photo) (
     Photo *object,
     GDBusMethodInvocation *invocation,
@@ -60,10 +68,12 @@ struct _PhotoIface
 
   guint64  (*get_uint64_property) (Photo *object);
 
-  void (*bar_signal) (
+  void (*start) (
     Photo *object,
-    const gchar *arg_blah,
-    const gchar *arg_boo);
+    guint arg_time);
+
+  void (*stop) (
+    Photo *object);
 
 };
 
@@ -80,13 +90,30 @@ void photo_complete_take_photo (
     const gchar *out_arg1,
     gint out_arg2);
 
+void photo_complete_stop_photo (
+    Photo *object,
+    GDBusMethodInvocation *invocation);
+
+void photo_complete_get_photo_info (
+    Photo *object,
+    GDBusMethodInvocation *invocation,
+    guint width,
+    guint height,
+    const gchar *format,
+    guint size,
+    guint date,
+    const gchar *location,
+    const gchar *color);
+
 
 
 /* D-Bus signal emissions functions: */
-void photo_emit_bar_signal (
+void photo_emit_start (
     Photo *object,
-    const gchar *arg_blah,
-    const gchar *arg_boo);
+    guint arg_time);
+
+void photo_emit_stop (
+    Photo *object);
 
 
 
@@ -112,6 +139,52 @@ gboolean photo_call_take_photo_sync (
     gint arg_in_arg2,
     gchar **out_out_arg1,
     gint *out_out_arg2,
+    GCancellable *cancellable,
+    GError **error);
+
+void photo_call_stop_photo (
+    Photo *proxy,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean photo_call_stop_photo_finish (
+    Photo *proxy,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean photo_call_stop_photo_sync (
+    Photo *proxy,
+    GCancellable *cancellable,
+    GError **error);
+
+void photo_call_get_photo_info (
+    Photo *proxy,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean photo_call_get_photo_info_finish (
+    Photo *proxy,
+    guint *out_width,
+    guint *out_height,
+    gchar **out_format,
+    guint *out_size,
+    guint *out_date,
+    gchar **out_location,
+    gchar **out_color,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean photo_call_get_photo_info_sync (
+    Photo *proxy,
+    guint *out_width,
+    guint *out_height,
+    gchar **out_format,
+    guint *out_size,
+    guint *out_date,
+    gchar **out_location,
+    gchar **out_color,
     GCancellable *cancellable,
     GError **error);
 

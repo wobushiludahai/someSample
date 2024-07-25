@@ -235,55 +235,172 @@ static const _ExtendedGDBusMethodInfo _photo_method_info_take_photo =
   FALSE
 };
 
+static const _ExtendedGDBusMethodInfo _photo_method_info_stop_photo =
+{
+  {
+    -1,
+    (gchar *) "StopPhoto",
+    NULL,
+    NULL,
+    NULL
+  },
+  "handle-stop-photo",
+  FALSE
+};
+
+static const _ExtendedGDBusArgInfo _photo_method_info_get_photo_info_OUT_ARG_width =
+{
+  {
+    -1,
+    (gchar *) "width",
+    (gchar *) "u",
+    NULL
+  },
+  FALSE
+};
+
+static const _ExtendedGDBusArgInfo _photo_method_info_get_photo_info_OUT_ARG_height =
+{
+  {
+    -1,
+    (gchar *) "height",
+    (gchar *) "u",
+    NULL
+  },
+  FALSE
+};
+
+static const _ExtendedGDBusArgInfo _photo_method_info_get_photo_info_OUT_ARG_format =
+{
+  {
+    -1,
+    (gchar *) "format",
+    (gchar *) "s",
+    NULL
+  },
+  FALSE
+};
+
+static const _ExtendedGDBusArgInfo _photo_method_info_get_photo_info_OUT_ARG_size =
+{
+  {
+    -1,
+    (gchar *) "size",
+    (gchar *) "u",
+    NULL
+  },
+  FALSE
+};
+
+static const _ExtendedGDBusArgInfo _photo_method_info_get_photo_info_OUT_ARG_date =
+{
+  {
+    -1,
+    (gchar *) "date",
+    (gchar *) "u",
+    NULL
+  },
+  FALSE
+};
+
+static const _ExtendedGDBusArgInfo _photo_method_info_get_photo_info_OUT_ARG_location =
+{
+  {
+    -1,
+    (gchar *) "location",
+    (gchar *) "s",
+    NULL
+  },
+  FALSE
+};
+
+static const _ExtendedGDBusArgInfo _photo_method_info_get_photo_info_OUT_ARG_color =
+{
+  {
+    -1,
+    (gchar *) "color",
+    (gchar *) "s",
+    NULL
+  },
+  FALSE
+};
+
+static const GDBusArgInfo * const _photo_method_info_get_photo_info_OUT_ARG_pointers[] =
+{
+  &_photo_method_info_get_photo_info_OUT_ARG_width.parent_struct,
+  &_photo_method_info_get_photo_info_OUT_ARG_height.parent_struct,
+  &_photo_method_info_get_photo_info_OUT_ARG_format.parent_struct,
+  &_photo_method_info_get_photo_info_OUT_ARG_size.parent_struct,
+  &_photo_method_info_get_photo_info_OUT_ARG_date.parent_struct,
+  &_photo_method_info_get_photo_info_OUT_ARG_location.parent_struct,
+  &_photo_method_info_get_photo_info_OUT_ARG_color.parent_struct,
+  NULL
+};
+
+static const _ExtendedGDBusMethodInfo _photo_method_info_get_photo_info =
+{
+  {
+    -1,
+    (gchar *) "GetPhotoInfo",
+    NULL,
+    (GDBusArgInfo **) &_photo_method_info_get_photo_info_OUT_ARG_pointers,
+    NULL
+  },
+  "handle-get-photo-info",
+  FALSE
+};
+
 static const GDBusMethodInfo * const _photo_method_info_pointers[] =
 {
   &_photo_method_info_take_photo.parent_struct,
+  &_photo_method_info_stop_photo.parent_struct,
+  &_photo_method_info_get_photo_info.parent_struct,
   NULL
 };
 
-static const _ExtendedGDBusArgInfo _photo_signal_info_bar_signal_ARG_blah =
+static const _ExtendedGDBusArgInfo _photo_signal_info_start_ARG_time =
 {
   {
     -1,
-    (gchar *) "blah",
-    (gchar *) "s",
+    (gchar *) "time",
+    (gchar *) "u",
     NULL
   },
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo _photo_signal_info_bar_signal_ARG_boo =
+static const GDBusArgInfo * const _photo_signal_info_start_ARG_pointers[] =
 {
-  {
-    -1,
-    (gchar *) "boo",
-    (gchar *) "s",
-    NULL
-  },
-  FALSE
-};
-
-static const GDBusArgInfo * const _photo_signal_info_bar_signal_ARG_pointers[] =
-{
-  &_photo_signal_info_bar_signal_ARG_blah.parent_struct,
-  &_photo_signal_info_bar_signal_ARG_boo.parent_struct,
+  &_photo_signal_info_start_ARG_time.parent_struct,
   NULL
 };
 
-static const _ExtendedGDBusSignalInfo _photo_signal_info_bar_signal =
+static const _ExtendedGDBusSignalInfo _photo_signal_info_start =
 {
   {
     -1,
-    (gchar *) "BarSignal",
-    (GDBusArgInfo **) &_photo_signal_info_bar_signal_ARG_pointers,
+    (gchar *) "Start",
+    (GDBusArgInfo **) &_photo_signal_info_start_ARG_pointers,
     NULL
   },
-  "bar-signal"
+  "start"
+};
+
+static const _ExtendedGDBusSignalInfo _photo_signal_info_stop =
+{
+  {
+    -1,
+    (gchar *) "Stop",
+    NULL,
+    NULL
+  },
+  "stop"
 };
 
 static const GDBusSignalInfo * const _photo_signal_info_pointers[] =
 {
-  &_photo_signal_info_bar_signal.parent_struct,
+  &_photo_signal_info_start.parent_struct,
+  &_photo_signal_info_stop.parent_struct,
   NULL
 };
 
@@ -538,6 +655,8 @@ photo_override_properties (GObjectClass *klass, guint property_id_begin)
 /**
  * PhotoIface:
  * @parent_iface: The parent interface.
+ * @handle_get_photo_info: Handler for the #Photo::handle-get-photo-info signal.
+ * @handle_stop_photo: Handler for the #Photo::handle-stop-photo signal.
  * @handle_take_photo: Handler for the #Photo::handle-take-photo signal.
  * @get_array_str_property: Getter for the #Photo:array-str-property property.
  * @get_array_uint32_property: Getter for the #Photo:array-uint32-property property.
@@ -551,7 +670,8 @@ photo_override_properties (GObjectClass *klass, guint property_id_begin)
  * @get_uint16_property: Getter for the #Photo:uint16-property property.
  * @get_uint32_property: Getter for the #Photo:uint32-property property.
  * @get_uint64_property: Getter for the #Photo:uint64-property property.
- * @bar_signal: Handler for the #Photo::bar-signal signal.
+ * @start: Handler for the #Photo::start signal.
+ * @stop: Handler for the #Photo::stop signal.
  *
  * Virtual table for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link>.
  */
@@ -587,26 +707,87 @@ photo_default_init (PhotoIface *iface)
     3,
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING, G_TYPE_INT);
 
+  /**
+   * Photo::handle-stop-photo:
+   * @object: A #Photo.
+   * @invocation: A #GDBusMethodInvocation.
+   *
+   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-photo.StopPhoto">StopPhoto()</link> D-Bus method.
+   *
+   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call photo_complete_stop_photo() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
+   *
+   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
+   */
+  g_signal_new ("handle-stop-photo",
+    G_TYPE_FROM_INTERFACE (iface),
+    G_SIGNAL_RUN_LAST,
+    G_STRUCT_OFFSET (PhotoIface, handle_stop_photo),
+    g_signal_accumulator_true_handled,
+    NULL,
+    g_cclosure_marshal_generic,
+    G_TYPE_BOOLEAN,
+    1,
+    G_TYPE_DBUS_METHOD_INVOCATION);
+
+  /**
+   * Photo::handle-get-photo-info:
+   * @object: A #Photo.
+   * @invocation: A #GDBusMethodInvocation.
+   *
+   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-photo.GetPhotoInfo">GetPhotoInfo()</link> D-Bus method.
+   *
+   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call photo_complete_get_photo_info() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
+   *
+   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
+   */
+  g_signal_new ("handle-get-photo-info",
+    G_TYPE_FROM_INTERFACE (iface),
+    G_SIGNAL_RUN_LAST,
+    G_STRUCT_OFFSET (PhotoIface, handle_get_photo_info),
+    g_signal_accumulator_true_handled,
+    NULL,
+    g_cclosure_marshal_generic,
+    G_TYPE_BOOLEAN,
+    1,
+    G_TYPE_DBUS_METHOD_INVOCATION);
+
   /* GObject signals for received D-Bus signals: */
   /**
-   * Photo::bar-signal:
+   * Photo::start:
    * @object: A #Photo.
-   * @arg_blah: Argument.
-   * @arg_boo: Argument.
+   * @arg_time: Argument.
    *
-   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-photo.BarSignal">"BarSignal"</link> is received.
+   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-photo.Start">"Start"</link> is received.
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
-  g_signal_new ("bar-signal",
+  g_signal_new ("start",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (PhotoIface, bar_signal),
+    G_STRUCT_OFFSET (PhotoIface, start),
     NULL,
     NULL,
     g_cclosure_marshal_generic,
     G_TYPE_NONE,
-    2, G_TYPE_STRING, G_TYPE_STRING);
+    1, G_TYPE_UINT);
+
+  /**
+   * Photo::stop:
+   * @object: A #Photo.
+   *
+   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-photo.Stop">"Stop"</link> is received.
+   *
+   * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
+   */
+  g_signal_new ("stop",
+    G_TYPE_FROM_INTERFACE (iface),
+    G_SIGNAL_RUN_LAST,
+    G_STRUCT_OFFSET (PhotoIface, stop),
+    NULL,
+    NULL,
+    g_cclosure_marshal_generic,
+    G_TYPE_NONE,
+    0);
 
   /* GObject properties for D-Bus properties: */
   /**
@@ -1176,20 +1357,31 @@ photo_set_array_uint32_property (Photo *object, GVariant *value)
 }
 
 /**
- * photo_emit_bar_signal:
+ * photo_emit_start:
  * @object: A #Photo.
- * @arg_blah: Argument to pass with the signal.
- * @arg_boo: Argument to pass with the signal.
+ * @arg_time: Argument to pass with the signal.
  *
- * Emits the <link linkend="gdbus-signal-com-example-photo.BarSignal">"BarSignal"</link> D-Bus signal.
+ * Emits the <link linkend="gdbus-signal-com-example-photo.Start">"Start"</link> D-Bus signal.
  */
 void
-photo_emit_bar_signal (
+photo_emit_start (
     Photo *object,
-    const gchar *arg_blah,
-    const gchar *arg_boo)
+    guint arg_time)
 {
-  g_signal_emit_by_name (object, "bar-signal", arg_blah, arg_boo);
+  g_signal_emit_by_name (object, "start", arg_time);
+}
+
+/**
+ * photo_emit_stop:
+ * @object: A #Photo.
+ *
+ * Emits the <link linkend="gdbus-signal-com-example-photo.Stop">"Stop"</link> D-Bus signal.
+ */
+void
+photo_emit_stop (
+    Photo *object)
+{
+  g_signal_emit_by_name (object, "stop");
 }
 
 /**
@@ -1309,6 +1501,232 @@ _out:
 }
 
 /**
+ * photo_call_stop_photo:
+ * @proxy: A #PhotoProxy.
+ * @cancellable: (nullable): A #GCancellable or %NULL.
+ * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
+ * @user_data: User data to pass to @callback.
+ *
+ * Asynchronously invokes the <link linkend="gdbus-method-com-example-photo.StopPhoto">StopPhoto()</link> D-Bus method on @proxy.
+ * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
+ * You can then call photo_call_stop_photo_finish() to get the result of the operation.
+ *
+ * See photo_call_stop_photo_sync() for the synchronous, blocking version of this method.
+ */
+void
+photo_call_stop_photo (
+    Photo *proxy,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data)
+{
+  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
+    "StopPhoto",
+    g_variant_new ("()"),
+    G_DBUS_CALL_FLAGS_NONE,
+    -1,
+    cancellable,
+    callback,
+    user_data);
+}
+
+/**
+ * photo_call_stop_photo_finish:
+ * @proxy: A #PhotoProxy.
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to photo_call_stop_photo().
+ * @error: Return location for error or %NULL.
+ *
+ * Finishes an operation started with photo_call_stop_photo().
+ *
+ * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
+ */
+gboolean
+photo_call_stop_photo_finish (
+    Photo *proxy,
+    GAsyncResult *res,
+    GError **error)
+{
+  GVariant *_ret;
+  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
+  if (_ret == NULL)
+    goto _out;
+  g_variant_get (_ret,
+                 "()");
+  g_variant_unref (_ret);
+_out:
+  return _ret != NULL;
+}
+
+/**
+ * photo_call_stop_photo_sync:
+ * @proxy: A #PhotoProxy.
+ * @cancellable: (nullable): A #GCancellable or %NULL.
+ * @error: Return location for error or %NULL.
+ *
+ * Synchronously invokes the <link linkend="gdbus-method-com-example-photo.StopPhoto">StopPhoto()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
+ *
+ * See photo_call_stop_photo() for the asynchronous version of this method.
+ *
+ * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
+ */
+gboolean
+photo_call_stop_photo_sync (
+    Photo *proxy,
+    GCancellable *cancellable,
+    GError **error)
+{
+  GVariant *_ret;
+  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
+    "StopPhoto",
+    g_variant_new ("()"),
+    G_DBUS_CALL_FLAGS_NONE,
+    -1,
+    cancellable,
+    error);
+  if (_ret == NULL)
+    goto _out;
+  g_variant_get (_ret,
+                 "()");
+  g_variant_unref (_ret);
+_out:
+  return _ret != NULL;
+}
+
+/**
+ * photo_call_get_photo_info:
+ * @proxy: A #PhotoProxy.
+ * @cancellable: (nullable): A #GCancellable or %NULL.
+ * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
+ * @user_data: User data to pass to @callback.
+ *
+ * Asynchronously invokes the <link linkend="gdbus-method-com-example-photo.GetPhotoInfo">GetPhotoInfo()</link> D-Bus method on @proxy.
+ * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
+ * You can then call photo_call_get_photo_info_finish() to get the result of the operation.
+ *
+ * See photo_call_get_photo_info_sync() for the synchronous, blocking version of this method.
+ */
+void
+photo_call_get_photo_info (
+    Photo *proxy,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data)
+{
+  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
+    "GetPhotoInfo",
+    g_variant_new ("()"),
+    G_DBUS_CALL_FLAGS_NONE,
+    -1,
+    cancellable,
+    callback,
+    user_data);
+}
+
+/**
+ * photo_call_get_photo_info_finish:
+ * @proxy: A #PhotoProxy.
+ * @out_width: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_height: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_format: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_size: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_date: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_location: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_color: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to photo_call_get_photo_info().
+ * @error: Return location for error or %NULL.
+ *
+ * Finishes an operation started with photo_call_get_photo_info().
+ *
+ * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
+ */
+gboolean
+photo_call_get_photo_info_finish (
+    Photo *proxy,
+    guint *out_width,
+    guint *out_height,
+    gchar **out_format,
+    guint *out_size,
+    guint *out_date,
+    gchar **out_location,
+    gchar **out_color,
+    GAsyncResult *res,
+    GError **error)
+{
+  GVariant *_ret;
+  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
+  if (_ret == NULL)
+    goto _out;
+  g_variant_get (_ret,
+                 "(uusuuss)",
+                 out_width,
+                 out_height,
+                 out_format,
+                 out_size,
+                 out_date,
+                 out_location,
+                 out_color);
+  g_variant_unref (_ret);
+_out:
+  return _ret != NULL;
+}
+
+/**
+ * photo_call_get_photo_info_sync:
+ * @proxy: A #PhotoProxy.
+ * @out_width: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_height: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_format: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_size: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_date: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_location: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_color: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @cancellable: (nullable): A #GCancellable or %NULL.
+ * @error: Return location for error or %NULL.
+ *
+ * Synchronously invokes the <link linkend="gdbus-method-com-example-photo.GetPhotoInfo">GetPhotoInfo()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
+ *
+ * See photo_call_get_photo_info() for the asynchronous version of this method.
+ *
+ * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
+ */
+gboolean
+photo_call_get_photo_info_sync (
+    Photo *proxy,
+    guint *out_width,
+    guint *out_height,
+    gchar **out_format,
+    guint *out_size,
+    guint *out_date,
+    gchar **out_location,
+    gchar **out_color,
+    GCancellable *cancellable,
+    GError **error)
+{
+  GVariant *_ret;
+  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
+    "GetPhotoInfo",
+    g_variant_new ("()"),
+    G_DBUS_CALL_FLAGS_NONE,
+    -1,
+    cancellable,
+    error);
+  if (_ret == NULL)
+    goto _out;
+  g_variant_get (_ret,
+                 "(uusuuss)",
+                 out_width,
+                 out_height,
+                 out_format,
+                 out_size,
+                 out_date,
+                 out_location,
+                 out_color);
+  g_variant_unref (_ret);
+_out:
+  return _ret != NULL;
+}
+
+/**
  * photo_complete_take_photo:
  * @object: A #Photo.
  * @invocation: (transfer full): A #GDBusMethodInvocation.
@@ -1330,6 +1748,63 @@ photo_complete_take_photo (
     g_variant_new ("(si)",
                    out_arg1,
                    out_arg2));
+}
+
+/**
+ * photo_complete_stop_photo:
+ * @object: A #Photo.
+ * @invocation: (transfer full): A #GDBusMethodInvocation.
+ *
+ * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-photo.StopPhoto">StopPhoto()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
+ *
+ * This method will free @invocation, you cannot use it afterwards.
+ */
+void
+photo_complete_stop_photo (
+    Photo *object G_GNUC_UNUSED,
+    GDBusMethodInvocation *invocation)
+{
+  g_dbus_method_invocation_return_value (invocation,
+    g_variant_new ("()"));
+}
+
+/**
+ * photo_complete_get_photo_info:
+ * @object: A #Photo.
+ * @invocation: (transfer full): A #GDBusMethodInvocation.
+ * @width: Parameter to return.
+ * @height: Parameter to return.
+ * @format: Parameter to return.
+ * @size: Parameter to return.
+ * @date: Parameter to return.
+ * @location: Parameter to return.
+ * @color: Parameter to return.
+ *
+ * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-photo.GetPhotoInfo">GetPhotoInfo()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
+ *
+ * This method will free @invocation, you cannot use it afterwards.
+ */
+void
+photo_complete_get_photo_info (
+    Photo *object G_GNUC_UNUSED,
+    GDBusMethodInvocation *invocation,
+    guint width,
+    guint height,
+    const gchar *format,
+    guint size,
+    guint date,
+    const gchar *location,
+    const gchar *color)
+{
+  g_dbus_method_invocation_return_value (invocation,
+    g_variant_new ("(uusuuss)",
+                   width,
+                   height,
+                   format,
+                   size,
+                   date,
+                   location,
+                   color));
 }
 
 /* ------------------------------------------------------------------------ */
@@ -2158,10 +2633,9 @@ photo_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)
 }
 
 static void
-_photo_on_signal_bar_signal (
+_photo_on_signal_start (
     Photo *object,
-    const gchar *arg_blah,
-    const gchar *arg_boo)
+    guint arg_time)
 {
   PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
 
@@ -2169,14 +2643,35 @@ _photo_on_signal_bar_signal (
   GVariant   *signal_variant;
   connections = g_dbus_interface_skeleton_get_connections (G_DBUS_INTERFACE_SKELETON (skeleton));
 
-  signal_variant = g_variant_ref_sink (g_variant_new ("(ss)",
-                   arg_blah,
-                   arg_boo));
+  signal_variant = g_variant_ref_sink (g_variant_new ("(u)",
+                   arg_time));
   for (l = connections; l != NULL; l = l->next)
     {
       GDBusConnection *connection = l->data;
       g_dbus_connection_emit_signal (connection,
-        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.photo", "BarSignal",
+        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.photo", "Start",
+        signal_variant, NULL);
+    }
+  g_variant_unref (signal_variant);
+  g_list_free_full (connections, g_object_unref);
+}
+
+static void
+_photo_on_signal_stop (
+    Photo *object)
+{
+  PhotoSkeleton *skeleton = PHOTO_SKELETON (object);
+
+  GList      *connections, *l;
+  GVariant   *signal_variant;
+  connections = g_dbus_interface_skeleton_get_connections (G_DBUS_INTERFACE_SKELETON (skeleton));
+
+  signal_variant = g_variant_ref_sink (g_variant_new ("()"));
+  for (l = connections; l != NULL; l = l->next)
+    {
+      GDBusConnection *connection = l->data;
+      g_dbus_connection_emit_signal (connection,
+        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.photo", "Stop",
         signal_variant, NULL);
     }
   g_variant_unref (signal_variant);
@@ -2539,7 +3034,8 @@ photo_skeleton_class_init (PhotoSkeletonClass *klass)
 static void
 photo_skeleton_iface_init (PhotoIface *iface)
 {
-  iface->bar_signal = _photo_on_signal_bar_signal;
+  iface->start = _photo_on_signal_start;
+  iface->stop = _photo_on_signal_stop;
   iface->get_str_property = photo_skeleton_get_str_property;
   iface->get_byte_property = photo_skeleton_get_byte_property;
   iface->get_bool_property = photo_skeleton_get_bool_property;

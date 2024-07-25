@@ -334,11 +334,33 @@ static const _ExtendedGDBusMethodInfo _video_method_info_set_video_status =
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo _video_method_info_get_video_info_OUT_ARG_info =
+static const _ExtendedGDBusArgInfo _video_method_info_get_video_info_OUT_ARG_name =
 {
   {
     -1,
-    (gchar *) "info",
+    (gchar *) "name",
+    (gchar *) "s",
+    NULL
+  },
+  FALSE
+};
+
+static const _ExtendedGDBusArgInfo _video_method_info_get_video_info_OUT_ARG_frame =
+{
+  {
+    -1,
+    (gchar *) "frame",
+    (gchar *) "u",
+    NULL
+  },
+  FALSE
+};
+
+static const _ExtendedGDBusArgInfo _video_method_info_get_video_info_OUT_ARG_format =
+{
+  {
+    -1,
+    (gchar *) "format",
     (gchar *) "s",
     NULL
   },
@@ -347,7 +369,9 @@ static const _ExtendedGDBusArgInfo _video_method_info_get_video_info_OUT_ARG_inf
 
 static const GDBusArgInfo * const _video_method_info_get_video_info_OUT_ARG_pointers[] =
 {
-  &_video_method_info_get_video_info_OUT_ARG_info.parent_struct,
+  &_video_method_info_get_video_info_OUT_ARG_name.parent_struct,
+  &_video_method_info_get_video_info_OUT_ARG_frame.parent_struct,
+  &_video_method_info_get_video_info_OUT_ARG_format.parent_struct,
   NULL
 };
 
@@ -419,7 +443,7 @@ static const GDBusMethodInfo * const _video_method_info_pointers[] =
   NULL
 };
 
-static const _ExtendedGDBusArgInfo _video_signal_info_recoder_start_ARG_time =
+static const _ExtendedGDBusArgInfo _video_signal_info_record_start_ARG_time =
 {
   {
     -1,
@@ -430,38 +454,38 @@ static const _ExtendedGDBusArgInfo _video_signal_info_recoder_start_ARG_time =
   FALSE
 };
 
-static const GDBusArgInfo * const _video_signal_info_recoder_start_ARG_pointers[] =
+static const GDBusArgInfo * const _video_signal_info_record_start_ARG_pointers[] =
 {
-  &_video_signal_info_recoder_start_ARG_time.parent_struct,
+  &_video_signal_info_record_start_ARG_time.parent_struct,
   NULL
 };
 
-static const _ExtendedGDBusSignalInfo _video_signal_info_recoder_start =
+static const _ExtendedGDBusSignalInfo _video_signal_info_record_start =
 {
   {
     -1,
-    (gchar *) "RecoderStart",
-    (GDBusArgInfo **) &_video_signal_info_recoder_start_ARG_pointers,
+    (gchar *) "RecordStart",
+    (GDBusArgInfo **) &_video_signal_info_record_start_ARG_pointers,
     NULL
   },
-  "recoder-start"
+  "record-start"
 };
 
-static const _ExtendedGDBusSignalInfo _video_signal_info_recoder_stop =
+static const _ExtendedGDBusSignalInfo _video_signal_info_record_stop =
 {
   {
     -1,
-    (gchar *) "RecoderStop",
+    (gchar *) "RecordStop",
     NULL,
     NULL
   },
-  "recoder-stop"
+  "record-stop"
 };
 
 static const GDBusSignalInfo * const _video_signal_info_pointers[] =
 {
-  &_video_signal_info_recoder_start.parent_struct,
-  &_video_signal_info_recoder_stop.parent_struct,
+  &_video_signal_info_record_start.parent_struct,
+  &_video_signal_info_record_stop.parent_struct,
   NULL
 };
 
@@ -736,8 +760,8 @@ video_override_properties (GObjectClass *klass, guint property_id_begin)
  * @get_uint16_property: Getter for the #Video:uint16-property property.
  * @get_uint32_property: Getter for the #Video:uint32-property property.
  * @get_uint64_property: Getter for the #Video:uint64-property property.
- * @recoder_start: Handler for the #Video::recoder-start signal.
- * @recoder_stop: Handler for the #Video::recoder-stop signal.
+ * @record_start: Handler for the #Video::record-start signal.
+ * @record_stop: Handler for the #Video::record-stop signal.
  *
  * Virtual table for the D-Bus interface <link linkend="gdbus-interface-com-example-video.top_of_page">com.example.video</link>.
  */
@@ -932,18 +956,18 @@ video_default_init (VideoIface *iface)
 
   /* GObject signals for received D-Bus signals: */
   /**
-   * Video::recoder-start:
+   * Video::record-start:
    * @object: A #Video.
    * @arg_time: Argument.
    *
-   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-video.RecoderStart">"RecoderStart"</link> is received.
+   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-video.RecordStart">"RecordStart"</link> is received.
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
-  g_signal_new ("recoder-start",
+  g_signal_new ("record-start",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (VideoIface, recoder_start),
+    G_STRUCT_OFFSET (VideoIface, record_start),
     NULL,
     NULL,
     g_cclosure_marshal_generic,
@@ -951,17 +975,17 @@ video_default_init (VideoIface *iface)
     1, G_TYPE_UINT);
 
   /**
-   * Video::recoder-stop:
+   * Video::record-stop:
    * @object: A #Video.
    *
-   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-video.RecoderStop">"RecoderStop"</link> is received.
+   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-video.RecordStop">"RecordStop"</link> is received.
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
-  g_signal_new ("recoder-stop",
+  g_signal_new ("record-stop",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (VideoIface, recoder_stop),
+    G_STRUCT_OFFSET (VideoIface, record_stop),
     NULL,
     NULL,
     g_cclosure_marshal_generic,
@@ -1536,31 +1560,31 @@ video_set_array_uint32_property (Video *object, GVariant *value)
 }
 
 /**
- * video_emit_recoder_start:
+ * video_emit_record_start:
  * @object: A #Video.
  * @arg_time: Argument to pass with the signal.
  *
- * Emits the <link linkend="gdbus-signal-com-example-video.RecoderStart">"RecoderStart"</link> D-Bus signal.
+ * Emits the <link linkend="gdbus-signal-com-example-video.RecordStart">"RecordStart"</link> D-Bus signal.
  */
 void
-video_emit_recoder_start (
+video_emit_record_start (
     Video *object,
     guint arg_time)
 {
-  g_signal_emit_by_name (object, "recoder-start", arg_time);
+  g_signal_emit_by_name (object, "record-start", arg_time);
 }
 
 /**
- * video_emit_recoder_stop:
+ * video_emit_record_stop:
  * @object: A #Video.
  *
- * Emits the <link linkend="gdbus-signal-com-example-video.RecoderStop">"RecoderStop"</link> D-Bus signal.
+ * Emits the <link linkend="gdbus-signal-com-example-video.RecordStop">"RecordStop"</link> D-Bus signal.
  */
 void
-video_emit_recoder_stop (
+video_emit_record_stop (
     Video *object)
 {
-  g_signal_emit_by_name (object, "recoder-stop");
+  g_signal_emit_by_name (object, "record-stop");
 }
 
 /**
@@ -2184,7 +2208,9 @@ video_call_get_video_info (
 /**
  * video_call_get_video_info_finish:
  * @proxy: A #VideoProxy.
- * @out_info: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_name: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_frame: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_format: (out) (optional): Return location for return parameter or %NULL to ignore.
  * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video_call_get_video_info().
  * @error: Return location for error or %NULL.
  *
@@ -2195,7 +2221,9 @@ video_call_get_video_info (
 gboolean
 video_call_get_video_info_finish (
     Video *proxy,
-    gchar **out_info,
+    gchar **out_name,
+    guint *out_frame,
+    gchar **out_format,
     GAsyncResult *res,
     GError **error)
 {
@@ -2204,8 +2232,10 @@ video_call_get_video_info_finish (
   if (_ret == NULL)
     goto _out;
   g_variant_get (_ret,
-                 "(s)",
-                 out_info);
+                 "(sus)",
+                 out_name,
+                 out_frame,
+                 out_format);
   g_variant_unref (_ret);
 _out:
   return _ret != NULL;
@@ -2214,7 +2244,9 @@ _out:
 /**
  * video_call_get_video_info_sync:
  * @proxy: A #VideoProxy.
- * @out_info: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_name: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_frame: (out) (optional): Return location for return parameter or %NULL to ignore.
+ * @out_format: (out) (optional): Return location for return parameter or %NULL to ignore.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL.
  *
@@ -2227,7 +2259,9 @@ _out:
 gboolean
 video_call_get_video_info_sync (
     Video *proxy,
-    gchar **out_info,
+    gchar **out_name,
+    guint *out_frame,
+    gchar **out_format,
     GCancellable *cancellable,
     GError **error)
 {
@@ -2242,8 +2276,10 @@ video_call_get_video_info_sync (
   if (_ret == NULL)
     goto _out;
   g_variant_get (_ret,
-                 "(s)",
-                 out_info);
+                 "(sus)",
+                 out_name,
+                 out_frame,
+                 out_format);
   g_variant_unref (_ret);
 _out:
   return _ret != NULL;
@@ -2474,7 +2510,9 @@ video_complete_set_video_status (
  * video_complete_get_video_info:
  * @object: A #Video.
  * @invocation: (transfer full): A #GDBusMethodInvocation.
- * @info: Parameter to return.
+ * @name: Parameter to return.
+ * @frame: Parameter to return.
+ * @format: Parameter to return.
  *
  * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-video.GetVideoInfo">GetVideoInfo()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
  *
@@ -2484,11 +2522,15 @@ void
 video_complete_get_video_info (
     Video *object G_GNUC_UNUSED,
     GDBusMethodInvocation *invocation,
-    const gchar *info)
+    const gchar *name,
+    guint frame,
+    const gchar *format)
 {
   g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("(s)",
-                   info));
+    g_variant_new ("(sus)",
+                   name,
+                   frame,
+                   format));
 }
 
 /**
@@ -3335,7 +3377,7 @@ video_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)
 }
 
 static void
-_video_on_signal_recoder_start (
+_video_on_signal_record_start (
     Video *object,
     guint arg_time)
 {
@@ -3351,7 +3393,7 @@ _video_on_signal_recoder_start (
     {
       GDBusConnection *connection = l->data;
       g_dbus_connection_emit_signal (connection,
-        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.video", "RecoderStart",
+        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.video", "RecordStart",
         signal_variant, NULL);
     }
   g_variant_unref (signal_variant);
@@ -3359,7 +3401,7 @@ _video_on_signal_recoder_start (
 }
 
 static void
-_video_on_signal_recoder_stop (
+_video_on_signal_record_stop (
     Video *object)
 {
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
@@ -3373,7 +3415,7 @@ _video_on_signal_recoder_stop (
     {
       GDBusConnection *connection = l->data;
       g_dbus_connection_emit_signal (connection,
-        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.video", "RecoderStop",
+        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.video", "RecordStop",
         signal_variant, NULL);
     }
   g_variant_unref (signal_variant);
@@ -3736,8 +3778,8 @@ video_skeleton_class_init (VideoSkeletonClass *klass)
 static void
 video_skeleton_iface_init (VideoIface *iface)
 {
-  iface->recoder_start = _video_on_signal_recoder_start;
-  iface->recoder_stop = _video_on_signal_recoder_stop;
+  iface->record_start = _video_on_signal_record_start;
+  iface->record_stop = _video_on_signal_record_stop;
   iface->get_str_property = video_skeleton_get_str_property;
   iface->get_byte_property = video_skeleton_get_byte_property;
   iface->get_bool_property = video_skeleton_get_bool_property;

@@ -19,16 +19,18 @@
 			<arg name="status" type="y" direction="in" />
 		</method>
 		<method name="GetVideoInfo">
-			<arg name="info" type="s" direction="out" />
+			<arg name="name" type="s" direction="out" />
+			<arg name="frame" type="u" direction="out" />
+			<arg name="format" type="s" direction="out" />
 		</method>
 		<method name="ShareVideo">
 			<arg name="path" type="s" direction="in" />
 			<arg name="time" type="u" direction="in" />
 		</method>
-		<signal name="RecoderStart">
+		<signal name="RecordStart">
 			<arg name="time" type="u" />
 		</signal>
-		<signal name="RecoderStop">
+		<signal name="RecordStop">
 		</signal>
 		<property name="StrProperty" type="s" access="readwrite" />
 		<property name="ByteProperty" type="y" access="readwrite" />

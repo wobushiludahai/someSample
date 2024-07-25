@@ -91,11 +91,11 @@ struct _VideoIface
 
   guint64  (*get_uint64_property) (Video *object);
 
-  void (*recoder_start) (
+  void (*record_start) (
     Video *object,
     guint arg_time);
 
-  void (*recoder_stop) (
+  void (*record_stop) (
     Video *object);
 
 };
@@ -137,7 +137,9 @@ void video_complete_set_video_status (
 void video_complete_get_video_info (
     Video *object,
     GDBusMethodInvocation *invocation,
-    const gchar *info);
+    const gchar *name,
+    guint frame,
+    const gchar *format);
 
 void video_complete_share_video (
     Video *object,
@@ -146,11 +148,11 @@ void video_complete_share_video (
 
 
 /* D-Bus signal emissions functions: */
-void video_emit_recoder_start (
+void video_emit_record_start (
     Video *object,
     guint arg_time);
 
-void video_emit_recoder_stop (
+void video_emit_record_stop (
     Video *object);
 
 
@@ -272,13 +274,17 @@ void video_call_get_video_info (
 
 gboolean video_call_get_video_info_finish (
     Video *proxy,
-    gchar **out_info,
+    gchar **out_name,
+    guint *out_frame,
+    gchar **out_format,
     GAsyncResult *res,
     GError **error);
 
 gboolean video_call_get_video_info_sync (
     Video *proxy,
-    gchar **out_info,
+    gchar **out_name,
+    guint *out_frame,
+    gchar **out_format,
     GCancellable *cancellable,
     GError **error);
 
