@@ -2928,7 +2928,7 @@ class CodeGenerator:
         self.outfile.write("}\n" "\n")
         if len(i.properties) > 0:
             self.outfile.write(
-                "static void\n"
+                "void\n"
                 "%s_proxy_set_property_cb (GDBusProxy *proxy,\n"
                 "  GAsyncResult *res,\n"
                 "  gpointer      user_data)\n"
@@ -2974,14 +2974,21 @@ class CodeGenerator:
                 "  g_assert (prop_id != 0 && prop_id - 1 < %d);\n"
                 "  info = (const _ExtendedGDBusPropertyInfo *) _%s_property_info_pointers[prop_id - 1];\n"
                 "  variant = g_dbus_gvalue_to_gvariant (value, G_VARIANT_TYPE (info->parent_struct.signature));\n"
-                "  g_dbus_proxy_call (G_DBUS_PROXY (object),\n"
-                '    "org.freedesktop.DBus.Properties.Set",\n'
-                '    g_variant_new ("(ssv)", "%s", info->parent_struct.name, variant),\n'
-                "    G_DBUS_CALL_FLAGS_NONE,\n"
-                "    -1,\n"
-                "    NULL, (GAsyncReadyCallback) %s_proxy_set_property_cb, (GDBusPropertyInfo *) &info->parent_struct);\n"
+                "  GError *proxyerror = NULL;\n"
+                '  GVariant *params = g_variant_new ("(ssv)", "%s", info->parent_struct.name, variant);\n'
+                "  GVariant *ret = g_dbus_proxy_call_sync(G_DBUS_PROXY (object),\n"
+                '      "org.freedesktop.DBus.Properties.Set", params,\n'
+                "      G_DBUS_CALL_FLAGS_NONE,\n"
+                "      -1,\n"
+                "      NULL,\n"
+                "      &proxyerror);\n"
+                "  if (proxyerror != NULL) {\n"
+                "      g_printerr(\"Error calling method: %%s\\n\", proxyerror->message);\n"
+                "      g_error_free(proxyerror);\n"
+                "  }\n"
                 "  g_variant_unref (variant);\n"
-                % (len(i.properties), i.name_lower, i.name, i.name_lower)
+                "  g_variant_unref (ret);\n"
+                % (len(i.properties), i.name_lower, i.name)
             )
         self.outfile.write("}\n" "\n")
 

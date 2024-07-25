@@ -1396,7 +1396,7 @@ my_interface_proxy_get_property (GObject      *object,
     g_variant_unref (variant);
 }
 
-static void
+void
 my_interface_proxy_set_property_cb (GDBusProxy *proxy,
   GAsyncResult *res,
   gpointer      user_data)
@@ -1430,13 +1430,20 @@ my_interface_proxy_set_property (GObject      *object,
   g_assert (prop_id != 0 && prop_id - 1 < 12);
   info = (const _ExtendedGDBusPropertyInfo *) _my_interface_property_info_pointers[prop_id - 1];
   variant = g_dbus_gvalue_to_gvariant (value, G_VARIANT_TYPE (info->parent_struct.signature));
-  g_dbus_proxy_call (G_DBUS_PROXY (object),
-    "org.freedesktop.DBus.Properties.Set",
-    g_variant_new ("(ssv)", "com.example.MyInterface", info->parent_struct.name, variant),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    NULL, (GAsyncReadyCallback) my_interface_proxy_set_property_cb, (GDBusPropertyInfo *) &info->parent_struct);
+  GError *proxyerror = NULL;
+  GVariant *params = g_variant_new ("(ssv)", "com.example.MyInterface", info->parent_struct.name, variant);
+  GVariant *ret = g_dbus_proxy_call_sync(G_DBUS_PROXY (object),
+      "org.freedesktop.DBus.Properties.Set", params,
+      G_DBUS_CALL_FLAGS_NONE,
+      -1,
+      NULL,
+      &proxyerror);
+  if (proxyerror != NULL) {
+      g_printerr("Error calling method: %s\n", proxyerror->message);
+      g_error_free(proxyerror);
+  }
   g_variant_unref (variant);
+  g_variant_unref (ret);
 }
 
 static void
