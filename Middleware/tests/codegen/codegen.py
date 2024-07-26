@@ -1751,7 +1751,7 @@ class CodeGenerator:
                     )
                 self.outfile.write(
                     "  },\n"
-                    '  "handle-%s",\n'
+                    '  "%s",\n'
                     "  %s\n" % (m.name_hyphen, "TRUE" if m.unix_fd else "FALSE")
                 )
                 self.outfile.write("};\n" "\n")
@@ -1992,7 +1992,7 @@ class CodeGenerator:
             for m in i.methods:
                 key = (m.since, "_method_%s" % m.name_lower)
                 value = "@handle_%s: " % (m.name_lower)
-                value += "Handler for the #%s::handle-%s signal." % (
+                value += "Handler for the #%s::%s signal." % (
                     i.camel_name,
                     m.name_hyphen,
                 )
@@ -2053,7 +2053,7 @@ class CodeGenerator:
                 self.outfile.write(
                     self.docbook_gen.expand(
                         "  /**\n"
-                        "   * %s::handle-%s:\n"
+                        "   * %s::%s:\n"
                         "   * @object: A #%s.\n"
                         "   * @invocation: A #GDBusMethodInvocation.\n"
                         % (i.camel_name, m.name_hyphen, i.camel_name),
@@ -2086,7 +2086,7 @@ class CodeGenerator:
                 else:
                     extra_args = 1
                 self.outfile.write(
-                    '  g_signal_new ("handle-%s",\n'
+                    '  g_signal_new ("%s",\n'
                     "    G_TYPE_FROM_INTERFACE (iface),\n"
                     "    G_SIGNAL_RUN_LAST,\n"
                     "    G_STRUCT_OFFSET (%sIface, handle_%s),\n"

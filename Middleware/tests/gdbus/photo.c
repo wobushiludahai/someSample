@@ -231,7 +231,7 @@ static const _ExtendedGDBusMethodInfo _photo_method_info_take_photo =
     (GDBusArgInfo **) &_photo_method_info_take_photo_OUT_ARG_pointers,
     NULL
   },
-  "handle-take-photo",
+  "take-photo",
   FALSE
 };
 
@@ -244,7 +244,7 @@ static const _ExtendedGDBusMethodInfo _photo_method_info_stop_photo =
     NULL,
     NULL
   },
-  "handle-stop-photo",
+  "stop-photo",
   FALSE
 };
 
@@ -346,7 +346,7 @@ static const _ExtendedGDBusMethodInfo _photo_method_info_get_photo_info =
     (GDBusArgInfo **) &_photo_method_info_get_photo_info_OUT_ARG_pointers,
     NULL
   },
-  "handle-get-photo-info",
+  "get-photo-info",
   FALSE
 };
 
@@ -410,7 +410,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_str_property =
     -1,
     (gchar *) "StrProperty",
     (gchar *) "s",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
   "str-property",
@@ -424,7 +424,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_byte_property =
     -1,
     (gchar *) "ByteProperty",
     (gchar *) "y",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
   "byte-property",
@@ -438,7 +438,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_bool_property =
     -1,
     (gchar *) "BoolProperty",
     (gchar *) "b",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
   "bool-property",
@@ -452,7 +452,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int16_property =
     -1,
     (gchar *) "Int16Property",
     (gchar *) "n",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
   "int16-property",
@@ -466,7 +466,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint16_property =
     -1,
     (gchar *) "Uint16Property",
     (gchar *) "q",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
   "uint16-property",
@@ -480,7 +480,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int32_property =
     -1,
     (gchar *) "Int32Property",
     (gchar *) "i",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
   "int32-property",
@@ -494,7 +494,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint32_property =
     -1,
     (gchar *) "Uint32Property",
     (gchar *) "u",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
   "uint32-property",
@@ -508,7 +508,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int64_property =
     -1,
     (gchar *) "Int64Property",
     (gchar *) "x",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
   "int64-property",
@@ -564,7 +564,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_array_uint32_proper
     -1,
     (gchar *) "ArrayUint32Property",
     (gchar *) "au",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
   "array-uint32-property",
@@ -655,9 +655,9 @@ photo_override_properties (GObjectClass *klass, guint property_id_begin)
 /**
  * PhotoIface:
  * @parent_iface: The parent interface.
- * @handle_get_photo_info: Handler for the #Photo::handle-get-photo-info signal.
- * @handle_stop_photo: Handler for the #Photo::handle-stop-photo signal.
- * @handle_take_photo: Handler for the #Photo::handle-take-photo signal.
+ * @handle_get_photo_info: Handler for the #Photo::get-photo-info signal.
+ * @handle_stop_photo: Handler for the #Photo::stop-photo signal.
+ * @handle_take_photo: Handler for the #Photo::take-photo signal.
  * @get_array_str_property: Getter for the #Photo:array-str-property property.
  * @get_array_uint32_property: Getter for the #Photo:array-uint32-property property.
  * @get_bool_property: Getter for the #Photo:bool-property property.
@@ -684,7 +684,7 @@ photo_default_init (PhotoIface *iface)
 {
   /* GObject signals for incoming D-Bus method calls: */
   /**
-   * Photo::handle-take-photo:
+   * Photo::take-photo:
    * @object: A #Photo.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_in_arg1: Argument passed by remote caller.
@@ -696,7 +696,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-take-photo",
+  g_signal_new ("take-photo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (PhotoIface, handle_take_photo),
@@ -708,7 +708,7 @@ photo_default_init (PhotoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING, G_TYPE_INT);
 
   /**
-   * Photo::handle-stop-photo:
+   * Photo::stop-photo:
    * @object: A #Photo.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -718,7 +718,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-stop-photo",
+  g_signal_new ("stop-photo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (PhotoIface, handle_stop_photo),
@@ -730,7 +730,7 @@ photo_default_init (PhotoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Photo::handle-get-photo-info:
+   * Photo::get-photo-info:
    * @object: A #Photo.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -740,7 +740,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-get-photo-info",
+  g_signal_new ("get-photo-info",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (PhotoIface, handle_get_photo_info),
@@ -795,7 +795,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link>.
    *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_string ("str-property", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -804,7 +804,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link>.
    *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uchar ("byte-property", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -813,7 +813,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link>.
    *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_boolean ("bool-property", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -822,7 +822,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_int ("int16-property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -831,7 +831,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uint ("uint16-property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -840,7 +840,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_int ("int32-property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -849,7 +849,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uint ("uint32-property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -858,7 +858,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_int64 ("int64-property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -894,7 +894,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_variant ("array-uint32-property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -906,7 +906,7 @@ photo_default_init (PhotoIface *iface)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use photo_dup_str_property() if on another thread.
  *
@@ -926,7 +926,7 @@ photo_get_str_property (Photo *object)
  *
  * Gets a copy of the <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_free().
  */
@@ -945,7 +945,7 @@ photo_dup_str_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
 photo_set_str_property (Photo *object, const gchar *value)
@@ -959,7 +959,7 @@ photo_set_str_property (Photo *object, const gchar *value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -978,7 +978,7 @@ photo_get_byte_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
 photo_set_byte_property (Photo *object, guchar value)
@@ -992,7 +992,7 @@ photo_set_byte_property (Photo *object, guchar value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1011,7 +1011,7 @@ photo_get_bool_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
 photo_set_bool_property (Photo *object, gboolean value)
@@ -1025,7 +1025,7 @@ photo_set_bool_property (Photo *object, gboolean value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1044,7 +1044,7 @@ photo_get_int16_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
 photo_set_int16_property (Photo *object, gint16 value)
@@ -1058,7 +1058,7 @@ photo_set_int16_property (Photo *object, gint16 value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1077,7 +1077,7 @@ photo_get_uint16_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
 photo_set_uint16_property (Photo *object, guint16 value)
@@ -1091,7 +1091,7 @@ photo_set_uint16_property (Photo *object, guint16 value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1110,7 +1110,7 @@ photo_get_int32_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
 photo_set_int32_property (Photo *object, gint value)
@@ -1124,7 +1124,7 @@ photo_set_int32_property (Photo *object, gint value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1143,7 +1143,7 @@ photo_get_uint32_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
 photo_set_uint32_property (Photo *object, guint value)
@@ -1157,7 +1157,7 @@ photo_set_uint32_property (Photo *object, guint value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1176,7 +1176,7 @@ photo_get_int64_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
 photo_set_int64_property (Photo *object, gint64 value)
@@ -1309,7 +1309,7 @@ photo_set_array_str_property (Photo *object, const gchar *const *value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use photo_dup_array_uint32_property() if on another thread.
  *
@@ -1329,7 +1329,7 @@ photo_get_array_uint32_property (Photo *object)
  *
  * Gets a copy of the <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_variant_unref().
  */
@@ -1348,7 +1348,7 @@ photo_dup_array_uint32_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
 photo_set_array_uint32_property (Photo *object, GVariant *value)
@@ -3062,568 +3062,4 @@ photo_skeleton_new (void)
 {
   return PHOTO (g_object_new (TYPE_PHOTO_SKELETON, NULL));
 }
-
-/* ------------------------------------------------------------------------
- * Code for Object, ObjectProxy and ObjectSkeleton
- * ------------------------------------------------------------------------
- */
-
-/**
- * SECTION:Object
- * @title: Object
- * @short_description: Specialized GDBusObject types
- *
- * This section contains the #Object, #ObjectProxy, and #ObjectSkeleton types which make it easier to work with objects implementing generated types for D-Bus interfaces.
- */
-
-/**
- * Object:
- *
- * The #Object type is a specialized container of interfaces.
- */
-
-/**
- * ObjectIface:
- * @parent_iface: The parent interface.
- *
- * Virtual table for the #Object interface.
- */
-
-typedef ObjectIface ObjectInterface;
-G_DEFINE_INTERFACE_WITH_CODE (Object, object, G_TYPE_OBJECT, g_type_interface_add_prerequisite (g_define_type_id, G_TYPE_DBUS_OBJECT);)
-
-static void
-object_default_init (ObjectIface *iface)
-{
-  /**
-   * Object:photo:
-   *
-   * The #Photo instance corresponding to the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link>, if any.
-   *
-   * Connect to the #GObject::notify signal to get informed of property changes.
-   */
-  g_object_interface_install_property (iface, g_param_spec_object ("photo", "photo", "photo", TYPE_PHOTO, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-
-}
-
-/**
- * object_get_photo:
- * @object: A #Object.
- *
- * Gets the #Photo instance for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link> on @object, if any.
- *
- * Returns: (transfer full) (nullable): A #Photo that must be freed with g_object_unref() or %NULL if @object does not implement the interface.
- */
-Photo *object_get_photo (Object *object)
-{
-  GDBusInterface *ret;
-  ret = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.photo");
-  if (ret == NULL)
-    return NULL;
-  return PHOTO (ret);
-}
-
-
-/**
- * object_peek_photo: (skip)
- * @object: A #Object.
- *
- * Like object_get_photo() but doesn't increase the reference count on the returned object.
- *
- * It is not safe to use the returned object if you are on another thread than the one where the #GDBusObjectManagerClient or #GDBusObjectManagerServer for @object is running.
- *
- * Returns: (transfer none) (nullable): A #Photo or %NULL if @object does not implement the interface. Do not free the returned object, it is owned by @object.
- */
-Photo *object_peek_photo (Object *object)
-{
-  GDBusInterface *ret;
-  ret = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.photo");
-  if (ret == NULL)
-    return NULL;
-  g_object_unref (ret);
-  return PHOTO (ret);
-}
-
-
-static void
-object_notify (GDBusObject *object, GDBusInterface *interface)
-{
-  _ExtendedGDBusInterfaceInfo *info = (_ExtendedGDBusInterfaceInfo *) g_dbus_interface_get_info (interface);
-  /* info can be NULL if the other end is using a D-Bus interface we don't know
-   * anything about, for example old generated code in this process talking to
-   * newer generated code in the other process. */
-  if (info != NULL)
-    g_object_notify (G_OBJECT (object), info->hyphen_name);
-}
-
-/**
- * ObjectProxy:
- *
- * The #ObjectProxy structure contains only private data and should only be accessed using the provided API.
- */
-
-/**
- * ObjectProxyClass:
- * @parent_class: The parent class.
- *
- * Class structure for #ObjectProxy.
- */
-
-static void
-object_proxy__object_iface_init (ObjectIface *iface G_GNUC_UNUSED)
-{
-}
-
-static void
-object_proxy__g_dbus_object_iface_init (GDBusObjectIface *iface)
-{
-  iface->interface_added = object_notify;
-  iface->interface_removed = object_notify;
-}
-
-
-G_DEFINE_TYPE_WITH_CODE (ObjectProxy, object_proxy, G_TYPE_DBUS_OBJECT_PROXY,
-                         G_IMPLEMENT_INTERFACE (TYPE_OBJECT, object_proxy__object_iface_init)
-                         G_IMPLEMENT_INTERFACE (G_TYPE_DBUS_OBJECT, object_proxy__g_dbus_object_iface_init))
-
-static void
-object_proxy_init (ObjectProxy *object G_GNUC_UNUSED)
-{
-}
-
-static void
-object_proxy_set_property (GObject      *gobject,
-  guint         prop_id,
-  const GValue *value G_GNUC_UNUSED,
-  GParamSpec   *pspec)
-{
-  G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-}
-
-static void
-object_proxy_get_property (GObject      *gobject,
-  guint         prop_id,
-  GValue       *value,
-  GParamSpec   *pspec)
-{
-  ObjectProxy *object = OBJECT_PROXY (gobject);
-  GDBusInterface *interface;
-
-  switch (prop_id)
-    {
-    case 1:
-      interface = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.photo");
-      g_value_take_object (value, interface);
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-      break;
-  }
-}
-
-static void
-object_proxy_class_init (ObjectProxyClass *klass)
-{
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-
-  gobject_class->set_property = object_proxy_set_property;
-  gobject_class->get_property = object_proxy_get_property;
-
-  g_object_class_override_property (gobject_class, 1, "photo");
-}
-
-/**
- * object_proxy_new:
- * @connection: A #GDBusConnection.
- * @object_path: An object path.
- *
- * Creates a new proxy object.
- *
- * Returns: (transfer full): The proxy object.
- */
-ObjectProxy *
-object_proxy_new (GDBusConnection *connection,
-  const gchar *object_path)
-{
-  g_return_val_if_fail (G_IS_DBUS_CONNECTION (connection), NULL);
-  g_return_val_if_fail (g_variant_is_object_path (object_path), NULL);
-  return OBJECT_PROXY (g_object_new (TYPE_OBJECT_PROXY, "g-connection", connection, "g-object-path", object_path, NULL));
-}
-
-/**
- * ObjectSkeleton:
- *
- * The #ObjectSkeleton structure contains only private data and should only be accessed using the provided API.
- */
-
-/**
- * ObjectSkeletonClass:
- * @parent_class: The parent class.
- *
- * Class structure for #ObjectSkeleton.
- */
-
-static void
-object_skeleton__object_iface_init (ObjectIface *iface G_GNUC_UNUSED)
-{
-}
-
-
-static void
-object_skeleton__g_dbus_object_iface_init (GDBusObjectIface *iface)
-{
-  iface->interface_added = object_notify;
-  iface->interface_removed = object_notify;
-}
-
-G_DEFINE_TYPE_WITH_CODE (ObjectSkeleton, object_skeleton, G_TYPE_DBUS_OBJECT_SKELETON,
-                         G_IMPLEMENT_INTERFACE (TYPE_OBJECT, object_skeleton__object_iface_init)
-                         G_IMPLEMENT_INTERFACE (G_TYPE_DBUS_OBJECT, object_skeleton__g_dbus_object_iface_init))
-
-static void
-object_skeleton_init (ObjectSkeleton *object G_GNUC_UNUSED)
-{
-}
-
-static void
-object_skeleton_set_property (GObject      *gobject,
-  guint         prop_id,
-  const GValue *value,
-  GParamSpec   *pspec)
-{
-  ObjectSkeleton *object = OBJECT_SKELETON (gobject);
-  GDBusInterfaceSkeleton *interface;
-
-  switch (prop_id)
-    {
-    case 1:
-      interface = g_value_get_object (value);
-      if (interface != NULL)
-        {
-          g_warn_if_fail (IS_PHOTO (interface));
-          g_dbus_object_skeleton_add_interface (G_DBUS_OBJECT_SKELETON (object), interface);
-        }
-      else
-        {
-          g_dbus_object_skeleton_remove_interface_by_name (G_DBUS_OBJECT_SKELETON (object), "com.example.photo");
-        }
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-      break;
-  }
-}
-
-static void
-object_skeleton_get_property (GObject      *gobject,
-  guint         prop_id,
-  GValue       *value,
-  GParamSpec   *pspec)
-{
-  ObjectSkeleton *object = OBJECT_SKELETON (gobject);
-  GDBusInterface *interface;
-
-  switch (prop_id)
-    {
-    case 1:
-      interface = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.photo");
-      g_value_take_object (value, interface);
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-      break;
-  }
-}
-
-static void
-object_skeleton_class_init (ObjectSkeletonClass *klass)
-{
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-
-  gobject_class->set_property = object_skeleton_set_property;
-  gobject_class->get_property = object_skeleton_get_property;
-
-  g_object_class_override_property (gobject_class, 1, "photo");
-}
-
-/**
- * object_skeleton_new:
- * @object_path: An object path.
- *
- * Creates a new skeleton object.
- *
- * Returns: (transfer full): The skeleton object.
- */
-ObjectSkeleton *
-object_skeleton_new (const gchar *object_path)
-{
-  g_return_val_if_fail (g_variant_is_object_path (object_path), NULL);
-  return OBJECT_SKELETON (g_object_new (TYPE_OBJECT_SKELETON, "g-object-path", object_path, NULL));
-}
-
-/**
- * object_skeleton_set_photo:
- * @object: A #ObjectSkeleton.
- * @interface_: (nullable): A #Photo or %NULL to clear the interface.
- *
- * Sets the #Photo instance for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link> on @object.
- */
-void object_skeleton_set_photo (ObjectSkeleton *object, Photo *interface_)
-{
-  g_object_set (G_OBJECT (object), "photo", interface_, NULL);
-}
-
-
-/* ------------------------------------------------------------------------
- * Code for ObjectManager client
- * ------------------------------------------------------------------------
- */
-
-/**
- * SECTION:ObjectManagerClient
- * @title: ObjectManagerClient
- * @short_description: Generated GDBusObjectManagerClient type
- *
- * This section contains a #GDBusObjectManagerClient that uses object_manager_client_get_proxy_type() as the #GDBusProxyTypeFunc.
- */
-
-/**
- * ObjectManagerClient:
- *
- * The #ObjectManagerClient structure contains only private data and should only be accessed using the provided API.
- */
-
-/**
- * ObjectManagerClientClass:
- * @parent_class: The parent class.
- *
- * Class structure for #ObjectManagerClient.
- */
-
-G_DEFINE_TYPE (ObjectManagerClient, object_manager_client, G_TYPE_DBUS_OBJECT_MANAGER_CLIENT)
-
-static void
-object_manager_client_init (ObjectManagerClient *manager G_GNUC_UNUSED)
-{
-}
-
-static void
-object_manager_client_class_init (ObjectManagerClientClass *klass G_GNUC_UNUSED)
-{
-}
-
-/**
- * object_manager_client_get_proxy_type:
- * @manager: A #GDBusObjectManagerClient.
- * @object_path: The object path of the remote object (unused).
- * @interface_name: (nullable): Interface name of the remote object or %NULL to get the object proxy #GType.
- * @user_data: User data (unused).
- *
- * A #GDBusProxyTypeFunc that maps @interface_name to the generated #GDBusObjectProxy derived and #GDBusProxy derived types.
- *
- * Returns: A #GDBusProxy derived #GType if @interface_name is not %NULL, otherwise the #GType for #ObjectProxy.
- */
-GType
-object_manager_client_get_proxy_type (GDBusObjectManagerClient *manager G_GNUC_UNUSED, const gchar *object_path G_GNUC_UNUSED, const gchar *interface_name, gpointer user_data G_GNUC_UNUSED)
-{
-  static gsize once_init_value = 0;
-  static GHashTable *lookup_hash;
-  GType ret;
-
-  if (interface_name == NULL)
-    return TYPE_OBJECT_PROXY;
-  if (g_once_init_enter (&once_init_value))
-    {
-      lookup_hash = g_hash_table_new (g_str_hash, g_str_equal);
-      g_hash_table_insert (lookup_hash, (gpointer) "com.example.photo", GSIZE_TO_POINTER (TYPE_PHOTO_PROXY));
-      g_once_init_leave (&once_init_value, 1);
-    }
-  ret = (GType) GPOINTER_TO_SIZE (g_hash_table_lookup (lookup_hash, interface_name));
-  if (ret == (GType) 0)
-    ret = G_TYPE_DBUS_PROXY;
-  return ret;
-}
-
-/**
- * object_manager_client_new:
- * @connection: A #GDBusConnection.
- * @flags: Flags from the #GDBusObjectManagerClientFlags enumeration.
- * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously creates #GDBusObjectManagerClient using object_manager_client_get_proxy_type() as the #GDBusProxyTypeFunc. See g_dbus_object_manager_client_new() for more details.
- *
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call object_manager_client_new_finish() to get the result of the operation.
- *
- * See object_manager_client_new_sync() for the synchronous, blocking version of this constructor.
- */
-void
-object_manager_client_new (
-    GDBusConnection        *connection,
-    GDBusObjectManagerClientFlags  flags,
-    const gchar            *name,
-    const gchar            *object_path,
-    GCancellable           *cancellable,
-    GAsyncReadyCallback     callback,
-    gpointer                user_data)
-{
-  g_async_initable_new_async (TYPE_OBJECT_MANAGER_CLIENT, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "flags", flags, "name", name, "connection", connection, "object-path", object_path, "get-proxy-type-func", object_manager_client_get_proxy_type, NULL);
-}
-
-/**
- * object_manager_client_new_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to object_manager_client_new().
- * @error: Return location for error or %NULL
- *
- * Finishes an operation started with object_manager_client_new().
- *
- * Returns: (transfer full) (type ObjectManagerClient): The constructed object manager client or %NULL if @error is set.
- */
-GDBusObjectManager *
-object_manager_client_new_finish (
-    GAsyncResult        *res,
-    GError             **error)
-{
-  GObject *ret;
-  GObject *source_object;
-  source_object = g_async_result_get_source_object (res);
-  ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
-  g_object_unref (source_object);
-  if (ret != NULL)
-    return G_DBUS_OBJECT_MANAGER (ret);
-  else
-    return NULL;
-}
-
-/**
- * object_manager_client_new_sync:
- * @connection: A #GDBusConnection.
- * @flags: Flags from the #GDBusObjectManagerClientFlags enumeration.
- * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL
- *
- * Synchronously creates #GDBusObjectManagerClient using object_manager_client_get_proxy_type() as the #GDBusProxyTypeFunc. See g_dbus_object_manager_client_new_sync() for more details.
- *
- * The calling thread is blocked until a reply is received.
- *
- * See object_manager_client_new() for the asynchronous version of this constructor.
- *
- * Returns: (transfer full) (type ObjectManagerClient): The constructed object manager client or %NULL if @error is set.
- */
-GDBusObjectManager *
-object_manager_client_new_sync (
-    GDBusConnection        *connection,
-    GDBusObjectManagerClientFlags  flags,
-    const gchar            *name,
-    const gchar            *object_path,
-    GCancellable           *cancellable,
-    GError                **error)
-{
-  GInitable *ret;
-  ret = g_initable_new (TYPE_OBJECT_MANAGER_CLIENT, cancellable, error, "flags", flags, "name", name, "connection", connection, "object-path", object_path, "get-proxy-type-func", object_manager_client_get_proxy_type, NULL);
-  if (ret != NULL)
-    return G_DBUS_OBJECT_MANAGER (ret);
-  else
-    return NULL;
-}
-
-
-/**
- * object_manager_client_new_for_bus:
- * @bus_type: A #GBusType.
- * @flags: Flags from the #GDBusObjectManagerClientFlags enumeration.
- * @name: A bus name (well-known or unique).
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
- * @user_data: User data to pass to @callback.
- *
- * Like object_manager_client_new() but takes a #GBusType instead of a #GDBusConnection.
- *
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call object_manager_client_new_for_bus_finish() to get the result of the operation.
- *
- * See object_manager_client_new_for_bus_sync() for the synchronous, blocking version of this constructor.
- */
-void
-object_manager_client_new_for_bus (
-    GBusType                bus_type,
-    GDBusObjectManagerClientFlags  flags,
-    const gchar            *name,
-    const gchar            *object_path,
-    GCancellable           *cancellable,
-    GAsyncReadyCallback     callback,
-    gpointer                user_data)
-{
-  g_async_initable_new_async (TYPE_OBJECT_MANAGER_CLIENT, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "flags", flags, "name", name, "bus-type", bus_type, "object-path", object_path, "get-proxy-type-func", object_manager_client_get_proxy_type, NULL);
-}
-
-/**
- * object_manager_client_new_for_bus_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to object_manager_client_new_for_bus().
- * @error: Return location for error or %NULL
- *
- * Finishes an operation started with object_manager_client_new_for_bus().
- *
- * Returns: (transfer full) (type ObjectManagerClient): The constructed object manager client or %NULL if @error is set.
- */
-GDBusObjectManager *
-object_manager_client_new_for_bus_finish (
-    GAsyncResult        *res,
-    GError             **error)
-{
-  GObject *ret;
-  GObject *source_object;
-  source_object = g_async_result_get_source_object (res);
-  ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
-  g_object_unref (source_object);
-  if (ret != NULL)
-    return G_DBUS_OBJECT_MANAGER (ret);
-  else
-    return NULL;
-}
-
-/**
- * object_manager_client_new_for_bus_sync:
- * @bus_type: A #GBusType.
- * @flags: Flags from the #GDBusObjectManagerClientFlags enumeration.
- * @name: A bus name (well-known or unique).
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL
- *
- * Like object_manager_client_new_sync() but takes a #GBusType instead of a #GDBusConnection.
- *
- * The calling thread is blocked until a reply is received.
- *
- * See object_manager_client_new_for_bus() for the asynchronous version of this constructor.
- *
- * Returns: (transfer full) (type ObjectManagerClient): The constructed object manager client or %NULL if @error is set.
- */
-GDBusObjectManager *
-object_manager_client_new_for_bus_sync (
-    GBusType                bus_type,
-    GDBusObjectManagerClientFlags  flags,
-    const gchar            *name,
-    const gchar            *object_path,
-    GCancellable           *cancellable,
-    GError                **error)
-{
-  GInitable *ret;
-  ret = g_initable_new (TYPE_OBJECT_MANAGER_CLIENT, cancellable, error, "flags", flags, "name", name, "bus-type", bus_type, "object-path", object_path, "get-proxy-type-func", object_manager_client_get_proxy_type, NULL);
-  if (ret != NULL)
-    return G_DBUS_OBJECT_MANAGER (ret);
-  else
-    return NULL;
-}
-
 

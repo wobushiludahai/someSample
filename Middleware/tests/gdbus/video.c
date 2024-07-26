@@ -231,7 +231,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_start_video =
     (GDBusArgInfo **) &_video_method_info_start_video_OUT_ARG_pointers,
     NULL
   },
-  "handle-start-video",
+  "start-video",
   FALSE
 };
 
@@ -244,7 +244,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_stop_video =
     NULL,
     NULL
   },
-  "handle-stop-video",
+  "stop-video",
   FALSE
 };
 
@@ -257,7 +257,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_pause_video =
     NULL,
     NULL
   },
-  "handle-pause-video",
+  "pause-video",
   FALSE
 };
 
@@ -270,7 +270,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_resume_video =
     NULL,
     NULL
   },
-  "handle-resume-video",
+  "resume-video",
   FALSE
 };
 
@@ -300,7 +300,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_get_video_status =
     (GDBusArgInfo **) &_video_method_info_get_video_status_OUT_ARG_pointers,
     NULL
   },
-  "handle-get-video-status",
+  "get-video-status",
   FALSE
 };
 
@@ -330,7 +330,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_set_video_status =
     NULL,
     NULL
   },
-  "handle-set-video-status",
+  "set-video-status",
   FALSE
 };
 
@@ -384,7 +384,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_get_video_info =
     (GDBusArgInfo **) &_video_method_info_get_video_info_OUT_ARG_pointers,
     NULL
   },
-  "handle-get-video-info",
+  "get-video-info",
   FALSE
 };
 
@@ -426,7 +426,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_share_video =
     NULL,
     NULL
   },
-  "handle-share-video",
+  "share-video",
   FALSE
 };
 
@@ -740,14 +740,14 @@ video_override_properties (GObjectClass *klass, guint property_id_begin)
 /**
  * VideoIface:
  * @parent_iface: The parent interface.
- * @handle_get_video_info: Handler for the #Video::handle-get-video-info signal.
- * @handle_get_video_status: Handler for the #Video::handle-get-video-status signal.
- * @handle_pause_video: Handler for the #Video::handle-pause-video signal.
- * @handle_resume_video: Handler for the #Video::handle-resume-video signal.
- * @handle_set_video_status: Handler for the #Video::handle-set-video-status signal.
- * @handle_share_video: Handler for the #Video::handle-share-video signal.
- * @handle_start_video: Handler for the #Video::handle-start-video signal.
- * @handle_stop_video: Handler for the #Video::handle-stop-video signal.
+ * @handle_get_video_info: Handler for the #Video::get-video-info signal.
+ * @handle_get_video_status: Handler for the #Video::get-video-status signal.
+ * @handle_pause_video: Handler for the #Video::pause-video signal.
+ * @handle_resume_video: Handler for the #Video::resume-video signal.
+ * @handle_set_video_status: Handler for the #Video::set-video-status signal.
+ * @handle_share_video: Handler for the #Video::share-video signal.
+ * @handle_start_video: Handler for the #Video::start-video signal.
+ * @handle_stop_video: Handler for the #Video::stop-video signal.
  * @get_array_str_property: Getter for the #Video:array-str-property property.
  * @get_array_uint32_property: Getter for the #Video:array-uint32-property property.
  * @get_bool_property: Getter for the #Video:bool-property property.
@@ -774,7 +774,7 @@ video_default_init (VideoIface *iface)
 {
   /* GObject signals for incoming D-Bus method calls: */
   /**
-   * Video::handle-start-video:
+   * Video::start-video:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_in_arg1: Argument passed by remote caller.
@@ -786,7 +786,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-start-video",
+  g_signal_new ("start-video",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_start_video),
@@ -798,7 +798,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING, G_TYPE_INT);
 
   /**
-   * Video::handle-stop-video:
+   * Video::stop-video:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -808,7 +808,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-stop-video",
+  g_signal_new ("stop-video",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_stop_video),
@@ -820,7 +820,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::handle-pause-video:
+   * Video::pause-video:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -830,7 +830,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-pause-video",
+  g_signal_new ("pause-video",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_pause_video),
@@ -842,7 +842,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::handle-resume-video:
+   * Video::resume-video:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -852,7 +852,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-resume-video",
+  g_signal_new ("resume-video",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_resume_video),
@@ -864,7 +864,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::handle-get-video-status:
+   * Video::get-video-status:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -874,7 +874,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-get-video-status",
+  g_signal_new ("get-video-status",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_get_video_status),
@@ -886,7 +886,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::handle-set-video-status:
+   * Video::set-video-status:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_status: Argument passed by remote caller.
@@ -897,7 +897,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-set-video-status",
+  g_signal_new ("set-video-status",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_set_video_status),
@@ -909,7 +909,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_UCHAR);
 
   /**
-   * Video::handle-get-video-info:
+   * Video::get-video-info:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -919,7 +919,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-get-video-info",
+  g_signal_new ("get-video-info",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_get_video_info),
@@ -931,7 +931,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::handle-share-video:
+   * Video::share-video:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_path: Argument passed by remote caller.
@@ -943,7 +943,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-share-video",
+  g_signal_new ("share-video",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_share_video),
@@ -3806,568 +3806,4 @@ video_skeleton_new (void)
 {
   return VIDEO (g_object_new (TYPE_VIDEO_SKELETON, NULL));
 }
-
-/* ------------------------------------------------------------------------
- * Code for Object, ObjectProxy and ObjectSkeleton
- * ------------------------------------------------------------------------
- */
-
-/**
- * SECTION:Object
- * @title: Object
- * @short_description: Specialized GDBusObject types
- *
- * This section contains the #Object, #ObjectProxy, and #ObjectSkeleton types which make it easier to work with objects implementing generated types for D-Bus interfaces.
- */
-
-/**
- * Object:
- *
- * The #Object type is a specialized container of interfaces.
- */
-
-/**
- * ObjectIface:
- * @parent_iface: The parent interface.
- *
- * Virtual table for the #Object interface.
- */
-
-typedef ObjectIface ObjectInterface;
-G_DEFINE_INTERFACE_WITH_CODE (Object, object, G_TYPE_OBJECT, g_type_interface_add_prerequisite (g_define_type_id, G_TYPE_DBUS_OBJECT);)
-
-static void
-object_default_init (ObjectIface *iface)
-{
-  /**
-   * Object:video:
-   *
-   * The #Video instance corresponding to the D-Bus interface <link linkend="gdbus-interface-com-example-video.top_of_page">com.example.video</link>, if any.
-   *
-   * Connect to the #GObject::notify signal to get informed of property changes.
-   */
-  g_object_interface_install_property (iface, g_param_spec_object ("video", "video", "video", TYPE_VIDEO, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-
-}
-
-/**
- * object_get_video:
- * @object: A #Object.
- *
- * Gets the #Video instance for the D-Bus interface <link linkend="gdbus-interface-com-example-video.top_of_page">com.example.video</link> on @object, if any.
- *
- * Returns: (transfer full) (nullable): A #Video that must be freed with g_object_unref() or %NULL if @object does not implement the interface.
- */
-Video *object_get_video (Object *object)
-{
-  GDBusInterface *ret;
-  ret = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.video");
-  if (ret == NULL)
-    return NULL;
-  return VIDEO (ret);
-}
-
-
-/**
- * object_peek_video: (skip)
- * @object: A #Object.
- *
- * Like object_get_video() but doesn't increase the reference count on the returned object.
- *
- * It is not safe to use the returned object if you are on another thread than the one where the #GDBusObjectManagerClient or #GDBusObjectManagerServer for @object is running.
- *
- * Returns: (transfer none) (nullable): A #Video or %NULL if @object does not implement the interface. Do not free the returned object, it is owned by @object.
- */
-Video *object_peek_video (Object *object)
-{
-  GDBusInterface *ret;
-  ret = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.video");
-  if (ret == NULL)
-    return NULL;
-  g_object_unref (ret);
-  return VIDEO (ret);
-}
-
-
-static void
-object_notify (GDBusObject *object, GDBusInterface *interface)
-{
-  _ExtendedGDBusInterfaceInfo *info = (_ExtendedGDBusInterfaceInfo *) g_dbus_interface_get_info (interface);
-  /* info can be NULL if the other end is using a D-Bus interface we don't know
-   * anything about, for example old generated code in this process talking to
-   * newer generated code in the other process. */
-  if (info != NULL)
-    g_object_notify (G_OBJECT (object), info->hyphen_name);
-}
-
-/**
- * ObjectProxy:
- *
- * The #ObjectProxy structure contains only private data and should only be accessed using the provided API.
- */
-
-/**
- * ObjectProxyClass:
- * @parent_class: The parent class.
- *
- * Class structure for #ObjectProxy.
- */
-
-static void
-object_proxy__object_iface_init (ObjectIface *iface G_GNUC_UNUSED)
-{
-}
-
-static void
-object_proxy__g_dbus_object_iface_init (GDBusObjectIface *iface)
-{
-  iface->interface_added = object_notify;
-  iface->interface_removed = object_notify;
-}
-
-
-G_DEFINE_TYPE_WITH_CODE (ObjectProxy, object_proxy, G_TYPE_DBUS_OBJECT_PROXY,
-                         G_IMPLEMENT_INTERFACE (TYPE_OBJECT, object_proxy__object_iface_init)
-                         G_IMPLEMENT_INTERFACE (G_TYPE_DBUS_OBJECT, object_proxy__g_dbus_object_iface_init))
-
-static void
-object_proxy_init (ObjectProxy *object G_GNUC_UNUSED)
-{
-}
-
-static void
-object_proxy_set_property (GObject      *gobject,
-  guint         prop_id,
-  const GValue *value G_GNUC_UNUSED,
-  GParamSpec   *pspec)
-{
-  G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-}
-
-static void
-object_proxy_get_property (GObject      *gobject,
-  guint         prop_id,
-  GValue       *value,
-  GParamSpec   *pspec)
-{
-  ObjectProxy *object = OBJECT_PROXY (gobject);
-  GDBusInterface *interface;
-
-  switch (prop_id)
-    {
-    case 1:
-      interface = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.video");
-      g_value_take_object (value, interface);
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-      break;
-  }
-}
-
-static void
-object_proxy_class_init (ObjectProxyClass *klass)
-{
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-
-  gobject_class->set_property = object_proxy_set_property;
-  gobject_class->get_property = object_proxy_get_property;
-
-  g_object_class_override_property (gobject_class, 1, "video");
-}
-
-/**
- * object_proxy_new:
- * @connection: A #GDBusConnection.
- * @object_path: An object path.
- *
- * Creates a new proxy object.
- *
- * Returns: (transfer full): The proxy object.
- */
-ObjectProxy *
-object_proxy_new (GDBusConnection *connection,
-  const gchar *object_path)
-{
-  g_return_val_if_fail (G_IS_DBUS_CONNECTION (connection), NULL);
-  g_return_val_if_fail (g_variant_is_object_path (object_path), NULL);
-  return OBJECT_PROXY (g_object_new (TYPE_OBJECT_PROXY, "g-connection", connection, "g-object-path", object_path, NULL));
-}
-
-/**
- * ObjectSkeleton:
- *
- * The #ObjectSkeleton structure contains only private data and should only be accessed using the provided API.
- */
-
-/**
- * ObjectSkeletonClass:
- * @parent_class: The parent class.
- *
- * Class structure for #ObjectSkeleton.
- */
-
-static void
-object_skeleton__object_iface_init (ObjectIface *iface G_GNUC_UNUSED)
-{
-}
-
-
-static void
-object_skeleton__g_dbus_object_iface_init (GDBusObjectIface *iface)
-{
-  iface->interface_added = object_notify;
-  iface->interface_removed = object_notify;
-}
-
-G_DEFINE_TYPE_WITH_CODE (ObjectSkeleton, object_skeleton, G_TYPE_DBUS_OBJECT_SKELETON,
-                         G_IMPLEMENT_INTERFACE (TYPE_OBJECT, object_skeleton__object_iface_init)
-                         G_IMPLEMENT_INTERFACE (G_TYPE_DBUS_OBJECT, object_skeleton__g_dbus_object_iface_init))
-
-static void
-object_skeleton_init (ObjectSkeleton *object G_GNUC_UNUSED)
-{
-}
-
-static void
-object_skeleton_set_property (GObject      *gobject,
-  guint         prop_id,
-  const GValue *value,
-  GParamSpec   *pspec)
-{
-  ObjectSkeleton *object = OBJECT_SKELETON (gobject);
-  GDBusInterfaceSkeleton *interface;
-
-  switch (prop_id)
-    {
-    case 1:
-      interface = g_value_get_object (value);
-      if (interface != NULL)
-        {
-          g_warn_if_fail (IS_VIDEO (interface));
-          g_dbus_object_skeleton_add_interface (G_DBUS_OBJECT_SKELETON (object), interface);
-        }
-      else
-        {
-          g_dbus_object_skeleton_remove_interface_by_name (G_DBUS_OBJECT_SKELETON (object), "com.example.video");
-        }
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-      break;
-  }
-}
-
-static void
-object_skeleton_get_property (GObject      *gobject,
-  guint         prop_id,
-  GValue       *value,
-  GParamSpec   *pspec)
-{
-  ObjectSkeleton *object = OBJECT_SKELETON (gobject);
-  GDBusInterface *interface;
-
-  switch (prop_id)
-    {
-    case 1:
-      interface = g_dbus_object_get_interface (G_DBUS_OBJECT (object), "com.example.video");
-      g_value_take_object (value, interface);
-      break;
-
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
-      break;
-  }
-}
-
-static void
-object_skeleton_class_init (ObjectSkeletonClass *klass)
-{
-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-
-  gobject_class->set_property = object_skeleton_set_property;
-  gobject_class->get_property = object_skeleton_get_property;
-
-  g_object_class_override_property (gobject_class, 1, "video");
-}
-
-/**
- * object_skeleton_new:
- * @object_path: An object path.
- *
- * Creates a new skeleton object.
- *
- * Returns: (transfer full): The skeleton object.
- */
-ObjectSkeleton *
-object_skeleton_new (const gchar *object_path)
-{
-  g_return_val_if_fail (g_variant_is_object_path (object_path), NULL);
-  return OBJECT_SKELETON (g_object_new (TYPE_OBJECT_SKELETON, "g-object-path", object_path, NULL));
-}
-
-/**
- * object_skeleton_set_video:
- * @object: A #ObjectSkeleton.
- * @interface_: (nullable): A #Video or %NULL to clear the interface.
- *
- * Sets the #Video instance for the D-Bus interface <link linkend="gdbus-interface-com-example-video.top_of_page">com.example.video</link> on @object.
- */
-void object_skeleton_set_video (ObjectSkeleton *object, Video *interface_)
-{
-  g_object_set (G_OBJECT (object), "video", interface_, NULL);
-}
-
-
-/* ------------------------------------------------------------------------
- * Code for ObjectManager client
- * ------------------------------------------------------------------------
- */
-
-/**
- * SECTION:ObjectManagerClient
- * @title: ObjectManagerClient
- * @short_description: Generated GDBusObjectManagerClient type
- *
- * This section contains a #GDBusObjectManagerClient that uses object_manager_client_get_proxy_type() as the #GDBusProxyTypeFunc.
- */
-
-/**
- * ObjectManagerClient:
- *
- * The #ObjectManagerClient structure contains only private data and should only be accessed using the provided API.
- */
-
-/**
- * ObjectManagerClientClass:
- * @parent_class: The parent class.
- *
- * Class structure for #ObjectManagerClient.
- */
-
-G_DEFINE_TYPE (ObjectManagerClient, object_manager_client, G_TYPE_DBUS_OBJECT_MANAGER_CLIENT)
-
-static void
-object_manager_client_init (ObjectManagerClient *manager G_GNUC_UNUSED)
-{
-}
-
-static void
-object_manager_client_class_init (ObjectManagerClientClass *klass G_GNUC_UNUSED)
-{
-}
-
-/**
- * object_manager_client_get_proxy_type:
- * @manager: A #GDBusObjectManagerClient.
- * @object_path: The object path of the remote object (unused).
- * @interface_name: (nullable): Interface name of the remote object or %NULL to get the object proxy #GType.
- * @user_data: User data (unused).
- *
- * A #GDBusProxyTypeFunc that maps @interface_name to the generated #GDBusObjectProxy derived and #GDBusProxy derived types.
- *
- * Returns: A #GDBusProxy derived #GType if @interface_name is not %NULL, otherwise the #GType for #ObjectProxy.
- */
-GType
-object_manager_client_get_proxy_type (GDBusObjectManagerClient *manager G_GNUC_UNUSED, const gchar *object_path G_GNUC_UNUSED, const gchar *interface_name, gpointer user_data G_GNUC_UNUSED)
-{
-  static gsize once_init_value = 0;
-  static GHashTable *lookup_hash;
-  GType ret;
-
-  if (interface_name == NULL)
-    return TYPE_OBJECT_PROXY;
-  if (g_once_init_enter (&once_init_value))
-    {
-      lookup_hash = g_hash_table_new (g_str_hash, g_str_equal);
-      g_hash_table_insert (lookup_hash, (gpointer) "com.example.video", GSIZE_TO_POINTER (TYPE_VIDEO_PROXY));
-      g_once_init_leave (&once_init_value, 1);
-    }
-  ret = (GType) GPOINTER_TO_SIZE (g_hash_table_lookup (lookup_hash, interface_name));
-  if (ret == (GType) 0)
-    ret = G_TYPE_DBUS_PROXY;
-  return ret;
-}
-
-/**
- * object_manager_client_new:
- * @connection: A #GDBusConnection.
- * @flags: Flags from the #GDBusObjectManagerClientFlags enumeration.
- * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously creates #GDBusObjectManagerClient using object_manager_client_get_proxy_type() as the #GDBusProxyTypeFunc. See g_dbus_object_manager_client_new() for more details.
- *
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call object_manager_client_new_finish() to get the result of the operation.
- *
- * See object_manager_client_new_sync() for the synchronous, blocking version of this constructor.
- */
-void
-object_manager_client_new (
-    GDBusConnection        *connection,
-    GDBusObjectManagerClientFlags  flags,
-    const gchar            *name,
-    const gchar            *object_path,
-    GCancellable           *cancellable,
-    GAsyncReadyCallback     callback,
-    gpointer                user_data)
-{
-  g_async_initable_new_async (TYPE_OBJECT_MANAGER_CLIENT, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "flags", flags, "name", name, "connection", connection, "object-path", object_path, "get-proxy-type-func", object_manager_client_get_proxy_type, NULL);
-}
-
-/**
- * object_manager_client_new_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to object_manager_client_new().
- * @error: Return location for error or %NULL
- *
- * Finishes an operation started with object_manager_client_new().
- *
- * Returns: (transfer full) (type ObjectManagerClient): The constructed object manager client or %NULL if @error is set.
- */
-GDBusObjectManager *
-object_manager_client_new_finish (
-    GAsyncResult        *res,
-    GError             **error)
-{
-  GObject *ret;
-  GObject *source_object;
-  source_object = g_async_result_get_source_object (res);
-  ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
-  g_object_unref (source_object);
-  if (ret != NULL)
-    return G_DBUS_OBJECT_MANAGER (ret);
-  else
-    return NULL;
-}
-
-/**
- * object_manager_client_new_sync:
- * @connection: A #GDBusConnection.
- * @flags: Flags from the #GDBusObjectManagerClientFlags enumeration.
- * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL
- *
- * Synchronously creates #GDBusObjectManagerClient using object_manager_client_get_proxy_type() as the #GDBusProxyTypeFunc. See g_dbus_object_manager_client_new_sync() for more details.
- *
- * The calling thread is blocked until a reply is received.
- *
- * See object_manager_client_new() for the asynchronous version of this constructor.
- *
- * Returns: (transfer full) (type ObjectManagerClient): The constructed object manager client or %NULL if @error is set.
- */
-GDBusObjectManager *
-object_manager_client_new_sync (
-    GDBusConnection        *connection,
-    GDBusObjectManagerClientFlags  flags,
-    const gchar            *name,
-    const gchar            *object_path,
-    GCancellable           *cancellable,
-    GError                **error)
-{
-  GInitable *ret;
-  ret = g_initable_new (TYPE_OBJECT_MANAGER_CLIENT, cancellable, error, "flags", flags, "name", name, "connection", connection, "object-path", object_path, "get-proxy-type-func", object_manager_client_get_proxy_type, NULL);
-  if (ret != NULL)
-    return G_DBUS_OBJECT_MANAGER (ret);
-  else
-    return NULL;
-}
-
-
-/**
- * object_manager_client_new_for_bus:
- * @bus_type: A #GBusType.
- * @flags: Flags from the #GDBusObjectManagerClientFlags enumeration.
- * @name: A bus name (well-known or unique).
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
- * @user_data: User data to pass to @callback.
- *
- * Like object_manager_client_new() but takes a #GBusType instead of a #GDBusConnection.
- *
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call object_manager_client_new_for_bus_finish() to get the result of the operation.
- *
- * See object_manager_client_new_for_bus_sync() for the synchronous, blocking version of this constructor.
- */
-void
-object_manager_client_new_for_bus (
-    GBusType                bus_type,
-    GDBusObjectManagerClientFlags  flags,
-    const gchar            *name,
-    const gchar            *object_path,
-    GCancellable           *cancellable,
-    GAsyncReadyCallback     callback,
-    gpointer                user_data)
-{
-  g_async_initable_new_async (TYPE_OBJECT_MANAGER_CLIENT, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "flags", flags, "name", name, "bus-type", bus_type, "object-path", object_path, "get-proxy-type-func", object_manager_client_get_proxy_type, NULL);
-}
-
-/**
- * object_manager_client_new_for_bus_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to object_manager_client_new_for_bus().
- * @error: Return location for error or %NULL
- *
- * Finishes an operation started with object_manager_client_new_for_bus().
- *
- * Returns: (transfer full) (type ObjectManagerClient): The constructed object manager client or %NULL if @error is set.
- */
-GDBusObjectManager *
-object_manager_client_new_for_bus_finish (
-    GAsyncResult        *res,
-    GError             **error)
-{
-  GObject *ret;
-  GObject *source_object;
-  source_object = g_async_result_get_source_object (res);
-  ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
-  g_object_unref (source_object);
-  if (ret != NULL)
-    return G_DBUS_OBJECT_MANAGER (ret);
-  else
-    return NULL;
-}
-
-/**
- * object_manager_client_new_for_bus_sync:
- * @bus_type: A #GBusType.
- * @flags: Flags from the #GDBusObjectManagerClientFlags enumeration.
- * @name: A bus name (well-known or unique).
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL
- *
- * Like object_manager_client_new_sync() but takes a #GBusType instead of a #GDBusConnection.
- *
- * The calling thread is blocked until a reply is received.
- *
- * See object_manager_client_new_for_bus() for the asynchronous version of this constructor.
- *
- * Returns: (transfer full) (type ObjectManagerClient): The constructed object manager client or %NULL if @error is set.
- */
-GDBusObjectManager *
-object_manager_client_new_for_bus_sync (
-    GBusType                bus_type,
-    GDBusObjectManagerClientFlags  flags,
-    const gchar            *name,
-    const gchar            *object_path,
-    GCancellable           *cancellable,
-    GError                **error)
-{
-  GInitable *ret;
-  ret = g_initable_new (TYPE_OBJECT_MANAGER_CLIENT, cancellable, error, "flags", flags, "name", name, "bus-type", bus_type, "object-path", object_path, "get-proxy-type-func", object_manager_client_get_proxy_type, NULL);
-  if (ret != NULL)
-    return G_DBUS_OBJECT_MANAGER (ret);
-  else
-    return NULL;
-}
-
 

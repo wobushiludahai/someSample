@@ -231,7 +231,7 @@ static const _ExtendedGDBusMethodInfo _my_interface_method_info_my_method =
     (GDBusArgInfo **) &_my_interface_method_info_my_method_OUT_ARG_pointers,
     NULL
   },
-  "handle-my-method",
+  "my-method",
   FALSE
 };
 
@@ -538,7 +538,7 @@ my_interface_override_properties (GObjectClass *klass, guint property_id_begin)
 /**
  * MyInterfaceIface:
  * @parent_iface: The parent interface.
- * @handle_my_method: Handler for the #MyInterface::handle-my-method signal.
+ * @handle_my_method: Handler for the #MyInterface::my-method signal.
  * @get_array_str_property: Getter for the #MyInterface:array-str-property property.
  * @get_array_uint32_property: Getter for the #MyInterface:array-uint32-property property.
  * @get_bool_property: Getter for the #MyInterface:bool-property property.
@@ -564,7 +564,7 @@ my_interface_default_init (MyInterfaceIface *iface)
 {
   /* GObject signals for incoming D-Bus method calls: */
   /**
-   * MyInterface::handle-my-method:
+   * MyInterface::my-method:
    * @object: A #MyInterface.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_in_arg1: Argument passed by remote caller.
@@ -576,7 +576,7 @@ my_interface_default_init (MyInterfaceIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("handle-my-method",
+  g_signal_new ("my-method",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (MyInterfaceIface, handle_my_method),

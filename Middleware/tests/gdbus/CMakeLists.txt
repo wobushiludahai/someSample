@@ -8,11 +8,15 @@ set(TEST_DIR ${CUR_DIR}/../ CACHE STRING "base dir")
 link_directories(${TEST_DIR}/output/lib)
 link_directories(${TEST_DIR}/output/lib/x86_64-linux-gnu)
 
-set(SERVICE1 client)
-set(SERVICE2 server)
+# set(SERVICE1 client)
+# set(SERVICE2 server)
+# add_executable(${SERVICE1} bus_client.c interface.c)
+# add_executable(${SERVICE2} bus_client.c interface.c)
 
-add_executable(${SERVICE1} bus_client.c interface.c)
-add_executable(${SERVICE2} bus_server.c interface.c)
+set(SERVICE1 video)
+set(SERVICE2 photo)
+add_executable(${SERVICE1} service_video.c video.c service.c photo.c)
+add_executable(${SERVICE2} service_photo.c photo.c service.c video.c)
 
 # 设置编译参数
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -O3 -ggdb -gdwarf -funwind-tables -rdynamic -Wno-unused-parameter -D_GNU_SOURCE")

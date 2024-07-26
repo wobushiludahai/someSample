@@ -22,17 +22,17 @@
 		</signal>
 		<signal name="Stop">
 		</signal>
-		<property name="StrProperty" type="s" access="readwrite" />
-		<property name="ByteProperty" type="y" access="readwrite" />
-		<property name="BoolProperty" type="b" access="readwrite" />
-		<property name="Int16Property" type="n" access="readwrite" />
-		<property name="Uint16Property" type="q" access="readwrite" />
-		<property name="Int32Property" type="i" access="readwrite" />
-		<property name="Uint32Property" type="u" access="readwrite" />
-		<property name="Int64Property" type="x" access="readwrite" />
+		<property name="StrProperty" type="s" access="read" />
+		<property name="ByteProperty" type="y" access="read" />
+		<property name="BoolProperty" type="b" access="read" />
+		<property name="Int16Property" type="n" access="read" />
+		<property name="Uint16Property" type="q" access="read" />
+		<property name="Int32Property" type="i" access="read" />
+		<property name="Uint32Property" type="u" access="read" />
+		<property name="Int64Property" type="x" access="read" />
 		<property name="Uint64Property" type="t" access="read" />
 		<property name="DoubleProperty" type="d" access="read" />
 		<property name="ArrayStrProperty" type="as" access="read" />
-		<property name="ArrayUint32Property" type="au" access="readwrite" />
+		<property name="ArrayUint32Property" type="au" access="read" />
 	</interface>
 </node>
