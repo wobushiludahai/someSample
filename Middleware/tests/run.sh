@@ -25,8 +25,11 @@ make
 make install
 
 cp ${BUILD_DIR}/middleware ${OUTPUT_DIR}/
-cp ${BUILD_DIR}/gdbus/service1 ${OUTPUT_DIR}/
-cp ${BUILD_DIR}/gdbus/service2 ${OUTPUT_DIR}/
+cp ${BUILD_DIR}/gdbus/client ${OUTPUT_DIR}/
+cp ${BUILD_DIR}/gdbus/server ${OUTPUT_DIR}/
+
+# cp ${BUILD_DIR}/gdbus/service1 ${OUTPUT_DIR}/
+# cp ${BUILD_DIR}/gdbus/service2 ${OUTPUT_DIR}/
 
 rm -rf ${OUTPUT_DIR}/test.db
 
@@ -35,7 +38,7 @@ echo
 echo
 # ./middleware
 
-# ./server
+./server
 # ./client &
 # sleep 10
 # killall server

@@ -61,12 +61,24 @@ gpointer test_thread(gpointer data)
         count++;
         my_interface_set_uint16_property(proxy, temp_test++);
 
+        char *p = "hello";
+        char *q = NULL;
+        gint ret_int;
+        GError *proxyerror = NULL;
+
+        my_interface_call_my_method_sync(proxy, p, 100, &q, &ret_int, NULL, &proxyerror);
+        if (proxyerror != NULL)
+        {
+            g_printerr("Error calling method: %s\n", proxyerror->message);
+            break;
+        }
+
         if (count == 1000 * 10000)
         {
             break;
         }
 
-        // g_usleep(1);
+        g_usleep(1000 * 1000);
     }
 
     return NULL;
