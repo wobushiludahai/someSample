@@ -231,7 +231,7 @@ static const _ExtendedGDBusMethodInfo _my_interface_method_info_my_method =
     (GDBusArgInfo **) &_my_interface_method_info_my_method_OUT_ARG_pointers,
     NULL
   },
-  "my-method",
+  "MyMethod",
   FALSE
 };
 
@@ -278,7 +278,7 @@ static const _ExtendedGDBusSignalInfo _my_interface_signal_info_bar_signal =
     (GDBusArgInfo **) &_my_interface_signal_info_bar_signal_ARG_pointers,
     NULL
   },
-  "bar-signal"
+  "BarSignal"
 };
 
 static const GDBusSignalInfo * const _my_interface_signal_info_pointers[] =
@@ -538,7 +538,7 @@ my_interface_override_properties (GObjectClass *klass, guint property_id_begin)
 /**
  * MyInterfaceIface:
  * @parent_iface: The parent interface.
- * @handle_my_method: Handler for the #MyInterface::my-method signal.
+ * @handle_my_method: Handler for the #MyInterface::MyMethod signal.
  * @get_array_str_property: Getter for the #MyInterface:array-str-property property.
  * @get_array_uint32_property: Getter for the #MyInterface:array-uint32-property property.
  * @get_bool_property: Getter for the #MyInterface:bool-property property.
@@ -551,7 +551,7 @@ my_interface_override_properties (GObjectClass *klass, guint property_id_begin)
  * @get_uint16_property: Getter for the #MyInterface:uint16-property property.
  * @get_uint32_property: Getter for the #MyInterface:uint32-property property.
  * @get_uint64_property: Getter for the #MyInterface:uint64-property property.
- * @bar_signal: Handler for the #MyInterface::bar-signal signal.
+ * @bar_signal: Handler for the #MyInterface::BarSignal signal.
  *
  * Virtual table for the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link>.
  */
@@ -564,7 +564,7 @@ my_interface_default_init (MyInterfaceIface *iface)
 {
   /* GObject signals for incoming D-Bus method calls: */
   /**
-   * MyInterface::my-method:
+   * MyInterface::MyMethod:
    * @object: A #MyInterface.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_in_arg1: Argument passed by remote caller.
@@ -576,7 +576,7 @@ my_interface_default_init (MyInterfaceIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("my-method",
+  g_signal_new ("MyMethod",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (MyInterfaceIface, handle_my_method),
@@ -589,7 +589,7 @@ my_interface_default_init (MyInterfaceIface *iface)
 
   /* GObject signals for received D-Bus signals: */
   /**
-   * MyInterface::bar-signal:
+   * MyInterface::BarSignal:
    * @object: A #MyInterface.
    * @arg_blah: Argument.
    * @arg_boo: Argument.
@@ -598,7 +598,7 @@ my_interface_default_init (MyInterfaceIface *iface)
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
-  g_signal_new ("bar-signal",
+  g_signal_new ("BarSignal",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (MyInterfaceIface, bar_signal),
@@ -1189,7 +1189,7 @@ my_interface_emit_bar_signal (
     const gchar *arg_blah,
     const gchar *arg_boo)
 {
-  g_signal_emit_by_name (object, "bar-signal", arg_blah, arg_boo);
+  g_signal_emit_by_name (object, "BarSignal", arg_blah, arg_boo);
 }
 
 /**

@@ -231,7 +231,7 @@ static const _ExtendedGDBusMethodInfo _photo_method_info_take_photo =
     (GDBusArgInfo **) &_photo_method_info_take_photo_OUT_ARG_pointers,
     NULL
   },
-  "take-photo",
+  "TakePhoto",
   FALSE
 };
 
@@ -244,7 +244,7 @@ static const _ExtendedGDBusMethodInfo _photo_method_info_stop_photo =
     NULL,
     NULL
   },
-  "stop-photo",
+  "StopPhoto",
   FALSE
 };
 
@@ -346,7 +346,7 @@ static const _ExtendedGDBusMethodInfo _photo_method_info_get_photo_info =
     (GDBusArgInfo **) &_photo_method_info_get_photo_info_OUT_ARG_pointers,
     NULL
   },
-  "get-photo-info",
+  "GetPhotoInfo",
   FALSE
 };
 
@@ -383,7 +383,7 @@ static const _ExtendedGDBusSignalInfo _photo_signal_info_start =
     (GDBusArgInfo **) &_photo_signal_info_start_ARG_pointers,
     NULL
   },
-  "start"
+  "Start"
 };
 
 static const _ExtendedGDBusSignalInfo _photo_signal_info_stop =
@@ -394,7 +394,7 @@ static const _ExtendedGDBusSignalInfo _photo_signal_info_stop =
     NULL,
     NULL
   },
-  "stop"
+  "Stop"
 };
 
 static const GDBusSignalInfo * const _photo_signal_info_pointers[] =
@@ -410,7 +410,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_str_property =
     -1,
     (gchar *) "StrProperty",
     (gchar *) "s",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "str-property",
@@ -424,7 +424,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_byte_property =
     -1,
     (gchar *) "ByteProperty",
     (gchar *) "y",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "byte-property",
@@ -438,7 +438,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_bool_property =
     -1,
     (gchar *) "BoolProperty",
     (gchar *) "b",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "bool-property",
@@ -452,7 +452,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int16_property =
     -1,
     (gchar *) "Int16Property",
     (gchar *) "n",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "int16-property",
@@ -466,7 +466,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint16_property =
     -1,
     (gchar *) "Uint16Property",
     (gchar *) "q",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "uint16-property",
@@ -480,7 +480,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int32_property =
     -1,
     (gchar *) "Int32Property",
     (gchar *) "i",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "int32-property",
@@ -494,7 +494,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint32_property =
     -1,
     (gchar *) "Uint32Property",
     (gchar *) "u",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "uint32-property",
@@ -508,7 +508,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int64_property =
     -1,
     (gchar *) "Int64Property",
     (gchar *) "x",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "int64-property",
@@ -564,7 +564,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_array_uint32_proper
     -1,
     (gchar *) "ArrayUint32Property",
     (gchar *) "au",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "array-uint32-property",
@@ -655,9 +655,9 @@ photo_override_properties (GObjectClass *klass, guint property_id_begin)
 /**
  * PhotoIface:
  * @parent_iface: The parent interface.
- * @handle_get_photo_info: Handler for the #Photo::get-photo-info signal.
- * @handle_stop_photo: Handler for the #Photo::stop-photo signal.
- * @handle_take_photo: Handler for the #Photo::take-photo signal.
+ * @handle_get_photo_info: Handler for the #Photo::GetPhotoInfo signal.
+ * @handle_stop_photo: Handler for the #Photo::StopPhoto signal.
+ * @handle_take_photo: Handler for the #Photo::TakePhoto signal.
  * @get_array_str_property: Getter for the #Photo:array-str-property property.
  * @get_array_uint32_property: Getter for the #Photo:array-uint32-property property.
  * @get_bool_property: Getter for the #Photo:bool-property property.
@@ -670,8 +670,8 @@ photo_override_properties (GObjectClass *klass, guint property_id_begin)
  * @get_uint16_property: Getter for the #Photo:uint16-property property.
  * @get_uint32_property: Getter for the #Photo:uint32-property property.
  * @get_uint64_property: Getter for the #Photo:uint64-property property.
- * @start: Handler for the #Photo::start signal.
- * @stop: Handler for the #Photo::stop signal.
+ * @start: Handler for the #Photo::Start signal.
+ * @stop: Handler for the #Photo::Stop signal.
  *
  * Virtual table for the D-Bus interface <link linkend="gdbus-interface-com-example-photo.top_of_page">com.example.photo</link>.
  */
@@ -684,7 +684,7 @@ photo_default_init (PhotoIface *iface)
 {
   /* GObject signals for incoming D-Bus method calls: */
   /**
-   * Photo::take-photo:
+   * Photo::TakePhoto:
    * @object: A #Photo.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_in_arg1: Argument passed by remote caller.
@@ -696,7 +696,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("take-photo",
+  g_signal_new ("TakePhoto",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (PhotoIface, handle_take_photo),
@@ -708,7 +708,7 @@ photo_default_init (PhotoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING, G_TYPE_INT);
 
   /**
-   * Photo::stop-photo:
+   * Photo::StopPhoto:
    * @object: A #Photo.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -718,7 +718,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("stop-photo",
+  g_signal_new ("StopPhoto",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (PhotoIface, handle_stop_photo),
@@ -730,7 +730,7 @@ photo_default_init (PhotoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Photo::get-photo-info:
+   * Photo::GetPhotoInfo:
    * @object: A #Photo.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -740,7 +740,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("get-photo-info",
+  g_signal_new ("GetPhotoInfo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (PhotoIface, handle_get_photo_info),
@@ -753,7 +753,7 @@ photo_default_init (PhotoIface *iface)
 
   /* GObject signals for received D-Bus signals: */
   /**
-   * Photo::start:
+   * Photo::Start:
    * @object: A #Photo.
    * @arg_time: Argument.
    *
@@ -761,7 +761,7 @@ photo_default_init (PhotoIface *iface)
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
-  g_signal_new ("start",
+  g_signal_new ("Start",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (PhotoIface, start),
@@ -772,14 +772,14 @@ photo_default_init (PhotoIface *iface)
     1, G_TYPE_UINT);
 
   /**
-   * Photo::stop:
+   * Photo::Stop:
    * @object: A #Photo.
    *
    * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-photo.Stop">"Stop"</link> is received.
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
-  g_signal_new ("stop",
+  g_signal_new ("Stop",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (PhotoIface, stop),
@@ -795,7 +795,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_string ("str-property", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -804,7 +804,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uchar ("byte-property", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -813,7 +813,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_boolean ("bool-property", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -822,7 +822,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_int ("int16-property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -831,7 +831,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uint ("uint16-property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -840,7 +840,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_int ("int32-property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -849,7 +849,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uint ("uint32-property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -858,7 +858,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_int64 ("int64-property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -894,7 +894,7 @@ photo_default_init (PhotoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_variant ("array-uint32-property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -906,7 +906,7 @@ photo_default_init (PhotoIface *iface)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use photo_dup_str_property() if on another thread.
  *
@@ -926,7 +926,7 @@ photo_get_str_property (Photo *object)
  *
  * Gets a copy of the <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_free().
  */
@@ -945,7 +945,7 @@ photo_dup_str_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 photo_set_str_property (Photo *object, const gchar *value)
@@ -959,7 +959,7 @@ photo_set_str_property (Photo *object, const gchar *value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -978,7 +978,7 @@ photo_get_byte_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 photo_set_byte_property (Photo *object, guchar value)
@@ -992,7 +992,7 @@ photo_set_byte_property (Photo *object, guchar value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1011,7 +1011,7 @@ photo_get_bool_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 photo_set_bool_property (Photo *object, gboolean value)
@@ -1025,7 +1025,7 @@ photo_set_bool_property (Photo *object, gboolean value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1044,7 +1044,7 @@ photo_get_int16_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 photo_set_int16_property (Photo *object, gint16 value)
@@ -1058,7 +1058,7 @@ photo_set_int16_property (Photo *object, gint16 value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1077,7 +1077,7 @@ photo_get_uint16_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 photo_set_uint16_property (Photo *object, guint16 value)
@@ -1091,7 +1091,7 @@ photo_set_uint16_property (Photo *object, guint16 value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1110,7 +1110,7 @@ photo_get_int32_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 photo_set_int32_property (Photo *object, gint value)
@@ -1124,7 +1124,7 @@ photo_set_int32_property (Photo *object, gint value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1143,7 +1143,7 @@ photo_get_uint32_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 photo_set_uint32_property (Photo *object, guint value)
@@ -1157,7 +1157,7 @@ photo_set_uint32_property (Photo *object, guint value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1176,7 +1176,7 @@ photo_get_int64_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 photo_set_int64_property (Photo *object, gint64 value)
@@ -1309,7 +1309,7 @@ photo_set_array_str_property (Photo *object, const gchar *const *value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use photo_dup_array_uint32_property() if on another thread.
  *
@@ -1329,7 +1329,7 @@ photo_get_array_uint32_property (Photo *object)
  *
  * Gets a copy of the <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_variant_unref().
  */
@@ -1348,7 +1348,7 @@ photo_dup_array_uint32_property (Photo *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 photo_set_array_uint32_property (Photo *object, GVariant *value)
@@ -1368,7 +1368,7 @@ photo_emit_start (
     Photo *object,
     guint arg_time)
 {
-  g_signal_emit_by_name (object, "start", arg_time);
+  g_signal_emit_by_name (object, "Start", arg_time);
 }
 
 /**
@@ -1381,7 +1381,7 @@ void
 photo_emit_stop (
     Photo *object)
 {
-  g_signal_emit_by_name (object, "stop");
+  g_signal_emit_by_name (object, "Stop");
 }
 
 /**

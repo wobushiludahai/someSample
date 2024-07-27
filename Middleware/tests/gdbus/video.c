@@ -231,7 +231,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_start_video =
     (GDBusArgInfo **) &_video_method_info_start_video_OUT_ARG_pointers,
     NULL
   },
-  "start-video",
+  "StartVideo",
   FALSE
 };
 
@@ -244,7 +244,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_stop_video =
     NULL,
     NULL
   },
-  "stop-video",
+  "StopVideo",
   FALSE
 };
 
@@ -257,7 +257,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_pause_video =
     NULL,
     NULL
   },
-  "pause-video",
+  "PauseVideo",
   FALSE
 };
 
@@ -270,7 +270,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_resume_video =
     NULL,
     NULL
   },
-  "resume-video",
+  "ResumeVideo",
   FALSE
 };
 
@@ -300,7 +300,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_get_video_status =
     (GDBusArgInfo **) &_video_method_info_get_video_status_OUT_ARG_pointers,
     NULL
   },
-  "get-video-status",
+  "GetVideoStatus",
   FALSE
 };
 
@@ -330,7 +330,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_set_video_status =
     NULL,
     NULL
   },
-  "set-video-status",
+  "SetVideoStatus",
   FALSE
 };
 
@@ -384,7 +384,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_get_video_info =
     (GDBusArgInfo **) &_video_method_info_get_video_info_OUT_ARG_pointers,
     NULL
   },
-  "get-video-info",
+  "GetVideoInfo",
   FALSE
 };
 
@@ -426,7 +426,7 @@ static const _ExtendedGDBusMethodInfo _video_method_info_share_video =
     NULL,
     NULL
   },
-  "share-video",
+  "ShareVideo",
   FALSE
 };
 
@@ -468,7 +468,7 @@ static const _ExtendedGDBusSignalInfo _video_signal_info_record_start =
     (GDBusArgInfo **) &_video_signal_info_record_start_ARG_pointers,
     NULL
   },
-  "record-start"
+  "RecordStart"
 };
 
 static const _ExtendedGDBusSignalInfo _video_signal_info_record_stop =
@@ -479,7 +479,7 @@ static const _ExtendedGDBusSignalInfo _video_signal_info_record_stop =
     NULL,
     NULL
   },
-  "record-stop"
+  "RecordStop"
 };
 
 static const GDBusSignalInfo * const _video_signal_info_pointers[] =
@@ -740,14 +740,14 @@ video_override_properties (GObjectClass *klass, guint property_id_begin)
 /**
  * VideoIface:
  * @parent_iface: The parent interface.
- * @handle_get_video_info: Handler for the #Video::get-video-info signal.
- * @handle_get_video_status: Handler for the #Video::get-video-status signal.
- * @handle_pause_video: Handler for the #Video::pause-video signal.
- * @handle_resume_video: Handler for the #Video::resume-video signal.
- * @handle_set_video_status: Handler for the #Video::set-video-status signal.
- * @handle_share_video: Handler for the #Video::share-video signal.
- * @handle_start_video: Handler for the #Video::start-video signal.
- * @handle_stop_video: Handler for the #Video::stop-video signal.
+ * @handle_get_video_info: Handler for the #Video::GetVideoInfo signal.
+ * @handle_get_video_status: Handler for the #Video::GetVideoStatus signal.
+ * @handle_pause_video: Handler for the #Video::PauseVideo signal.
+ * @handle_resume_video: Handler for the #Video::ResumeVideo signal.
+ * @handle_set_video_status: Handler for the #Video::SetVideoStatus signal.
+ * @handle_share_video: Handler for the #Video::ShareVideo signal.
+ * @handle_start_video: Handler for the #Video::StartVideo signal.
+ * @handle_stop_video: Handler for the #Video::StopVideo signal.
  * @get_array_str_property: Getter for the #Video:array-str-property property.
  * @get_array_uint32_property: Getter for the #Video:array-uint32-property property.
  * @get_bool_property: Getter for the #Video:bool-property property.
@@ -760,8 +760,8 @@ video_override_properties (GObjectClass *klass, guint property_id_begin)
  * @get_uint16_property: Getter for the #Video:uint16-property property.
  * @get_uint32_property: Getter for the #Video:uint32-property property.
  * @get_uint64_property: Getter for the #Video:uint64-property property.
- * @record_start: Handler for the #Video::record-start signal.
- * @record_stop: Handler for the #Video::record-stop signal.
+ * @record_start: Handler for the #Video::RecordStart signal.
+ * @record_stop: Handler for the #Video::RecordStop signal.
  *
  * Virtual table for the D-Bus interface <link linkend="gdbus-interface-com-example-video.top_of_page">com.example.video</link>.
  */
@@ -774,7 +774,7 @@ video_default_init (VideoIface *iface)
 {
   /* GObject signals for incoming D-Bus method calls: */
   /**
-   * Video::start-video:
+   * Video::StartVideo:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_in_arg1: Argument passed by remote caller.
@@ -786,7 +786,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("start-video",
+  g_signal_new ("StartVideo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_start_video),
@@ -798,7 +798,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING, G_TYPE_INT);
 
   /**
-   * Video::stop-video:
+   * Video::StopVideo:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -808,7 +808,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("stop-video",
+  g_signal_new ("StopVideo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_stop_video),
@@ -820,7 +820,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::pause-video:
+   * Video::PauseVideo:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -830,7 +830,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("pause-video",
+  g_signal_new ("PauseVideo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_pause_video),
@@ -842,7 +842,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::resume-video:
+   * Video::ResumeVideo:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -852,7 +852,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("resume-video",
+  g_signal_new ("ResumeVideo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_resume_video),
@@ -864,7 +864,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::get-video-status:
+   * Video::GetVideoStatus:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -874,7 +874,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("get-video-status",
+  g_signal_new ("GetVideoStatus",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_get_video_status),
@@ -886,7 +886,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::set-video-status:
+   * Video::SetVideoStatus:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_status: Argument passed by remote caller.
@@ -897,7 +897,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("set-video-status",
+  g_signal_new ("SetVideoStatus",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_set_video_status),
@@ -909,7 +909,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_UCHAR);
 
   /**
-   * Video::get-video-info:
+   * Video::GetVideoInfo:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    *
@@ -919,7 +919,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("get-video-info",
+  g_signal_new ("GetVideoInfo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_get_video_info),
@@ -931,7 +931,7 @@ video_default_init (VideoIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION);
 
   /**
-   * Video::share-video:
+   * Video::ShareVideo:
    * @object: A #Video.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_path: Argument passed by remote caller.
@@ -943,7 +943,7 @@ video_default_init (VideoIface *iface)
    *
    * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
    */
-  g_signal_new ("share-video",
+  g_signal_new ("ShareVideo",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, handle_share_video),
@@ -956,7 +956,7 @@ video_default_init (VideoIface *iface)
 
   /* GObject signals for received D-Bus signals: */
   /**
-   * Video::record-start:
+   * Video::RecordStart:
    * @object: A #Video.
    * @arg_time: Argument.
    *
@@ -964,7 +964,7 @@ video_default_init (VideoIface *iface)
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
-  g_signal_new ("record-start",
+  g_signal_new ("RecordStart",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, record_start),
@@ -975,14 +975,14 @@ video_default_init (VideoIface *iface)
     1, G_TYPE_UINT);
 
   /**
-   * Video::record-stop:
+   * Video::RecordStop:
    * @object: A #Video.
    *
    * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-video.RecordStop">"RecordStop"</link> is received.
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
-  g_signal_new ("record-stop",
+  g_signal_new ("RecordStop",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
     G_STRUCT_OFFSET (VideoIface, record_stop),
@@ -1571,7 +1571,7 @@ video_emit_record_start (
     Video *object,
     guint arg_time)
 {
-  g_signal_emit_by_name (object, "record-start", arg_time);
+  g_signal_emit_by_name (object, "RecordStart", arg_time);
 }
 
 /**
@@ -1584,7 +1584,7 @@ void
 video_emit_record_stop (
     Video *object)
 {
-  g_signal_emit_by_name (object, "record-stop");
+  g_signal_emit_by_name (object, "RecordStop");
 }
 
 /**
