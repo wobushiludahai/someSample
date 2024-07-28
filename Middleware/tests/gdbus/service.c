@@ -10,6 +10,8 @@
 typedef struct
 {
     gpointer proxy;
+    gchar *service_name;
+    GThreadPool *pool;
     GHashTable *signal_callback_id;
     GHashTable *property_changed_callback;
     gboolean is_have_monitor_property; // 是否有属性被监听
@@ -57,6 +59,10 @@ static void _destory_proxy_hashtable(gpointer data)
 
     g_hash_table_destroy(proxy_info->signal_callback_id);
     g_hash_table_destroy(proxy_info->property_changed_callback);
+    g_free(proxy_info->service_name);
+    g_thread_pool_free(proxy_info->pool, FALSE, TRUE);
+
+    g_free(proxy_info);
 }
 
 // 自身服务初始化
@@ -176,18 +182,10 @@ gboolean unbind_signal_callback(const gchar *service, const gchar *signal_name)
     return TRUE;
 }
 
-static void _properties_changed(
-    GDBusProxy *proxy, GVariant *changed_properties, const gchar *const *invalidated_properties)
+static void _property_changed_thread_handle(gpointer data, gpointer user_data)
 {
-    gchar *service_name = g_strdup_printf("%s", strrchr(g_dbus_proxy_get_object_path(proxy), '/') + 1);
-
-    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service_name);
-    if (proxy_info == NULL)
-    {
-        error("can not find %s\n", service);
-        g_free(service_name);
-        return;
-    }
+    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)user_data;
+    GVariant *changed_properties = (GVariant *)data;
 
     GVariantIter iter;
     g_variant_iter_init(&iter, changed_properties);
@@ -196,7 +194,7 @@ static void _properties_changed(
     GVariant *value = NULL;
     while (g_variant_iter_next(&iter, "{sv}", &key, &value))
     {
-        gchar *callback_key = g_strdup_printf("%s_%s", service_name, key);
+        gchar *callback_key = g_strdup_printf("%s_%s", proxy_info->service_name, key);
         gpointer callback = g_hash_table_lookup(proxy_info->property_changed_callback, callback_key);
         if (callback != NULL)
         {
@@ -207,6 +205,27 @@ static void _properties_changed(
         g_variant_unref(value);
         g_free(key);
     }
+
+    g_variant_unref(changed_properties);
+}
+
+static void _properties_changed(
+    GDBusProxy *proxy, GVariant *changed_properties, const gchar *const *invalidated_properties)
+{
+    gchar *service_name = g_strdup_printf("%s", strrchr(g_dbus_proxy_get_object_path(proxy), '/') + 1);
+
+    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service_name);
+    if (proxy_info == NULL || proxy_info->pool == NULL)
+    {
+        error("can not find %s\n", service_name);
+        g_free(service_name);
+        return;
+    }
+
+    g_variant_ref(changed_properties);
+    g_thread_pool_push(proxy_info->pool, changed_properties, NULL);
+
+    g_free(service_name);
 }
 
 // 请确保 service 已经 register
@@ -234,6 +253,10 @@ gboolean bind_property_changed_callback(
         proxy_info->property_changed_signal_id
             = g_signal_connect(proxy_info->proxy, "g-properties-changed", G_CALLBACK(_properties_changed), NULL);
         proxy_info->is_have_monitor_property = TRUE;
+        if (proxy_info->pool == NULL)
+        {
+            proxy_info->pool = g_thread_pool_new(_property_changed_thread_handle, proxy_info, 20, FALSE, NULL);
+        }
     }
 
     g_hash_table_insert(proxy_info->property_changed_callback, g_strdup(key), (gpointer)callback);
@@ -255,19 +278,25 @@ gboolean unbind_property_changed_callback(const gchar *service, const gchar *pro
     gpointer value = g_hash_table_lookup(proxy_info->property_changed_callback, key);
     if (value == NULL)
     {
-        g_print("can not find callback %s:%s\n", service, property_name);
+        error("can not find callback %s:%s\n", service, property_name);
         g_free(key);
         return FALSE;
     }
 
     g_hash_table_remove(proxy_info->property_changed_callback, key);
+    g_free(key);
+
     if (g_hash_table_size(proxy_info->property_changed_callback) == 0) // 已经没有监听属性
     {
-        g_signal_handler_disconnect(proxy_info->proxy, proxy_info->property_changed_signal_id);
-        proxy_info->is_have_monitor_property = TRUE;
+        if (proxy_info->is_have_monitor_property == TRUE)
+        {
+            g_signal_handler_disconnect(proxy_info->proxy, proxy_info->property_changed_signal_id);
+            proxy_info->is_have_monitor_property = FALSE;
+            g_thread_pool_free(proxy_info->pool, FALSE, TRUE);
+            proxy_info->pool = NULL;
+        }
     }
 
-    g_free(key);
     return TRUE;
 }
 
@@ -298,6 +327,8 @@ gpointer register_proxy(const gchar *service_name, proxy_new_sync call)
     proxy_info->proxy = proxy;
     proxy_info->signal_callback_id = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
     proxy_info->property_changed_callback = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+    proxy_info->pool = NULL;
+    proxy_info->service_name = g_strdup(service_name);
 
     g_hash_table_insert(g_service.proxy, g_strdup(service_name), proxy_info);
 
