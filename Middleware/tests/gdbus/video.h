@@ -455,6 +455,449 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC (VideoSkeleton, g_object_unref)
 Video *video_skeleton_new (void);
 
 
+/* ------------------------------------------------------------------------ */
+/* Declarations for com.example.video2 */
+
+#define TYPE_VIDEO2 (video2_get_type ())
+#define VIDEO2(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_VIDEO2, Video2))
+#define IS_VIDEO2(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_VIDEO2))
+#define VIDEO2_GET_IFACE(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), TYPE_VIDEO2, Video2Iface))
+
+struct _Video2;
+typedef struct _Video2 Video2;
+typedef struct _Video2Iface Video2Iface;
+
+struct _Video2Iface
+{
+  GTypeInterface parent_iface;
+
+
+
+  gboolean (*handle_get_video_info) (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+  gboolean (*handle_get_video_status) (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+  gboolean (*handle_pause_video) (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+  gboolean (*handle_resume_video) (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+  gboolean (*handle_set_video_status) (
+    Video2 *object,
+    GDBusMethodInvocation *invocation,
+    guchar arg_status);
+
+  gboolean (*handle_share_video) (
+    Video2 *object,
+    GDBusMethodInvocation *invocation,
+    const gchar *arg_path,
+    guint arg_time);
+
+  gboolean (*handle_start_video) (
+    Video2 *object,
+    GDBusMethodInvocation *invocation,
+    const gchar *arg_in_arg1,
+    gint arg_in_arg2);
+
+  gboolean (*handle_stop_video) (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+  const gchar *const * (*get_array_str_property) (Video2 *object);
+
+  GVariant * (*get_array_uint32_property) (Video2 *object);
+
+  gboolean  (*get_bool_property) (Video2 *object);
+
+  guchar  (*get_byte_property) (Video2 *object);
+
+  gdouble  (*get_double_property) (Video2 *object);
+
+  gint16  (*get_int16_property) (Video2 *object);
+
+  gint  (*get_int32_property) (Video2 *object);
+
+  gint64  (*get_int64_property) (Video2 *object);
+
+  const gchar * (*get_str_property) (Video2 *object);
+
+  guint16  (*get_uint16_property) (Video2 *object);
+
+  guint  (*get_uint32_property) (Video2 *object);
+
+  guint64  (*get_uint64_property) (Video2 *object);
+
+  void (*record_start) (
+    Video2 *object,
+    guint arg_time);
+
+  void (*record_stop) (
+    Video2 *object);
+
+};
+
+GType video2_get_type (void) G_GNUC_CONST;
+
+GDBusInterfaceInfo *video2_interface_info (void);
+guint video2_override_properties (GObjectClass *klass, guint property_id_begin);
+
+
+/* D-Bus method call completion functions: */
+void video2_complete_start_video (
+    Video2 *object,
+    GDBusMethodInvocation *invocation,
+    const gchar *out_arg1,
+    gint out_arg2);
+
+void video2_complete_stop_video (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+void video2_complete_pause_video (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+void video2_complete_resume_video (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+void video2_complete_get_video_status (
+    Video2 *object,
+    GDBusMethodInvocation *invocation,
+    guchar status);
+
+void video2_complete_set_video_status (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+void video2_complete_get_video_info (
+    Video2 *object,
+    GDBusMethodInvocation *invocation,
+    const gchar *name,
+    guint frame,
+    const gchar *format);
+
+void video2_complete_share_video (
+    Video2 *object,
+    GDBusMethodInvocation *invocation);
+
+
+
+/* D-Bus signal emissions functions: */
+void video2_emit_record_start (
+    Video2 *object,
+    guint arg_time);
+
+void video2_emit_record_stop (
+    Video2 *object);
+
+
+
+/* D-Bus method calls: */
+void video2_call_start_video (
+    Video2 *proxy,
+    const gchar *arg_in_arg1,
+    gint arg_in_arg2,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean video2_call_start_video_finish (
+    Video2 *proxy,
+    gchar **out_out_arg1,
+    gint *out_out_arg2,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean video2_call_start_video_sync (
+    Video2 *proxy,
+    const gchar *arg_in_arg1,
+    gint arg_in_arg2,
+    gchar **out_out_arg1,
+    gint *out_out_arg2,
+    GCancellable *cancellable,
+    GError **error);
+
+void video2_call_stop_video (
+    Video2 *proxy,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean video2_call_stop_video_finish (
+    Video2 *proxy,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean video2_call_stop_video_sync (
+    Video2 *proxy,
+    GCancellable *cancellable,
+    GError **error);
+
+void video2_call_pause_video (
+    Video2 *proxy,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean video2_call_pause_video_finish (
+    Video2 *proxy,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean video2_call_pause_video_sync (
+    Video2 *proxy,
+    GCancellable *cancellable,
+    GError **error);
+
+void video2_call_resume_video (
+    Video2 *proxy,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean video2_call_resume_video_finish (
+    Video2 *proxy,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean video2_call_resume_video_sync (
+    Video2 *proxy,
+    GCancellable *cancellable,
+    GError **error);
+
+void video2_call_get_video_status (
+    Video2 *proxy,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean video2_call_get_video_status_finish (
+    Video2 *proxy,
+    guchar *out_status,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean video2_call_get_video_status_sync (
+    Video2 *proxy,
+    guchar *out_status,
+    GCancellable *cancellable,
+    GError **error);
+
+void video2_call_set_video_status (
+    Video2 *proxy,
+    guchar arg_status,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean video2_call_set_video_status_finish (
+    Video2 *proxy,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean video2_call_set_video_status_sync (
+    Video2 *proxy,
+    guchar arg_status,
+    GCancellable *cancellable,
+    GError **error);
+
+void video2_call_get_video_info (
+    Video2 *proxy,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean video2_call_get_video_info_finish (
+    Video2 *proxy,
+    gchar **out_name,
+    guint *out_frame,
+    gchar **out_format,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean video2_call_get_video_info_sync (
+    Video2 *proxy,
+    gchar **out_name,
+    guint *out_frame,
+    gchar **out_format,
+    GCancellable *cancellable,
+    GError **error);
+
+void video2_call_share_video (
+    Video2 *proxy,
+    const gchar *arg_path,
+    guint arg_time,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+gboolean video2_call_share_video_finish (
+    Video2 *proxy,
+    GAsyncResult *res,
+    GError **error);
+
+gboolean video2_call_share_video_sync (
+    Video2 *proxy,
+    const gchar *arg_path,
+    guint arg_time,
+    GCancellable *cancellable,
+    GError **error);
+
+
+
+/* D-Bus property accessors: */
+const gchar *video2_get_str_property (Video2 *object);
+gchar *video2_dup_str_property (Video2 *object);
+void video2_set_str_property (Video2 *object, const gchar *value);
+
+guchar video2_get_byte_property (Video2 *object);
+void video2_set_byte_property (Video2 *object, guchar value);
+
+gboolean video2_get_bool_property (Video2 *object);
+void video2_set_bool_property (Video2 *object, gboolean value);
+
+gint16 video2_get_int16_property (Video2 *object);
+void video2_set_int16_property (Video2 *object, gint16 value);
+
+guint16 video2_get_uint16_property (Video2 *object);
+void video2_set_uint16_property (Video2 *object, guint16 value);
+
+gint video2_get_int32_property (Video2 *object);
+void video2_set_int32_property (Video2 *object, gint value);
+
+guint video2_get_uint32_property (Video2 *object);
+void video2_set_uint32_property (Video2 *object, guint value);
+
+gint64 video2_get_int64_property (Video2 *object);
+void video2_set_int64_property (Video2 *object, gint64 value);
+
+guint64 video2_get_uint64_property (Video2 *object);
+void video2_set_uint64_property (Video2 *object, guint64 value);
+
+gdouble video2_get_double_property (Video2 *object);
+void video2_set_double_property (Video2 *object, gdouble value);
+
+const gchar *const *video2_get_array_str_property (Video2 *object);
+gchar **video2_dup_array_str_property (Video2 *object);
+void video2_set_array_str_property (Video2 *object, const gchar *const *value);
+
+GVariant *video2_get_array_uint32_property (Video2 *object);
+GVariant *video2_dup_array_uint32_property (Video2 *object);
+void video2_set_array_uint32_property (Video2 *object, GVariant *value);
+
+
+/* ---- */
+
+#define TYPE_VIDEO2_PROXY (video2_proxy_get_type ())
+#define VIDEO2_PROXY(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_VIDEO2_PROXY, Video2Proxy))
+#define VIDEO2_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), TYPE_VIDEO2_PROXY, Video2ProxyClass))
+#define VIDEO2_PROXY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), TYPE_VIDEO2_PROXY, Video2ProxyClass))
+#define IS_VIDEO2_PROXY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_VIDEO2_PROXY))
+#define IS_VIDEO2_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), TYPE_VIDEO2_PROXY))
+
+typedef struct _Video2Proxy Video2Proxy;
+typedef struct _Video2ProxyClass Video2ProxyClass;
+typedef struct _Video2ProxyPrivate Video2ProxyPrivate;
+
+struct _Video2Proxy
+{
+  /*< private >*/
+  GDBusProxy parent_instance;
+  Video2ProxyPrivate *priv;
+};
+
+struct _Video2ProxyClass
+{
+  GDBusProxyClass parent_class;
+};
+
+GType video2_proxy_get_type (void) G_GNUC_CONST;
+
+#if GLIB_CHECK_VERSION(2, 44, 0)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (Video2Proxy, g_object_unref)
+#endif
+
+void video2_proxy_new (
+    GDBusConnection     *connection,
+    GDBusProxyFlags      flags,
+    const gchar         *name,
+    const gchar         *object_path,
+    GCancellable        *cancellable,
+    GAsyncReadyCallback  callback,
+    gpointer             user_data);
+Video2 *video2_proxy_new_finish (
+    GAsyncResult        *res,
+    GError             **error);
+Video2 *video2_proxy_new_sync (
+    GDBusConnection     *connection,
+    GDBusProxyFlags      flags,
+    const gchar         *name,
+    const gchar         *object_path,
+    GCancellable        *cancellable,
+    GError             **error);
+
+void video2_proxy_new_for_bus (
+    GBusType             bus_type,
+    GDBusProxyFlags      flags,
+    const gchar         *name,
+    const gchar         *object_path,
+    GCancellable        *cancellable,
+    GAsyncReadyCallback  callback,
+    gpointer             user_data);
+Video2 *video2_proxy_new_for_bus_finish (
+    GAsyncResult        *res,
+    GError             **error);
+Video2 *video2_proxy_new_for_bus_sync (
+    GBusType             bus_type,
+    GDBusProxyFlags      flags,
+    const gchar         *name,
+    const gchar         *object_path,
+    GCancellable        *cancellable,
+    GError             **error);
+
+
+/* ---- */
+
+#define TYPE_VIDEO2_SKELETON (video2_skeleton_get_type ())
+#define VIDEO2_SKELETON(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_VIDEO2_SKELETON, Video2Skeleton))
+#define VIDEO2_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), TYPE_VIDEO2_SKELETON, Video2SkeletonClass))
+#define VIDEO2_SKELETON_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), TYPE_VIDEO2_SKELETON, Video2SkeletonClass))
+#define IS_VIDEO2_SKELETON(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_VIDEO2_SKELETON))
+#define IS_VIDEO2_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), TYPE_VIDEO2_SKELETON))
+
+typedef struct _Video2Skeleton Video2Skeleton;
+typedef struct _Video2SkeletonClass Video2SkeletonClass;
+typedef struct _Video2SkeletonPrivate Video2SkeletonPrivate;
+
+struct _Video2Skeleton
+{
+  /*< private >*/
+  GDBusInterfaceSkeleton parent_instance;
+  Video2SkeletonPrivate *priv;
+};
+
+struct _Video2SkeletonClass
+{
+  GDBusInterfaceSkeletonClass parent_class;
+};
+
+GType video2_skeleton_get_type (void) G_GNUC_CONST;
+
+#if GLIB_CHECK_VERSION(2, 44, 0)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (Video2Skeleton, g_object_unref)
+#endif
+
+Video2 *video2_skeleton_new (void);
+
+
 G_END_DECLS
 
 #endif /* __VIDEO_H__ */

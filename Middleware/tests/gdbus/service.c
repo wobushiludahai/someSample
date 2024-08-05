@@ -5,13 +5,14 @@
 
 #define info(fmt...)
 #define error(fmt...)
-#define debug(fmt...)
+#define debug(fmt, ...)
 
 #define PROPERTY_CHANGED_HANDLE_THREAD_NUM (4)
 typedef struct
 {
     gpointer proxy;
     gchar *service_name;
+    gchar *if_name; // interface name
     GThreadPool *pool;
     GHashTable *signal_callback_id;
     GHashTable *property_changed_callback;
@@ -21,15 +22,21 @@ typedef struct
 
 typedef struct
 {
+    GHashTable *method_callback_id;
+    gpointer instance;
+} SERVER_INFO_T;
+
+typedef struct
+{
     guint owner_id;
     gchar *service_name;
-    gpointer *instance;
-    GHashTable *method_callback_id;
+    GDBusConnection *connection;
     GHashTable *proxy;
+    GHashTable *server;
 } SERVICE_T;
 
 // 需要考虑多线程安全
-static SERVICE_T g_service = { .instance = NULL };
+static SERVICE_T g_service = { 0 };
 
 /*
     1、完成并行初始化
@@ -37,11 +44,13 @@ static SERVICE_T g_service = { .instance = NULL };
 static void on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
 {
     debug("on_bus_acquired %s\n", name);
+    g_service.connection = connection;
 
-    gchar *path = g_strdup_printf(PATH_PREFIX, g_service.service_name);
-    g_dbus_interface_skeleton_export(G_DBUS_INTERFACE_SKELETON(user_data), connection, path, NULL);
-
-    g_free(path);
+    if (user_data != NULL)
+    {
+        service_register_success_call call_back = (service_register_success_call)user_data;
+        call_back();
+    }
 }
 
 static void on_name_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
@@ -61,10 +70,18 @@ static void _destory_proxy_hashtable(gpointer data)
     g_hash_table_destroy(proxy_info->signal_callback_id);
     g_hash_table_destroy(proxy_info->property_changed_callback);
 
+    g_free(proxy_info->if_name);
     g_free(proxy_info->service_name);
     g_thread_pool_free(proxy_info->pool, FALSE, TRUE);
 
     g_free(proxy_info);
+}
+
+static void _destroy_server_hashtable(gpointer data)
+{
+    SERVER_INFO_T *server_info = (SERVER_INFO_T *)data;
+    g_hash_table_destroy(server_info->method_callback_id);
+    g_object_unref(server_info->instance);
 }
 
 /**
@@ -73,31 +90,19 @@ static void _destory_proxy_hashtable(gpointer data)
  * @param[in]  service_name
  * @param[in]  instance
  */
-void service_init(const char *service_name, gpointer instance)
+void service_init(const char *service_name, service_register_success_call callback)
 {
     debug("service_init %s\n", service_name);
 
     gchar *service = g_strdup_printf(SERVICE_PREFIX, service_name);
 
     g_service.owner_id = g_bus_own_name(G_BUS_TYPE_SESSION, service, G_BUS_NAME_OWNER_FLAGS_NONE, on_bus_acquired,
-        on_name_acquired, on_name_lost, instance, NULL);
+        on_name_acquired, on_name_lost, callback, NULL);
     g_service.service_name = g_strdup(service_name);
-    g_service.method_callback_id = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
     g_service.proxy = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, _destory_proxy_hashtable);
-
-    g_service.instance = instance;
+    g_service.server = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, _destroy_server_hashtable);
 
     g_free(service);
-}
-
-/**
- * @brief      获取自身服务实例
- *
- * @return     gpointer
- */
-gpointer get_service_instance(void)
-{
-    return g_service.instance;
 }
 
 /**
@@ -107,9 +112,64 @@ gpointer get_service_instance(void)
 void service_exit(void)
 {
     g_free(g_service.service_name);
-    g_bus_unown_name(g_service.owner_id);
-    g_hash_table_destroy(g_service.method_callback_id);
     g_hash_table_destroy(g_service.proxy);
+    g_hash_table_destroy(g_service.server);
+    g_bus_unown_name(g_service.owner_id);
+
+    memset(&g_service, 0, sizeof(g_service));
+}
+
+gboolean register_server(const gchar *hash_name, skelete_new call)
+{
+    if (g_service.connection == NULL || g_service.service_name == NULL)
+    {
+        g_print("g_service.connection or g_service.service_name is NULL\n");
+        return FALSE;
+    }
+
+    if (call == NULL || hash_name == NULL)
+    {
+        g_print("call or hash_name is NULL\n");
+        return FALSE;
+    }
+
+    SERVER_INFO_T *server_info = (SERVER_INFO_T *)g_hash_table_lookup(g_service.server, hash_name);
+    if (server_info != NULL)
+    {
+        g_print("server %s already exist\n", hash_name);
+        return FALSE;
+    }
+
+    gchar *path = g_strdup_printf(PATH_PREFIX, g_service.service_name);
+    gpointer instance = call();
+
+    g_dbus_interface_skeleton_export(G_DBUS_INTERFACE_SKELETON(instance), g_service.connection, path, NULL);
+    g_free(path);
+
+    server_info = g_malloc0(sizeof(SERVER_INFO_T));
+    server_info->instance = instance;
+    server_info->method_callback_id = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+
+    g_hash_table_insert(g_service.server, g_strdup(hash_name), server_info);
+
+    return TRUE;
+}
+
+/**
+ * @brief      获取自身服务实例
+ *
+ * @return     gpointer
+ */
+gpointer get_server_instance(const gchar *server_hash_name)
+{
+    SERVER_INFO_T *server_info = (SERVER_INFO_T *)g_hash_table_lookup(g_service.server, server_hash_name);
+    if (server_info == NULL)
+    {
+        error("can not find %s\n", server_hash_name);
+        return NULL;
+    }
+
+    return server_info->instance;
 }
 
 /**
@@ -119,19 +179,26 @@ void service_exit(void)
  * @param[in]  callback
  * @return     gboolean
  */
-gboolean bind_service_method_callback(const gchar *method_name, gpointer callback)
+gboolean bind_service_method_callback(const gchar *server_hash_name, const gchar *method_name, gpointer callback)
 {
-    if (g_service.instance == NULL)
+    if (server_hash_name == NULL || method_name == NULL || callback == NULL)
     {
-        error("g_service.instance is NULL\n");
+        g_print("server_hash_name or method_name or callback is NULL\n");
         return FALSE;
     }
 
-    gulong id = g_signal_connect(g_service.instance, method_name, G_CALLBACK(callback), NULL);
+    SERVER_INFO_T *server_info = (SERVER_INFO_T *)g_hash_table_lookup(g_service.server, server_hash_name);
+    if (server_info == NULL)
+    {
+        g_print("can not find %s\n", server_hash_name);
+        return FALSE;
+    }
 
-    debug("bind_service_method_callback %s   %lu\n", method_name, id);
+    gulong id = g_signal_connect(server_info->instance, method_name, G_CALLBACK(callback), NULL);
 
-    g_hash_table_insert(g_service.method_callback_id, g_strdup(method_name), GUINT_TO_POINTER(id));
+    g_print("bind_service_method_callback %s   %lu\n", method_name, id);
+
+    g_hash_table_insert(server_info->method_callback_id, g_strdup(method_name), GUINT_TO_POINTER(id));
 
     return TRUE;
 }
@@ -142,25 +209,38 @@ gboolean bind_service_method_callback(const gchar *method_name, gpointer callbac
  * @param[in]  method_name
  * @return     gboolean
  */
-gboolean unbind_service_method_callback(const gchar *method_name)
+gboolean unbind_service_method_callback(const gchar *server_hash_name, const gchar *method_name)
 {
-    gpointer value = g_hash_table_lookup(g_service.method_callback_id, method_name);
-    if (value == NULL)
+    if (server_hash_name == NULL || method_name == NULL)
     {
-        debug("can not find %s\n", method_name);
+        g_print("server_hash_name or method_name is NULL\n");
         return FALSE;
     }
 
-    g_signal_handler_disconnect(g_service.instance, GPOINTER_TO_UINT(value));
-    debug("unbind_service_method_callback %s   %u\n", method_name, GPOINTER_TO_UINT(value));
+    SERVER_INFO_T *server_info = (SERVER_INFO_T *)g_hash_table_lookup(g_service.server, server_hash_name);
+    if (server_info == NULL)
+    {
+        g_print("can not find %s\n", server_hash_name);
+        return FALSE;
+    }
 
-    g_hash_table_remove(g_service.method_callback_id, method_name);
+    gpointer value = g_hash_table_lookup(server_info->method_callback_id, method_name);
+    if (value == NULL)
+    {
+        g_print("can not find %s\n", method_name);
+        return FALSE;
+    }
+
+    g_signal_handler_disconnect(server_info->instance, GPOINTER_TO_UINT(value));
+    g_print("unbind_service_method_callback %s   %u\n", method_name, GPOINTER_TO_UINT(value));
+
+    g_hash_table_remove(server_info->method_callback_id, method_name);
 
     return TRUE;
 }
 
 /**
- * @brief      绑定一个属性回调
+ * @brief      绑定一个信号回调
  *             1、请确保对应service已经注册
  *             2、目前暂不支持监听自身信号
  *             3、请控制回调函数执行时间，防止出现大量执行排队
@@ -170,20 +250,20 @@ gboolean unbind_service_method_callback(const gchar *method_name)
  * @param[in]  callback
  * @return     gboolean
  */
-gboolean bind_signal_callback(const gchar *service, const gchar *signal_name, gpointer callback)
+gboolean bind_signal_callback(const gchar *proxy_hash_name, const gchar *signal_name, gpointer callback)
 {
-    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service);
+    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, proxy_hash_name);
     if (proxy_info == NULL)
     {
-        error("can not find %s\n", service);
+        error("can not find %s\n", proxy_hash_name);
         return FALSE;
     }
 
-    gchar *signal_key = g_strdup_printf("%s_%s", service, signal_name);
+    gchar *signal_key = g_strdup_printf("%s_%s", proxy_hash_name, signal_name);
     gpointer value = g_hash_table_lookup(proxy_info->signal_callback_id, signal_key);
     if (value != NULL)
     {
-        debug("The signal %s for %s has been binded\n", signal_name, service);
+        debug("The signal %s for %s has been binded\n", signal_name, proxy_hash_name);
         g_free(signal_key);
         return FALSE;
     }
@@ -202,20 +282,20 @@ gboolean bind_signal_callback(const gchar *service, const gchar *signal_name, gp
  * @param[in]  signal_name
  * @return     gboolean
  */
-gboolean unbind_signal_callback(const gchar *service, const gchar *signal_name)
+gboolean unbind_signal_callback(const gchar *proxy_hash_name, const gchar *signal_name)
 {
-    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service);
+    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, proxy_hash_name);
     if (proxy_info != NULL)
     {
-        g_print("can not find %s\n", service);
+        g_print("can not find %s\n", proxy_hash_name);
         return FALSE;
     }
 
-    gchar *signal_key = g_strdup_printf("%s_%s", service, signal_name);
+    gchar *signal_key = g_strdup_printf("%s_%s", proxy_hash_name, signal_name);
     gpointer value = g_hash_table_lookup(proxy_info->signal_callback_id, signal_key);
     if (value == NULL)
     {
-        g_print("can not find %s:%s\n", service, signal_name);
+        g_print("can not find %s:%s\n", proxy_hash_name, signal_name);
         g_free(signal_key);
         return FALSE;
     }
@@ -239,7 +319,7 @@ static void _property_changed_handle_thread_pool(gpointer data, gpointer user_da
     GVariant *value = NULL;
     while (g_variant_iter_next(&iter, "{sv}", &key, &value))
     {
-        gchar *callback_key = g_strdup_printf("%s_%s", proxy_info->service_name, key);
+        gchar *callback_key = g_strdup_printf("%s_%s", proxy_info->if_name, key);
         gpointer callback = g_hash_table_lookup(proxy_info->property_changed_callback, callback_key);
         if (callback != NULL)
         {
@@ -254,23 +334,11 @@ static void _property_changed_handle_thread_pool(gpointer data, gpointer user_da
     g_variant_unref(changed_properties);
 }
 
-static void _properties_changed(
-    GDBusProxy *proxy, GVariant *changed_properties, const gchar *const *invalidated_properties)
+static void _properties_changed(GDBusProxy *proxy, GVariant *changed_properties,
+    const gchar *const *invalidated_properties, PROXY_INFO_T *proxy_info)
 {
-    gchar *service_name = g_strdup_printf("%s", strrchr(g_dbus_proxy_get_object_path(proxy), '/') + 1);
-
-    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service_name);
-    if (proxy_info == NULL)
-    {
-        error("can not find %s\n", service_name);
-        g_free(service_name);
-        return;
-    }
-
     g_variant_ref(changed_properties);
     g_thread_pool_push(proxy_info->pool, changed_properties, NULL);
-
-    g_free(service_name);
 }
 
 /**
@@ -285,20 +353,20 @@ static void _properties_changed(
  * @return     gboolean
  */
 gboolean bind_property_changed_callback(
-    const gchar *service, const gchar *property_name, property_changed_callback callback)
+    const gchar *proxy_hash_name, const gchar *property_name, property_changed_callback callback)
 {
-    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service);
+    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, proxy_hash_name);
     if (proxy_info == NULL)
     {
-        error("can not find %s\n", service);
+        error("can not find %s\n", proxy_hash_name);
         return FALSE;
     }
 
-    gchar *key = g_strdup_printf("%s_%s", service, property_name);
+    gchar *key = g_strdup_printf("%s_%s", proxy_hash_name, property_name);
     gpointer value = g_hash_table_lookup(proxy_info->property_changed_callback, key);
     if (value != NULL)
     {
-        debug("The property %s callback for %s has been binded\n", signal_name, service);
+        debug("The property %s callback for %s has been binded\n", property_name, proxy_hash_name);
         g_free(key);
         return FALSE;
     }
@@ -306,7 +374,7 @@ gboolean bind_property_changed_callback(
     if (proxy_info->is_have_monitor_property == FALSE)
     { // 如果还没有属性监听
         proxy_info->property_changed_signal_id
-            = g_signal_connect(proxy_info->proxy, "g-properties-changed", G_CALLBACK(_properties_changed), NULL);
+            = g_signal_connect(proxy_info->proxy, "g-properties-changed", G_CALLBACK(_properties_changed), proxy_info);
         proxy_info->is_have_monitor_property = TRUE;
         if (proxy_info->pool == NULL)
         {
@@ -328,20 +396,20 @@ gboolean bind_property_changed_callback(
  * @param[in]  property_name
  * @return     gboolean
  */
-gboolean unbind_property_changed_callback(const gchar *service, const gchar *property_name)
+gboolean unbind_property_changed_callback(const gchar *proxy_hash_name, const gchar *property_name)
 {
-    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service);
+    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, proxy_hash_name);
     if (proxy_info == NULL)
     {
-        error("can not find %s\n", service);
+        error("can not find %s\n", proxy_hash_name);
         return FALSE;
     }
 
-    gchar *key = g_strdup_printf("%s_%s", service, property_name);
+    gchar *key = g_strdup_printf("%s_%s", proxy_hash_name, property_name);
     gpointer value = g_hash_table_lookup(proxy_info->property_changed_callback, key);
     if (value == NULL)
     {
-        error("can not find callback %s:%s\n", service, property_name);
+        error("can not find callback %s:%s\n", proxy_hash_name, property_name);
         g_free(key);
         return FALSE;
     }
@@ -370,12 +438,12 @@ gboolean unbind_property_changed_callback(const gchar *service, const gchar *pro
  * @param[in]  call
  * @return     gpointer
  */
-gpointer register_proxy(const gchar *service_name, proxy_new_sync call)
+gpointer register_proxy(const gchar *service_name, const gchar *if_name, const gchar *hash_name, proxy_new_sync call)
 {
-    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service_name);
+    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, hash_name);
     if (proxy_info != NULL)
     {
-        debug("proxy %s already exist\n", service_name);
+        debug("proxy %s already exist\n", hash_name);
         return proxy_info->proxy;
     }
 
@@ -384,9 +452,11 @@ gpointer register_proxy(const gchar *service_name, proxy_new_sync call)
     GError *proxyerror = NULL;
 
     gpointer proxy = call(G_BUS_TYPE_SESSION, G_DBUS_PROXY_FLAGS_NONE, service, path, NULL, &proxyerror);
+    g_free(service);
+    g_free(path);
     if (proxy == NULL)
     {
-        error("Error creating proxy: %s\n", proxyerror->message);
+        g_print("Error creating proxy: %s\n", proxyerror->message);
         g_error_free(proxyerror);
         return NULL;
     }
@@ -398,12 +468,9 @@ gpointer register_proxy(const gchar *service_name, proxy_new_sync call)
     proxy_info->signal_callback_id = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
     proxy_info->property_changed_callback = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
     proxy_info->pool = NULL;
-    proxy_info->service_name = g_strdup(service_name);
+    proxy_info->if_name = g_strdup(if_name);
 
-    g_hash_table_insert(g_service.proxy, g_strdup(service_name), proxy_info);
-
-    g_free(service);
-    g_free(path);
+    g_hash_table_insert(g_service.proxy, g_strdup(hash_name), proxy_info);
 
     return proxy;
 }
@@ -414,12 +481,12 @@ gpointer register_proxy(const gchar *service_name, proxy_new_sync call)
  * @param[in]  service_name
  * @return     gpointer
  */
-gpointer get_service_proxy_by_name(const gchar *service_name)
+gpointer get_proxy_instance(const gchar *hash_name)
 {
-    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service_name);
+    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, hash_name);
     if (proxy_info == NULL)
     {
-        error("can not find %s\n", service_name);
+        g_print("can not find %s\n", hash_name);
         return NULL;
     }
 

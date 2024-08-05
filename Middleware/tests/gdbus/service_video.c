@@ -5,7 +5,8 @@
 #include "video.h"
 
 #define MODULE_NAME "VIDEO"
-Video *video = NULL;
+#define SERVER_VIDEO_HASH_NAME "video"
+#define SERVER_VIDEO2_HASH_NAME "video2"
 
 gboolean handle_stop_video(Video *object, GDBusMethodInvocation *invocation)
 {
@@ -17,33 +18,40 @@ gboolean handle_stop_video(Video *object, GDBusMethodInvocation *invocation)
 }
 
 gint16 test = 0;
+extern gboolean register_server(const gchar *hash_name, skelete_new call);
 gpointer thread_test(gpointer data)
 {
     while (1)
     {
-        g_usleep(1000); // 1s
-        video_emit_record_stop(get_service_instance());
-        video_set_int16_property(get_service_instance(), test++);
-        video_set_uint16_property(get_service_instance(), test++);
-        video_set_int32_property(get_service_instance(), test++);
-        video_set_uint32_property(get_service_instance(), test++);
-        video_set_int64_property(get_service_instance(), test++);
-        video_set_uint64_property(get_service_instance(), test++);
+        g_usleep(2000 * 1000); // 1s
+        video_emit_record_stop(get_server_instance(SERVER_VIDEO_HASH_NAME));
+        video_set_int16_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        video_set_uint16_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        video_set_int32_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        video_set_uint32_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        video_set_int64_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        video_set_uint64_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
         g_print("Emitted signal\n");
     }
 
     return NULL;
 }
 
+static void service_register_success_callback(void)
+{
+    // 注册服务
+    register_server(SERVER_VIDEO_HASH_NAME, (skelete_new)video_skeleton_new);
+    register_server(SERVER_VIDEO2_HASH_NAME, (skelete_new)video2_skeleton_new);
+
+    // 绑定方法回调
+    bind_service_method_callback(SERVER_VIDEO_HASH_NAME, "StopVideo", G_CALLBACK(handle_stop_video));
+}
 
 int main(int argc, char *argv[])
 {
     GMainLoop *loop = NULL;
 
-    video = video_skeleton_new();
-    service_init(MODULE_NAME, video);
-
-    bind_service_method_callback("StopVideo", (gpointer)handle_stop_video);
+    service_init(MODULE_NAME, service_register_success_callback);
     g_thread_new("thread_test", thread_test, NULL);
 
     loop = g_main_loop_new(NULL, FALSE);

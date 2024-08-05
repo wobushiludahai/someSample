@@ -18,6 +18,8 @@ G_BEGIN_DECLS
 typedef gpointer (*proxy_new_sync)(GBusType bus_type, GDBusProxyFlags flags, const gchar *name,
     const gchar *object_path, GCancellable *cancellable, GError **error);
 typedef void (*property_changed_callback)(GVariant *property);
+typedef gpointer (*skelete_new)(void);
+typedef void (*service_register_success_call)(void);
 
 /**
  * @brief      自身服务初始化
@@ -25,14 +27,14 @@ typedef void (*property_changed_callback)(GVariant *property);
  * @param[in]  service_name
  * @param[in]  instance
  */
-void service_init(const char *service_name, gpointer instance);
+void service_init(const char *service_name, service_register_success_call callback);
 
 /**
  * @brief      获取自身服务实例
  *
  * @return     gpointer
  */
-gpointer get_service_instance(void);
+gpointer get_server_instance(const gchar *hash_name);
 
 /**
  * @brief      退出服务
@@ -47,7 +49,7 @@ void service_exit(void);
  * @param[in]  callback
  * @return     gboolean
  */
-gboolean bind_service_method_callback(const gchar *method_name, gpointer callback);
+gboolean bind_service_method_callback(const gchar *server_hash_name, const gchar *method_name, gpointer callback);
 
 /**
  * @brief      解绑服务端的一个方法处理回调
@@ -55,7 +57,7 @@ gboolean bind_service_method_callback(const gchar *method_name, gpointer callbac
  * @param[in]  method_name
  * @return     gboolean
  */
-gboolean unbind_service_method_callback(const gchar *method_name);
+gboolean unbind_service_method_callback(const gchar *server_hash_name, const gchar *method_name);
 
 /**
  * @brief      绑定一个属性回调
@@ -109,7 +111,7 @@ gboolean unbind_property_changed_callback(const gchar *service, const gchar *pro
  * @param[in]  call
  * @return     gpointer
  */
-gpointer register_proxy(const gchar *service_name, proxy_new_sync call);
+gpointer register_proxy(const gchar *service_name, const gchar *if_name, const gchar *hash_name, proxy_new_sync call);
 
 /**
  * @brief      Get the service proxy by name object
@@ -117,7 +119,7 @@ gpointer register_proxy(const gchar *service_name, proxy_new_sync call);
  * @param[in]  service_name
  * @return     gpointer
  */
-gpointer get_service_proxy_by_name(const gchar *service_name);
+gpointer get_proxy_instance(const gchar *hash_name);
 
 G_END_DECLS
 
