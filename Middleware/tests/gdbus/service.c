@@ -7,6 +7,7 @@
 #define error(fmt...)
 #define debug(fmt...)
 
+#define PROPERTY_CHANGED_HANDLE_THREAD_NUM (4)
 typedef struct
 {
     gpointer proxy;
@@ -59,13 +60,19 @@ static void _destory_proxy_hashtable(gpointer data)
 
     g_hash_table_destroy(proxy_info->signal_callback_id);
     g_hash_table_destroy(proxy_info->property_changed_callback);
+
     g_free(proxy_info->service_name);
     g_thread_pool_free(proxy_info->pool, FALSE, TRUE);
 
     g_free(proxy_info);
 }
 
-// 自身服务初始化
+/**
+ * @brief      自身服务初始化
+ *
+ * @param[in]  service_name
+ * @param[in]  instance
+ */
 void service_init(const char *service_name, gpointer instance)
 {
     debug("service_init %s\n", service_name);
@@ -83,11 +90,20 @@ void service_init(const char *service_name, gpointer instance)
     g_free(service);
 }
 
+/**
+ * @brief      获取自身服务实例
+ *
+ * @return     gpointer
+ */
 gpointer get_service_instance(void)
 {
     return g_service.instance;
 }
 
+/**
+ * @brief      退出服务
+ *
+ */
 void service_exit(void)
 {
     g_free(g_service.service_name);
@@ -96,6 +112,13 @@ void service_exit(void)
     g_hash_table_destroy(g_service.proxy);
 }
 
+/**
+ * @brief      绑定服务端方法回调
+ *
+ * @param[in]  method_name
+ * @param[in]  callback
+ * @return     gboolean
+ */
 gboolean bind_service_method_callback(const gchar *method_name, gpointer callback)
 {
     if (g_service.instance == NULL)
@@ -113,6 +136,12 @@ gboolean bind_service_method_callback(const gchar *method_name, gpointer callbac
     return TRUE;
 }
 
+/**
+ * @brief      解绑服务端的一个方法处理回调
+ *
+ * @param[in]  method_name
+ * @return     gboolean
+ */
 gboolean unbind_service_method_callback(const gchar *method_name)
 {
     gpointer value = g_hash_table_lookup(g_service.method_callback_id, method_name);
@@ -130,8 +159,17 @@ gboolean unbind_service_method_callback(const gchar *method_name)
     return TRUE;
 }
 
-// 请确保 service 已经 register
-// 是否需要支持监听自身 signal ?
+/**
+ * @brief      绑定一个属性回调
+ *             1、请确保对应service已经注册
+ *             2、目前暂不支持监听自身信号
+ *             3、请控制回调函数执行时间，防止出现大量执行排队
+ *
+ * @param[in]  service
+ * @param[in]  signal_name
+ * @param[in]  callback
+ * @return     gboolean
+ */
 gboolean bind_signal_callback(const gchar *service, const gchar *signal_name, gpointer callback)
 {
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service);
@@ -157,6 +195,13 @@ gboolean bind_signal_callback(const gchar *service, const gchar *signal_name, gp
     return TRUE;
 }
 
+/**
+ * @brief      解绑一个信号监听
+ *
+ * @param[in]  service
+ * @param[in]  signal_name
+ * @return     gboolean
+ */
 gboolean unbind_signal_callback(const gchar *service, const gchar *signal_name)
 {
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service);
@@ -182,7 +227,7 @@ gboolean unbind_signal_callback(const gchar *service, const gchar *signal_name)
     return TRUE;
 }
 
-static void _property_changed_thread_handle(gpointer data, gpointer user_data)
+static void _property_changed_handle_thread_pool(gpointer data, gpointer user_data)
 {
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)user_data;
     GVariant *changed_properties = (GVariant *)data;
@@ -215,7 +260,7 @@ static void _properties_changed(
     gchar *service_name = g_strdup_printf("%s", strrchr(g_dbus_proxy_get_object_path(proxy), '/') + 1);
 
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service_name);
-    if (proxy_info == NULL || proxy_info->pool == NULL)
+    if (proxy_info == NULL)
     {
         error("can not find %s\n", service_name);
         g_free(service_name);
@@ -228,7 +273,17 @@ static void _properties_changed(
     g_free(service_name);
 }
 
-// 请确保 service 已经 register
+/**
+ * @brief      绑定一个属性回调
+ *             1、请确保对应service已经注册
+ *             2、目前暂不支持监听自身属性
+ *             3、请控制回调函数执行时间，防止出现大量执行排队
+ *
+ * @param[in]  service
+ * @param[in]  property_name
+ * @param[in]  callback
+ * @return     gboolean
+ */
 gboolean bind_property_changed_callback(
     const gchar *service, const gchar *property_name, property_changed_callback callback)
 {
@@ -255,7 +310,8 @@ gboolean bind_property_changed_callback(
         proxy_info->is_have_monitor_property = TRUE;
         if (proxy_info->pool == NULL)
         {
-            proxy_info->pool = g_thread_pool_new(_property_changed_thread_handle, proxy_info, 20, FALSE, NULL);
+            proxy_info->pool = g_thread_pool_new(
+                _property_changed_handle_thread_pool, proxy_info, PROPERTY_CHANGED_HANDLE_THREAD_NUM, FALSE, NULL);
         }
     }
 
@@ -265,6 +321,13 @@ gboolean bind_property_changed_callback(
     return TRUE;
 }
 
+/**
+ * @brief      解绑一个属性回调
+ *
+ * @param[in]  service
+ * @param[in]  property_name
+ * @return     gboolean
+ */
 gboolean unbind_property_changed_callback(const gchar *service, const gchar *property_name)
 {
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service);
@@ -300,6 +363,13 @@ gboolean unbind_property_changed_callback(const gchar *service, const gchar *pro
     return TRUE;
 }
 
+/**
+ * @brief      注册一个代理
+ *
+ * @param[in]  service_name
+ * @param[in]  call
+ * @return     gpointer
+ */
 gpointer register_proxy(const gchar *service_name, proxy_new_sync call)
 {
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service_name);
@@ -338,6 +408,12 @@ gpointer register_proxy(const gchar *service_name, proxy_new_sync call)
     return proxy;
 }
 
+/**
+ * @brief      Get the service proxy by name object
+ *
+ * @param[in]  service_name
+ * @return     gpointer
+ */
 gpointer get_service_proxy_by_name(const gchar *service_name)
 {
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, service_name);
