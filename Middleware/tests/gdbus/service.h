@@ -22,19 +22,12 @@ typedef gpointer (*skelete_new)(void);
 typedef void (*service_register_success_call)(void);
 
 /**
- * @brief      自身服务初始化
+ * @brief      服务初始化
  *
  * @param[in]  service_name
- * @param[in]  instance
+ * @param[in]  callback
  */
 void service_init(const char *service_name, service_register_success_call callback);
-
-/**
- * @brief      获取自身服务实例
- *
- * @return     gpointer
- */
-gpointer get_server_instance(const gchar *hash_name);
 
 /**
  * @brief      退出服务
@@ -43,8 +36,26 @@ gpointer get_server_instance(const gchar *hash_name);
 void service_exit(void);
 
 /**
+ * @brief      注册接口服务
+ *
+ * @param[in]  server_hash_name
+ * @param[in]  call
+ * @return     gboolean
+ */
+gboolean register_server(const gchar *server_hash_name, skelete_new call);
+
+/**
+ * @brief      获取服务实例
+ *
+ * @param[in]  server_hash_name
+ * @return     gpointer
+ */
+gpointer get_server_instance(const gchar *server_hash_name);
+
+/**
  * @brief      绑定服务端方法回调
  *
+ * @param[in]  server_hash_name
  * @param[in]  method_name
  * @param[in]  callback
  * @return     gboolean
@@ -54,69 +65,70 @@ gboolean bind_service_method_callback(const gchar *server_hash_name, const gchar
 /**
  * @brief      解绑服务端的一个方法处理回调
  *
+ * @param[in]  server_hash_name
  * @param[in]  method_name
  * @return     gboolean
  */
 gboolean unbind_service_method_callback(const gchar *server_hash_name, const gchar *method_name);
 
 /**
- * @brief      绑定一个属性回调
+ * @brief      绑定一个信号回调
  *             1、请确保对应service已经注册
  *             2、目前暂不支持监听自身信号
  *             3、请控制回调函数执行时间，防止出现大量执行排队
  *
- * @param[in]  service
+ * @param[in]  proxy_hash_name
  * @param[in]  signal_name
  * @param[in]  callback
  * @return     gboolean
  */
-gboolean bind_signal_callback(const gchar *service, const gchar *signal_name, gpointer callback);
+gboolean bind_signal_callback(const gchar *proxy_hash_name, const gchar *signal_name, gpointer callback);
 
 /**
  * @brief      解绑一个信号监听
  *
- * @param[in]  service
+ * @param[in]  proxy_hash_name
  * @param[in]  signal_name
  * @return     gboolean
  */
-gboolean unbind_signal_callback(const gchar *service, const gchar *signal_name);
-
+gboolean unbind_signal_callback(const gchar *proxy_hash_name, const gchar *signal_name);
 /**
  * @brief      绑定一个属性回调
  *             1、请确保对应service已经注册
  *             2、目前暂不支持监听自身属性
- *             3、请控制回调函数执行时间，防止出现大量执行排队
- *
- * @param[in]  service
+ *             3、请控制回调函数执行时间，防止出现大量执行排队 *
+ * @param[in]  proxy_hash_name
  * @param[in]  property_name
  * @param[in]  callback
  * @return     gboolean
  */
 gboolean bind_property_changed_callback(
-    const gchar *service, const gchar *property_name, property_changed_callback callback);
+    const gchar *proxy_hash_name, const gchar *property_name, property_changed_callback callback);
 
 /**
  * @brief      解绑一个属性回调
  *
- * @param[in]  service
+ * @param[in]  proxy_hash_name
  * @param[in]  property_name
  * @return     gboolean
  */
-gboolean unbind_property_changed_callback(const gchar *service, const gchar *property_name);
+gboolean unbind_property_changed_callback(const gchar *proxy_hash_name, const gchar *property_name);
 
 /**
  * @brief      注册一个代理
  *
  * @param[in]  service_name
+ * @param[in]  if_name
+ * @param[in]  hash_name
  * @param[in]  call
  * @return     gpointer
  */
 gpointer register_proxy(const gchar *service_name, const gchar *if_name, const gchar *hash_name, proxy_new_sync call);
 
 /**
- * @brief      Get the service proxy by name object
+ * @brief      获取一个代理实例
  *
- * @param[in]  service_name
+ * @param[in]  hash_name
  * @return     gpointer
  */
 gpointer get_proxy_instance(const gchar *hash_name);

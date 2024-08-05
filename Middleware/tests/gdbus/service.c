@@ -38,9 +38,13 @@ typedef struct
 // 需要考虑多线程安全
 static SERVICE_T g_service = { 0 };
 
-/*
-    1、完成并行初始化
-*/
+/**
+ * @brief      dbus请求成功回调
+ *
+ * @param[in]  connection
+ * @param[in]  name
+ * @param[in]  user_data
+ */
 static void on_bus_acquired(GDBusConnection *connection, const gchar *name, gpointer user_data)
 {
     debug("on_bus_acquired %s\n", name);
@@ -85,10 +89,10 @@ static void _destroy_server_hashtable(gpointer data)
 }
 
 /**
- * @brief      自身服务初始化
+ * @brief      服务初始化
  *
  * @param[in]  service_name
- * @param[in]  instance
+ * @param[in]  callback
  */
 void service_init(const char *service_name, service_register_success_call callback)
 {
@@ -119,7 +123,14 @@ void service_exit(void)
     memset(&g_service, 0, sizeof(g_service));
 }
 
-gboolean register_server(const gchar *hash_name, skelete_new call)
+/**
+ * @brief      注册接口服务
+ *
+ * @param[in]  server_hash_name
+ * @param[in]  call
+ * @return     gboolean
+ */
+gboolean register_server(const gchar *server_hash_name, skelete_new call)
 {
     if (g_service.connection == NULL || g_service.service_name == NULL)
     {
@@ -127,16 +138,16 @@ gboolean register_server(const gchar *hash_name, skelete_new call)
         return FALSE;
     }
 
-    if (call == NULL || hash_name == NULL)
+    if (call == NULL || server_hash_name == NULL)
     {
-        g_print("call or hash_name is NULL\n");
+        g_print("call or server_hash_name is NULL\n");
         return FALSE;
     }
 
-    SERVER_INFO_T *server_info = (SERVER_INFO_T *)g_hash_table_lookup(g_service.server, hash_name);
+    SERVER_INFO_T *server_info = (SERVER_INFO_T *)g_hash_table_lookup(g_service.server, server_hash_name);
     if (server_info != NULL)
     {
-        g_print("server %s already exist\n", hash_name);
+        g_print("server %s already exist\n", server_hash_name);
         return FALSE;
     }
 
@@ -150,14 +161,15 @@ gboolean register_server(const gchar *hash_name, skelete_new call)
     server_info->instance = instance;
     server_info->method_callback_id = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
-    g_hash_table_insert(g_service.server, g_strdup(hash_name), server_info);
+    g_hash_table_insert(g_service.server, g_strdup(server_hash_name), server_info);
 
     return TRUE;
 }
 
 /**
- * @brief      获取自身服务实例
+ * @brief      获取服务实例
  *
+ * @param[in]  server_hash_name
  * @return     gpointer
  */
 gpointer get_server_instance(const gchar *server_hash_name)
@@ -175,6 +187,7 @@ gpointer get_server_instance(const gchar *server_hash_name)
 /**
  * @brief      绑定服务端方法回调
  *
+ * @param[in]  server_hash_name
  * @param[in]  method_name
  * @param[in]  callback
  * @return     gboolean
@@ -206,6 +219,7 @@ gboolean bind_service_method_callback(const gchar *server_hash_name, const gchar
 /**
  * @brief      解绑服务端的一个方法处理回调
  *
+ * @param[in]  server_hash_name
  * @param[in]  method_name
  * @return     gboolean
  */
@@ -245,7 +259,7 @@ gboolean unbind_service_method_callback(const gchar *server_hash_name, const gch
  *             2、目前暂不支持监听自身信号
  *             3、请控制回调函数执行时间，防止出现大量执行排队
  *
- * @param[in]  service
+ * @param[in]  proxy_hash_name
  * @param[in]  signal_name
  * @param[in]  callback
  * @return     gboolean
@@ -278,7 +292,7 @@ gboolean bind_signal_callback(const gchar *proxy_hash_name, const gchar *signal_
 /**
  * @brief      解绑一个信号监听
  *
- * @param[in]  service
+ * @param[in]  proxy_hash_name
  * @param[in]  signal_name
  * @return     gboolean
  */
@@ -345,9 +359,8 @@ static void _properties_changed(GDBusProxy *proxy, GVariant *changed_properties,
  * @brief      绑定一个属性回调
  *             1、请确保对应service已经注册
  *             2、目前暂不支持监听自身属性
- *             3、请控制回调函数执行时间，防止出现大量执行排队
- *
- * @param[in]  service
+ *             3、请控制回调函数执行时间，防止出现大量执行排队 *
+ * @param[in]  proxy_hash_name
  * @param[in]  property_name
  * @param[in]  callback
  * @return     gboolean
@@ -392,7 +405,7 @@ gboolean bind_property_changed_callback(
 /**
  * @brief      解绑一个属性回调
  *
- * @param[in]  service
+ * @param[in]  proxy_hash_name
  * @param[in]  property_name
  * @return     gboolean
  */
@@ -435,6 +448,8 @@ gboolean unbind_property_changed_callback(const gchar *proxy_hash_name, const gc
  * @brief      注册一个代理
  *
  * @param[in]  service_name
+ * @param[in]  if_name
+ * @param[in]  hash_name
  * @param[in]  call
  * @return     gpointer
  */
@@ -476,9 +491,9 @@ gpointer register_proxy(const gchar *service_name, const gchar *if_name, const g
 }
 
 /**
- * @brief      Get the service proxy by name object
+ * @brief      获取一个代理实例
  *
- * @param[in]  service_name
+ * @param[in]  hash_name
  * @return     gpointer
  */
 gpointer get_proxy_instance(const gchar *hash_name)
