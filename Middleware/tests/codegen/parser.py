@@ -153,7 +153,12 @@ class DBusXMLParser:
                 self._cur_object = signal
             elif name == DBusXMLParser.STATE_PROPERTY:
                 self.state = DBusXMLParser.STATE_PROPERTY
-                prop = dbustypes.Property(attrs["name"], attrs["type"], attrs["access"])
+                if "persistence" not in attrs:
+                    attrs["persistence"] = False
+                attrs["persistence"] = True if attrs["persistence"] == "y" else False
+                if "default" not in attrs:
+                    attrs["default"] = ""
+                prop = dbustypes.Property(attrs["name"], attrs["type"], attrs["access"], attrs["persistence"], attrs["default"])
                 self._cur_object.properties.append(prop)
                 self._cur_object = prop
             elif name == DBusXMLParser.STATE_ANNOTATION:

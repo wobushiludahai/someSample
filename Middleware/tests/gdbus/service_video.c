@@ -24,13 +24,13 @@ gpointer thread_test(gpointer data)
     while (1)
     {
         g_usleep(2000 * 1000); // 1s
-        video_emit_record_stop(get_server_instance(SERVER_VIDEO_HASH_NAME));
-        video_set_int16_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
-        video_set_uint16_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
-        video_set_int32_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
-        video_set_uint32_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
-        video_set_int64_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
-        video_set_uint64_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        // video_emit_record_stop(get_server_instance(SERVER_VIDEO_HASH_NAME));
+        // video_set_int16_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        // video_set_uint16_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        // video_set_int32_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        // video_set_uint32_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        // video_set_int64_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
+        // video_set_uint64_property(get_server_instance(SERVER_VIDEO_HASH_NAME), test++);
         g_print("Emitted signal\n");
     }
 

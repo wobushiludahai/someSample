@@ -334,6 +334,7 @@ class HeaderCodeGenerator:
                 self.outfile.write("\n")
                 self.outfile.write("/* D-Bus property accessors: */\n")
                 for p in i.properties:
+                    self.outfile.write("#define %s_%s_DEFAULT (%s)\n" % (i.name_upper, p.name.upper(), p.default))
                     # getter
                     if self.symbol_decorator is not None:
                         self.outfile.write("%s\n" % self.symbol_decorator)
@@ -1493,6 +1494,7 @@ class CodeGenerator:
             "  const gchar *hyphen_name;\n"
             "  guint use_gvariant : 1;\n"
             "  guint emits_changed_signal : 1;\n"
+            "  guint is_need_persistence : 1;\n"
             "} _ExtendedGDBusPropertyInfo;\n"
             "\n"
         )
@@ -1855,6 +1857,10 @@ class CodeGenerator:
                 else:
                     self.outfile.write("  TRUE,\n")
                 if p.emits_changed_signal:
+                    self.outfile.write("  TRUE,\n")
+                else:
+                    self.outfile.write("  FALSE,\n")
+                if p.persistence:
                     self.outfile.write("  TRUE\n")
                 else:
                     self.outfile.write("  FALSE\n")
@@ -4128,6 +4134,11 @@ class CodeGenerator:
                     "  g_value_init (&skeleton->priv->properties[%d], %s);\n"
                     % (n, p.arg.gtype)
                 )
+                if p.default != "":
+                    self.outfile.write(
+                        "  %s (&skeleton->priv->properties[%d], %s);\n\n"
+                        % (p.arg.gvalue_set,n, p.default)
+                    )
                 n += 1
         self.outfile.write("}\n" "\n")
 

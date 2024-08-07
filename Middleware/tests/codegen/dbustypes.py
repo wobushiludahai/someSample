@@ -62,6 +62,9 @@ class Arg:
         self.format_out = "@" + self.signature
         self.gvariant_get = "XXX"
         self.gvalue_get = "g_value_get_variant"
+        self.gvalue_set = "g_value_get_variant"
+        self.db_get = ""
+        self.db_set = ""
         self.array_annotation = ""
 
         if not utils.lookup_annotation(
@@ -78,6 +81,9 @@ class Arg:
                 self.format_out = "b"
                 self.gvariant_get = "g_variant_get_boolean"
                 self.gvalue_get = "g_value_get_boolean"
+                self.gvalue_set = "g_value_set_boolean"
+                self.db_get = "config_mgmt_get_bool_value"
+                self.db_set = "config_mgmt_set_bool_value"
             elif self.signature == "y":
                 self.ctype_in_g = "guchar "
                 self.ctype_in = "guchar "
@@ -89,6 +95,9 @@ class Arg:
                 self.format_out = "y"
                 self.gvariant_get = "g_variant_get_byte"
                 self.gvalue_get = "g_value_get_uchar"
+                self.gvalue_set = "g_value_set_uchar"
+                self.db_get = "config_mgmt_get_char_value"
+                self.db_set = "config_mgmt_set_char_value"
             elif self.signature == "n":
                 self.ctype_in_g = "gint "
                 self.ctype_in = "gint16 "
@@ -100,6 +109,9 @@ class Arg:
                 self.format_out = "n"
                 self.gvariant_get = "g_variant_get_int16"
                 self.gvalue_get = "g_value_get_int"
+                self.gvalue_set = "g_value_set_int"
+                self.db_get = "config_mgmt_get_int32_value"
+                self.db_set = "config_mgmt_set_int32_value"
             elif self.signature == "q":
                 self.ctype_in_g = "guint "
                 self.ctype_in = "guint16 "
@@ -111,6 +123,9 @@ class Arg:
                 self.format_out = "q"
                 self.gvariant_get = "g_variant_get_uint16"
                 self.gvalue_get = "g_value_get_uint"
+                self.gvalue_set = "g_value_set_uint"
+                self.db_get = "config_mgmt_get_uint32_value"
+                self.db_set = "config_mgmt_set_uint32_value"
             elif self.signature == "i":
                 self.ctype_in_g = "gint "
                 self.ctype_in = "gint "
@@ -122,6 +137,9 @@ class Arg:
                 self.format_out = "i"
                 self.gvariant_get = "g_variant_get_int32"
                 self.gvalue_get = "g_value_get_int"
+                self.gvalue_set = "g_value_set_int"
+                self.db_get = "config_mgmt_get_int32_value"
+                self.db_set = "config_mgmt_set_int32_value"
             elif self.signature == "u":
                 self.ctype_in_g = "guint "
                 self.ctype_in = "guint "
@@ -133,6 +151,9 @@ class Arg:
                 self.format_out = "u"
                 self.gvariant_get = "g_variant_get_uint32"
                 self.gvalue_get = "g_value_get_uint"
+                self.gvalue_set = "g_value_set_uint"
+                self.db_get = "config_mgmt_get_uint32_value"
+                self.db_set = "config_mgmt_set_uint32_value"
             elif self.signature == "x":
                 self.ctype_in_g = "gint64 "
                 self.ctype_in = "gint64 "
@@ -144,6 +165,9 @@ class Arg:
                 self.format_out = "x"
                 self.gvariant_get = "g_variant_get_int64"
                 self.gvalue_get = "g_value_get_int64"
+                self.gvalue_set = "g_value_set_int64"
+                self.db_get = "config_mgmt_get_int64_value"
+                self.db_set = "config_mgmt_set_int64_value"
             elif self.signature == "t":
                 self.ctype_in_g = "guint64 "
                 self.ctype_in = "guint64 "
@@ -155,6 +179,9 @@ class Arg:
                 self.format_out = "t"
                 self.gvariant_get = "g_variant_get_uint64"
                 self.gvalue_get = "g_value_get_uint64"
+                self.gvalue_set = "g_value_set_uint64"
+                self.db_get = "config_mgmt_get_uint64_value"
+                self.db_set = "config_mgmt_set_uint64_value"
             elif self.signature == "d":
                 self.ctype_in_g = "gdouble "
                 self.ctype_in = "gdouble "
@@ -166,6 +193,9 @@ class Arg:
                 self.format_out = "d"
                 self.gvariant_get = "g_variant_get_double"
                 self.gvalue_get = "g_value_get_double"
+                self.gvalue_set = "g_value_set_double"
+                self.db_get = "config_mgmt_get_double_value"
+                self.db_set = "config_mgmt_set_double_value"
             elif self.signature == "s":
                 self.ctype_in_g = "const gchar *"
                 self.ctype_in = "const gchar *"
@@ -178,6 +208,9 @@ class Arg:
                 self.format_out = "s"
                 self.gvariant_get = "g_variant_get_string"
                 self.gvalue_get = "g_value_get_string"
+                self.gvalue_set = "g_value_set_string"
+                self.db_get = "config_mgmt_get_string_value"
+                self.db_set = "config_mgmt_set_string_value"
             elif self.signature == "o":
                 self.ctype_in_g = "const gchar *"
                 self.ctype_in = "const gchar *"
@@ -190,6 +223,9 @@ class Arg:
                 self.format_out = "o"
                 self.gvariant_get = "g_variant_get_string"
                 self.gvalue_get = "g_value_get_string"
+                self.gvalue_set = "g_value_set_string"
+                self.db_get = "config_mgmt_get_string_value"
+                self.db_set = "config_mgmt_set_string_value"
             elif self.signature == "g":
                 self.ctype_in_g = "const gchar *"
                 self.ctype_in = "const gchar *"
@@ -202,6 +238,9 @@ class Arg:
                 self.format_out = "g"
                 self.gvariant_get = "g_variant_get_string"
                 self.gvalue_get = "g_value_get_string"
+                self.gvalue_set = "g_value_set_string"
+                self.db_get = "config_mgmt_get_string_value"
+                self.db_set = "config_mgmt_set_string_value"
             elif self.signature == "ay":
                 self.ctype_in_g = "const gchar *"
                 self.ctype_in = "const gchar *"
@@ -214,6 +253,9 @@ class Arg:
                 self.format_out = "^ay"
                 self.gvariant_get = "g_variant_get_bytestring"
                 self.gvalue_get = "g_value_get_string"
+                self.gvalue_set = "g_value_set_string"
+                self.db_get = "config_mgmt_get_string_value"
+                self.db_set = "config_mgmt_set_string_value"
             elif self.signature == "as":
                 self.ctype_in_g = "const gchar *const *"
                 self.ctype_in = "const gchar *const *"
@@ -226,6 +268,7 @@ class Arg:
                 self.format_out = "^as"
                 self.gvariant_get = "g_variant_get_strv"
                 self.gvalue_get = "g_value_get_boxed"
+                self.gvalue_set = "g_value_set_boxed"
                 self.array_annotation = "(array zero-terminated=1)"
             elif self.signature == "ao":
                 self.ctype_in_g = "const gchar *const *"
@@ -239,6 +282,7 @@ class Arg:
                 self.format_out = "^ao"
                 self.gvariant_get = "g_variant_get_objv"
                 self.gvalue_get = "g_value_get_boxed"
+                self.gvalue_set = "g_value_set_boxed"
                 self.array_annotation = "(array zero-terminated=1)"
             elif self.signature == "aay":
                 self.ctype_in_g = "const gchar *const *"
@@ -252,6 +296,7 @@ class Arg:
                 self.format_out = "^aay"
                 self.gvariant_get = "g_variant_get_bytestring_array"
                 self.gvalue_get = "g_value_get_boxed"
+                self.gvalue_set = "g_value_set_boxed"
                 self.array_annotation = "(array zero-terminated=1)"
 
         for a in self.annotations:
@@ -365,10 +410,12 @@ class Signal:
 
 
 class Property:
-    def __init__(self, name, signature, access):
+    def __init__(self, name, signature, access, persistence, default):
         self.name = name
         self.signature = signature
         self.access = access
+        self.persistence = persistence
+        self.default = default
         self.annotations = []
         self.arg = Arg("value", self.signature)
         self.arg.annotations = self.annotations
@@ -417,6 +464,10 @@ class Property:
         # recalculate arg
         self.arg.annotations = self.annotations
         self.arg.post_process(interface_prefix, cns, cns_upper, cns_lower, 0)
+        if self.arg.gtype == "G_TYPE_STRING":
+            self.default = '"%s"' % self.default
+        elif self.arg.gtype == "G_TYPE_UCHAR":
+            self.default = "'%s'" % self.default
 
         if (
             utils.lookup_annotation(self.annotations, "org.freedesktop.DBus.Deprecated")

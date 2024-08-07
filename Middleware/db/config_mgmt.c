@@ -60,6 +60,7 @@ int32_t config_mgmt_init(void)
         MODULE_NAME);
     if (ret < 0)
     {
+        free(sql);
         syslog(LOG_ERR, "snprintf failed");
         return RET_ERR;
     }

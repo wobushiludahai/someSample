@@ -191,41 +191,53 @@ gboolean photo_call_get_photo_info_sync (
 
 
 /* D-Bus property accessors: */
+#define PHOTO_STRPROPERTY_DEFAULT ("111")
 const gchar *photo_get_str_property (Photo *object);
 gchar *photo_dup_str_property (Photo *object);
 void photo_set_str_property (Photo *object, const gchar *value);
 
+#define PHOTO_BYTEPROPERTY_DEFAULT ('a')
 guchar photo_get_byte_property (Photo *object);
 void photo_set_byte_property (Photo *object, guchar value);
 
+#define PHOTO_BOOLPROPERTY_DEFAULT (TRUE)
 gboolean photo_get_bool_property (Photo *object);
 void photo_set_bool_property (Photo *object, gboolean value);
 
+#define PHOTO_INT16PROPERTY_DEFAULT (10)
 gint16 photo_get_int16_property (Photo *object);
 void photo_set_int16_property (Photo *object, gint16 value);
 
+#define PHOTO_UINT16PROPERTY_DEFAULT (10)
 guint16 photo_get_uint16_property (Photo *object);
 void photo_set_uint16_property (Photo *object, guint16 value);
 
+#define PHOTO_INT32PROPERTY_DEFAULT (-56)
 gint photo_get_int32_property (Photo *object);
 void photo_set_int32_property (Photo *object, gint value);
 
+#define PHOTO_UINT32PROPERTY_DEFAULT (10)
 guint photo_get_uint32_property (Photo *object);
 void photo_set_uint32_property (Photo *object, guint value);
 
+#define PHOTO_INT64PROPERTY_DEFAULT (-99)
 gint64 photo_get_int64_property (Photo *object);
 void photo_set_int64_property (Photo *object, gint64 value);
 
+#define PHOTO_UINT64PROPERTY_DEFAULT (113)
 guint64 photo_get_uint64_property (Photo *object);
 void photo_set_uint64_property (Photo *object, guint64 value);
 
+#define PHOTO_DOUBLEPROPERTY_DEFAULT (1.1)
 gdouble photo_get_double_property (Photo *object);
 void photo_set_double_property (Photo *object, gdouble value);
 
+#define PHOTO_ARRAYSTRPROPERTY_DEFAULT ()
 const gchar *const *photo_get_array_str_property (Photo *object);
 gchar **photo_dup_array_str_property (Photo *object);
 void photo_set_array_str_property (Photo *object, const gchar *const *value);
 
+#define PHOTO_ARRAYUINT32PROPERTY_DEFAULT ()
 GVariant *photo_get_array_uint32_property (Photo *object);
 GVariant *photo_dup_array_uint32_property (Photo *object);
 void photo_set_array_uint32_property (Photo *object, GVariant *value);

@@ -40,6 +40,7 @@ typedef struct
   const gchar *hyphen_name;
   guint use_gvariant : 1;
   guint emits_changed_signal : 1;
+  guint is_need_persistence : 1;
 } _ExtendedGDBusPropertyInfo;
 
 typedef struct
@@ -298,7 +299,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_str_property
   },
   "str-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_byte_property =
@@ -312,7 +314,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_byte_propert
   },
   "byte-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_bool_property =
@@ -326,7 +329,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_bool_propert
   },
   "bool-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int16_property =
@@ -340,7 +344,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int16_proper
   },
   "int16-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint16_property =
@@ -354,7 +359,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint16_prope
   },
   "uint16-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int32_property =
@@ -368,7 +374,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int32_proper
   },
   "int32-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint32_property =
@@ -382,7 +389,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint32_prope
   },
   "uint32-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int64_property =
@@ -396,7 +404,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int64_proper
   },
   "int64-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint64_property =
@@ -410,7 +419,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint64_prope
   },
   "uint64-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_double_property =
@@ -424,7 +434,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_double_prope
   },
   "double-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_str_property =
@@ -438,7 +449,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_str_pr
   },
   "array-str-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_uint32_property =
@@ -452,7 +464,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_uint32
   },
   "array-uint32-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const GDBusPropertyInfo * const _my_interface_property_info_pointers[] =
@@ -2365,7 +2378,11 @@ my_interface_skeleton_init (MyInterfaceSkeleton *skeleton)
   skeleton->priv->context = g_main_context_ref_thread_default ();
   skeleton->priv->properties = g_new0 (GValue, 12);
   g_value_init (&skeleton->priv->properties[0], G_TYPE_STRING);
+  g_value_set_string (&skeleton->priv->properties[0], "");
+
   g_value_init (&skeleton->priv->properties[1], G_TYPE_UCHAR);
+  g_value_set_uchar (&skeleton->priv->properties[1], '');
+
   g_value_init (&skeleton->priv->properties[2], G_TYPE_BOOLEAN);
   g_value_init (&skeleton->priv->properties[3], G_TYPE_INT);
   g_value_init (&skeleton->priv->properties[4], G_TYPE_UINT);

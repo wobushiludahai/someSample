@@ -40,6 +40,7 @@ typedef struct
   const gchar *hyphen_name;
   guint use_gvariant : 1;
   guint emits_changed_signal : 1;
+  guint is_need_persistence : 1;
 } _ExtendedGDBusPropertyInfo;
 
 typedef struct
@@ -415,7 +416,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_str_property =
   },
   "str-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_byte_property =
@@ -429,7 +431,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_byte_property =
   },
   "byte-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_bool_property =
@@ -443,7 +446,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_bool_property =
   },
   "bool-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_int16_property =
@@ -457,7 +461,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int16_property =
   },
   "int16-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_uint16_property =
@@ -471,7 +476,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint16_property =
   },
   "uint16-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_int32_property =
@@ -485,7 +491,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int32_property =
   },
   "int32-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_uint32_property =
@@ -499,7 +506,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint32_property =
   },
   "uint32-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_int64_property =
@@ -513,7 +521,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int64_property =
   },
   "int64-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_uint64_property =
@@ -527,7 +536,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint64_property =
   },
   "uint64-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_double_property =
@@ -541,7 +551,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_double_property =
   },
   "double-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_array_str_property =
@@ -555,7 +566,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_array_str_property 
   },
   "array-str-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _photo_property_info_array_uint32_property =
@@ -569,7 +581,8 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_array_uint32_proper
   },
   "array-uint32-property",
   FALSE,
-  TRUE
+  TRUE,
+  FALSE
 };
 
 static const GDBusPropertyInfo * const _photo_property_info_pointers[] =
@@ -2860,15 +2873,35 @@ photo_skeleton_init (PhotoSkeleton *skeleton)
   skeleton->priv->context = g_main_context_ref_thread_default ();
   skeleton->priv->properties = g_new0 (GValue, 12);
   g_value_init (&skeleton->priv->properties[0], G_TYPE_STRING);
+  g_value_set_string (&skeleton->priv->properties[0], "111");
+
   g_value_init (&skeleton->priv->properties[1], G_TYPE_UCHAR);
+  g_value_set_uchar (&skeleton->priv->properties[1], 'a');
+
   g_value_init (&skeleton->priv->properties[2], G_TYPE_BOOLEAN);
+  g_value_set_boolean (&skeleton->priv->properties[2], TRUE);
+
   g_value_init (&skeleton->priv->properties[3], G_TYPE_INT);
+  g_value_set_int (&skeleton->priv->properties[3], 10);
+
   g_value_init (&skeleton->priv->properties[4], G_TYPE_UINT);
+  g_value_set_uint (&skeleton->priv->properties[4], 10);
+
   g_value_init (&skeleton->priv->properties[5], G_TYPE_INT);
+  g_value_set_int (&skeleton->priv->properties[5], -56);
+
   g_value_init (&skeleton->priv->properties[6], G_TYPE_UINT);
+  g_value_set_uint (&skeleton->priv->properties[6], 10);
+
   g_value_init (&skeleton->priv->properties[7], G_TYPE_INT64);
+  g_value_set_int64 (&skeleton->priv->properties[7], -99);
+
   g_value_init (&skeleton->priv->properties[8], G_TYPE_UINT64);
+  g_value_set_uint64 (&skeleton->priv->properties[8], 113);
+
   g_value_init (&skeleton->priv->properties[9], G_TYPE_DOUBLE);
+  g_value_set_double (&skeleton->priv->properties[9], 1.1);
+
   g_value_init (&skeleton->priv->properties[10], G_TYPE_STRV);
   g_value_init (&skeleton->priv->properties[11], G_TYPE_VARIANT);
 }

@@ -311,41 +311,53 @@ gboolean video_call_share_video_sync (
 
 
 /* D-Bus property accessors: */
+#define VIDEO_STRPROPERTY_DEFAULT ("111")
 const gchar *video_get_str_property (Video *object);
 gchar *video_dup_str_property (Video *object);
 void video_set_str_property (Video *object, const gchar *value);
 
+#define VIDEO_BYTEPROPERTY_DEFAULT ('a')
 guchar video_get_byte_property (Video *object);
 void video_set_byte_property (Video *object, guchar value);
 
+#define VIDEO_BOOLPROPERTY_DEFAULT (TRUE)
 gboolean video_get_bool_property (Video *object);
 void video_set_bool_property (Video *object, gboolean value);
 
+#define VIDEO_INT16PROPERTY_DEFAULT (10)
 gint16 video_get_int16_property (Video *object);
 void video_set_int16_property (Video *object, gint16 value);
 
+#define VIDEO_UINT16PROPERTY_DEFAULT (10)
 guint16 video_get_uint16_property (Video *object);
 void video_set_uint16_property (Video *object, guint16 value);
 
+#define VIDEO_INT32PROPERTY_DEFAULT (-56)
 gint video_get_int32_property (Video *object);
 void video_set_int32_property (Video *object, gint value);
 
+#define VIDEO_UINT32PROPERTY_DEFAULT (10)
 guint video_get_uint32_property (Video *object);
 void video_set_uint32_property (Video *object, guint value);
 
+#define VIDEO_INT64PROPERTY_DEFAULT (-99)
 gint64 video_get_int64_property (Video *object);
 void video_set_int64_property (Video *object, gint64 value);
 
+#define VIDEO_UINT64PROPERTY_DEFAULT (113)
 guint64 video_get_uint64_property (Video *object);
 void video_set_uint64_property (Video *object, guint64 value);
 
+#define VIDEO_DOUBLEPROPERTY_DEFAULT (1.1)
 gdouble video_get_double_property (Video *object);
 void video_set_double_property (Video *object, gdouble value);
 
+#define VIDEO_ARRAYSTRPROPERTY_DEFAULT ()
 const gchar *const *video_get_array_str_property (Video *object);
 gchar **video_dup_array_str_property (Video *object);
 void video_set_array_str_property (Video *object, const gchar *const *value);
 
+#define VIDEO_ARRAYUINT32PROPERTY_DEFAULT ()
 GVariant *video_get_array_uint32_property (Video *object);
 GVariant *video_dup_array_uint32_property (Video *object);
 void video_set_array_uint32_property (Video *object, GVariant *value);
@@ -754,41 +766,53 @@ gboolean video2_call_share_video_sync (
 
 
 /* D-Bus property accessors: */
+#define VIDEO2_STRPROPERTY_DEFAULT ("111")
 const gchar *video2_get_str_property (Video2 *object);
 gchar *video2_dup_str_property (Video2 *object);
 void video2_set_str_property (Video2 *object, const gchar *value);
 
+#define VIDEO2_BYTEPROPERTY_DEFAULT ('a')
 guchar video2_get_byte_property (Video2 *object);
 void video2_set_byte_property (Video2 *object, guchar value);
 
+#define VIDEO2_BOOLPROPERTY_DEFAULT (TRUE)
 gboolean video2_get_bool_property (Video2 *object);
 void video2_set_bool_property (Video2 *object, gboolean value);
 
+#define VIDEO2_INT16PROPERTY_DEFAULT (10)
 gint16 video2_get_int16_property (Video2 *object);
 void video2_set_int16_property (Video2 *object, gint16 value);
 
+#define VIDEO2_UINT16PROPERTY_DEFAULT (10)
 guint16 video2_get_uint16_property (Video2 *object);
 void video2_set_uint16_property (Video2 *object, guint16 value);
 
+#define VIDEO2_INT32PROPERTY_DEFAULT (-56)
 gint video2_get_int32_property (Video2 *object);
 void video2_set_int32_property (Video2 *object, gint value);
 
+#define VIDEO2_UINT32PROPERTY_DEFAULT (10)
 guint video2_get_uint32_property (Video2 *object);
 void video2_set_uint32_property (Video2 *object, guint value);
 
+#define VIDEO2_INT64PROPERTY_DEFAULT (-99)
 gint64 video2_get_int64_property (Video2 *object);
 void video2_set_int64_property (Video2 *object, gint64 value);
 
+#define VIDEO2_UINT64PROPERTY_DEFAULT (113)
 guint64 video2_get_uint64_property (Video2 *object);
 void video2_set_uint64_property (Video2 *object, guint64 value);
 
+#define VIDEO2_DOUBLEPROPERTY_DEFAULT (1.1)
 gdouble video2_get_double_property (Video2 *object);
 void video2_set_double_property (Video2 *object, gdouble value);
 
+#define VIDEO2_ARRAYSTRPROPERTY_DEFAULT ()
 const gchar *const *video2_get_array_str_property (Video2 *object);
 gchar **video2_dup_array_str_property (Video2 *object);
 void video2_set_array_str_property (Video2 *object, const gchar *const *value);
 
+#define VIDEO2_ARRAYUINT32PROPERTY_DEFAULT ()
 GVariant *video2_get_array_uint32_property (Video2 *object);
 GVariant *video2_dup_array_uint32_property (Video2 *object);
 void video2_set_array_uint32_property (Video2 *object, GVariant *value);
