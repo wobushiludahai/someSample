@@ -8,6 +8,7 @@
 #  include "config.h"
 #endif
 
+#include "config_mgmt.h"
 #include "video.h"
 
 #include <string.h>
@@ -505,6 +506,21 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_str_property =
   TRUE
 };
 
+static const _ExtendedGDBusPropertyInfo _video_property_info_str_property1 =
+{
+  {
+    -1,
+    (gchar *) "StrProperty1",
+    (gchar *) "s",
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
+    NULL
+  },
+  "str-property1",
+  FALSE,
+  TRUE,
+  TRUE
+};
+
 static const _ExtendedGDBusPropertyInfo _video_property_info_byte_property =
 {
   {
@@ -517,7 +533,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_byte_property =
   "byte-property",
   FALSE,
   TRUE,
-  FALSE
+  TRUE
 };
 
 static const _ExtendedGDBusPropertyInfo _video_property_info_bool_property =
@@ -547,7 +563,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_int16_property =
   "int16-property",
   FALSE,
   TRUE,
-  FALSE
+  TRUE
 };
 
 static const _ExtendedGDBusPropertyInfo _video_property_info_uint16_property =
@@ -562,7 +578,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint16_property =
   "uint16-property",
   FALSE,
   TRUE,
-  FALSE
+  TRUE
 };
 
 static const _ExtendedGDBusPropertyInfo _video_property_info_int32_property =
@@ -577,7 +593,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_int32_property =
   "int32-property",
   FALSE,
   TRUE,
-  FALSE
+  TRUE
 };
 
 static const _ExtendedGDBusPropertyInfo _video_property_info_uint32_property =
@@ -592,7 +608,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint32_property =
   "uint32-property",
   FALSE,
   TRUE,
-  FALSE
+  TRUE
 };
 
 static const _ExtendedGDBusPropertyInfo _video_property_info_int64_property =
@@ -607,7 +623,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_int64_property =
   "int64-property",
   FALSE,
   TRUE,
-  FALSE
+  TRUE
 };
 
 static const _ExtendedGDBusPropertyInfo _video_property_info_uint64_property =
@@ -622,7 +638,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint64_property =
   "uint64-property",
   FALSE,
   TRUE,
-  FALSE
+  TRUE
 };
 
 static const _ExtendedGDBusPropertyInfo _video_property_info_double_property =
@@ -637,7 +653,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_double_property =
   "double-property",
   FALSE,
   TRUE,
-  FALSE
+  TRUE
 };
 
 static const _ExtendedGDBusPropertyInfo _video_property_info_array_str_property =
@@ -673,6 +689,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_array_uint32_proper
 static const GDBusPropertyInfo * const _video_property_info_pointers[] =
 {
   &_video_property_info_str_property.parent_struct,
+  &_video_property_info_str_property1.parent_struct,
   &_video_property_info_byte_property.parent_struct,
   &_video_property_info_bool_property.parent_struct,
   &_video_property_info_int16_property.parent_struct,
@@ -728,6 +745,7 @@ guint
 video_override_properties (GObjectClass *klass, guint property_id_begin)
 {
   g_object_class_override_property (klass, property_id_begin++, "str-property");
+  g_object_class_override_property (klass, property_id_begin++, "str-property1");
   g_object_class_override_property (klass, property_id_begin++, "byte-property");
   g_object_class_override_property (klass, property_id_begin++, "bool-property");
   g_object_class_override_property (klass, property_id_begin++, "int16-property");
@@ -770,6 +788,7 @@ video_override_properties (GObjectClass *klass, guint property_id_begin)
  * @get_int32_property: Getter for the #Video:int32-property property.
  * @get_int64_property: Getter for the #Video:int64-property property.
  * @get_str_property: Getter for the #Video:str-property property.
+ * @get_str_property1: Getter for the #Video:str-property1 property.
  * @get_uint16_property: Getter for the #Video:uint16-property property.
  * @get_uint32_property: Getter for the #Video:uint32-property property.
  * @get_uint64_property: Getter for the #Video:uint64-property property.
@@ -1016,6 +1035,15 @@ video_default_init (VideoIface *iface)
   g_object_interface_install_property (iface,
     g_param_spec_string ("str-property", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
+   * Video:str-property1:
+   *
+   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.StrProperty1">"StrProperty1"</link>.
+   *
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
+   */
+  g_object_interface_install_property (iface,
+    g_param_spec_string ("str-property1", "StrProperty1", "StrProperty1", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+  /**
    * Video:byte-property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.ByteProperty">"ByteProperty"</link>.
@@ -1167,6 +1195,59 @@ void
 video_set_str_property (Video *object, const gchar *value)
 {
   g_object_set (G_OBJECT (object), "str-property", value, NULL);
+}
+
+/**
+ * video_get_str_property1: (skip)
+ * @object: A #Video.
+ *
+ * Gets the value of the <link linkend="gdbus-property-com-example-video.StrProperty1">"StrProperty1"</link> D-Bus property.
+ *
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ *
+ * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use video_dup_str_property1() if on another thread.
+ *
+ * Returns: (transfer none) (nullable): The property value or %NULL if the property is not set. Do not free the returned value, it belongs to @object.
+ */
+const gchar *
+video_get_str_property1 (Video *object)
+{
+  g_return_val_if_fail (IS_VIDEO (object), NULL);
+
+  return VIDEO_GET_IFACE (object)->get_str_property1 (object);
+}
+
+/**
+ * video_dup_str_property1: (skip)
+ * @object: A #Video.
+ *
+ * Gets a copy of the <link linkend="gdbus-property-com-example-video.StrProperty1">"StrProperty1"</link> D-Bus property.
+ *
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ *
+ * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_free().
+ */
+gchar *
+video_dup_str_property1 (Video *object)
+{
+  gchar *value;
+  g_object_get (G_OBJECT (object), "str-property1", &value, NULL);
+  return value;
+}
+
+/**
+ * video_set_str_property1: (skip)
+ * @object: A #Video.
+ * @value: The value to set.
+ *
+ * Sets the <link linkend="gdbus-property-com-example-video.StrProperty1">"StrProperty1"</link> D-Bus property to @value.
+ *
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
+ */
+void
+video_set_str_property1 (Video *object, const gchar *value)
+{
+  g_object_set (G_OBJECT (object), "str-property1", value, NULL);
 }
 
 /**
@@ -2612,7 +2693,7 @@ video_proxy_get_property (GObject      *object,
 {
   const _ExtendedGDBusPropertyInfo *info;
   GVariant *variant;
-  g_assert (prop_id != 0 && prop_id - 1 < 12);
+  g_assert (prop_id != 0 && prop_id - 1 < 13);
   info = (const _ExtendedGDBusPropertyInfo *) _video_property_info_pointers[prop_id - 1];
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (object), info->parent_struct.name);
   if (info->use_gvariant)
@@ -2659,7 +2740,7 @@ video_proxy_set_property (GObject      *object,
 {
   const _ExtendedGDBusPropertyInfo *info;
   GVariant *variant;
-  g_assert (prop_id != 0 && prop_id - 1 < 12);
+  g_assert (prop_id != 0 && prop_id - 1 < 13);
   info = (const _ExtendedGDBusPropertyInfo *) _video_property_info_pointers[prop_id - 1];
   variant = g_dbus_gvalue_to_gvariant (value, G_VARIANT_TYPE (info->parent_struct.signature));
   GError *proxyerror = NULL;
@@ -2755,6 +2836,21 @@ video_proxy_get_str_property (Video *object)
   GVariant *variant;
   const gchar *value = NULL;
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "StrProperty");
+  if (variant != NULL)
+    {
+      value = g_variant_get_string (variant, NULL);
+      g_variant_unref (variant);
+    }
+  return value;
+}
+
+static const gchar *
+video_proxy_get_str_property1 (Video *object)
+{
+  VideoProxy *proxy = VIDEO_PROXY (object);
+  GVariant *variant;
+  const gchar *value = NULL;
+  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "StrProperty1");
   if (variant != NULL)
     {
       value = g_variant_get_string (variant, NULL);
@@ -2968,6 +3064,7 @@ static void
 video_proxy_iface_init (VideoIface *iface)
 {
   iface->get_str_property = video_proxy_get_str_property;
+  iface->get_str_property1 = video_proxy_get_str_property1;
   iface->get_byte_property = video_proxy_get_byte_property;
   iface->get_bool_property = video_proxy_get_bool_property;
   iface->get_int16_property = video_proxy_get_int16_property;
@@ -3451,7 +3548,7 @@ video_skeleton_finalize (GObject *object)
 {
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   guint n;
-  for (n = 0; n < 12; n++)
+  for (n = 0; n < 13; n++)
     g_value_unset (&skeleton->priv->properties[n]);
   g_free (skeleton->priv->properties);
   g_list_free_full (skeleton->priv->changed_properties, (GDestroyNotify) _changed_property_free);
@@ -3469,7 +3566,7 @@ video_skeleton_get_property (GObject      *object,
   GParamSpec   *pspec G_GNUC_UNUSED)
 {
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
-  g_assert (prop_id != 0 && prop_id - 1 < 12);
+  g_assert (prop_id != 0 && prop_id - 1 < 13);
   g_mutex_lock (&skeleton->priv->lock);
   g_value_copy (&skeleton->priv->properties[prop_id - 1], value);
   g_mutex_unlock (&skeleton->priv->lock);
@@ -3588,7 +3685,7 @@ video_skeleton_set_property (GObject      *object,
 {
   const _ExtendedGDBusPropertyInfo *info;
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
-  g_assert (prop_id != 0 && prop_id - 1 < 12);
+  g_assert (prop_id != 0 && prop_id - 1 < 13);
   info = (const _ExtendedGDBusPropertyInfo *) _video_property_info_pointers[prop_id - 1];
   g_mutex_lock (&skeleton->priv->lock);
   g_object_freeze_notify (object);
@@ -3615,39 +3712,121 @@ video_skeleton_init (VideoSkeleton *skeleton)
 
   g_mutex_init (&skeleton->priv->lock);
   skeleton->priv->context = g_main_context_ref_thread_default ();
-  skeleton->priv->properties = g_new0 (GValue, 12);
-  g_value_init (&skeleton->priv->properties[0], G_TYPE_STRING);
-  g_value_set_string (&skeleton->priv->properties[0], "111");
+  skeleton->priv->properties = g_new0 (GValue, 13);
 
-  g_value_init (&skeleton->priv->properties[1], G_TYPE_UCHAR);
-  g_value_set_uchar (&skeleton->priv->properties[1], 'a');
+  {
+  g_value_init(&skeleton->priv->properties[0], G_TYPE_STRING);
+  gchar video_str_property[512] = {0};
+  int32_t ret = config_mgmt_get_string_value("video_str_property", video_str_property, 512);
+  if (ret == 0) {
+    g_value_set_string(&skeleton->priv->properties[0], video_str_property);
+  } else {
+    g_value_set_string(&skeleton->priv->properties[0], "111");
+  }
+  }
 
-  g_value_init (&skeleton->priv->properties[2], G_TYPE_BOOLEAN);
-  g_value_set_boolean (&skeleton->priv->properties[2], TRUE);
+  {
+  g_value_init(&skeleton->priv->properties[1], G_TYPE_STRING);
+  gchar video_str_property1[512] = {0};
+  int32_t ret = config_mgmt_get_string_value("video_str_property1", video_str_property1, 512);
+  if (ret == 0) {
+    g_value_set_string(&skeleton->priv->properties[1], video_str_property1);
+  }
+  }
 
-  g_value_init (&skeleton->priv->properties[3], G_TYPE_INT);
-  g_value_set_int (&skeleton->priv->properties[3], 10);
+  {
+  g_value_init(&skeleton->priv->properties[2], G_TYPE_UCHAR);
+  gchar video_byte_property = 0;
+  int32_t ret = config_mgmt_get_char_value("video_byte_property", (gchar *)&video_byte_property);
+  if (ret == 0) {
+    g_value_set_uchar(&skeleton->priv->properties[2], video_byte_property);
+  } else {
+    g_value_set_uchar(&skeleton->priv->properties[2], 'a');
+  }
+  }
 
-  g_value_init (&skeleton->priv->properties[4], G_TYPE_UINT);
-  g_value_set_uint (&skeleton->priv->properties[4], 10);
+  g_value_init(&skeleton->priv->properties[3], G_TYPE_BOOLEAN);
+  g_value_set_boolean(&skeleton->priv->properties[3], TRUE);
 
-  g_value_init (&skeleton->priv->properties[5], G_TYPE_INT);
-  g_value_set_int (&skeleton->priv->properties[5], -56);
+  {
+  g_value_init(&skeleton->priv->properties[4], G_TYPE_INT);
+  gint32 video_int16_property = 0;
+  int32_t ret = config_mgmt_get_int32_value("video_int16_property", (gint32 *)&video_int16_property);
+  if (ret == 0) {
+    g_value_set_int(&skeleton->priv->properties[4], video_int16_property);
+  }
+  }
 
-  g_value_init (&skeleton->priv->properties[6], G_TYPE_UINT);
-  g_value_set_uint (&skeleton->priv->properties[6], 10);
+  {
+  g_value_init(&skeleton->priv->properties[5], G_TYPE_UINT);
+  guint32 video_uint16_property = 0;
+  int32_t ret = config_mgmt_get_uint32_value("video_uint16_property", (guint32 *)&video_uint16_property);
+  if (ret == 0) {
+    g_value_set_uint(&skeleton->priv->properties[5], video_uint16_property);
+  } else {
+    g_value_set_uint(&skeleton->priv->properties[5], 10);
+  }
+  }
 
-  g_value_init (&skeleton->priv->properties[7], G_TYPE_INT64);
-  g_value_set_int64 (&skeleton->priv->properties[7], -99);
+  {
+  g_value_init(&skeleton->priv->properties[6], G_TYPE_INT);
+  gint32 video_int32_property = 0;
+  int32_t ret = config_mgmt_get_int32_value("video_int32_property", (gint32 *)&video_int32_property);
+  if (ret == 0) {
+    g_value_set_int(&skeleton->priv->properties[6], video_int32_property);
+  } else {
+    g_value_set_int(&skeleton->priv->properties[6], -56);
+  }
+  }
 
-  g_value_init (&skeleton->priv->properties[8], G_TYPE_UINT64);
-  g_value_set_uint64 (&skeleton->priv->properties[8], 113);
+  {
+  g_value_init(&skeleton->priv->properties[7], G_TYPE_UINT);
+  guint32 video_uint32_property = 0;
+  int32_t ret = config_mgmt_get_uint32_value("video_uint32_property", (guint32 *)&video_uint32_property);
+  if (ret == 0) {
+    g_value_set_uint(&skeleton->priv->properties[7], video_uint32_property);
+  } else {
+    g_value_set_uint(&skeleton->priv->properties[7], 10);
+  }
+  }
 
-  g_value_init (&skeleton->priv->properties[9], G_TYPE_DOUBLE);
-  g_value_set_double (&skeleton->priv->properties[9], 1.1);
+  {
+  g_value_init(&skeleton->priv->properties[8], G_TYPE_INT64);
+  gint64  video_int64_property = 0;
+  int32_t ret = config_mgmt_get_int64_value("video_int64_property", (gint64  *)&video_int64_property);
+  if (ret == 0) {
+    g_value_set_int64(&skeleton->priv->properties[8], video_int64_property);
+  } else {
+    g_value_set_int64(&skeleton->priv->properties[8], -99);
+  }
+  }
 
-  g_value_init (&skeleton->priv->properties[10], G_TYPE_STRV);
-  g_value_init (&skeleton->priv->properties[11], G_TYPE_VARIANT);
+  {
+  g_value_init(&skeleton->priv->properties[9], G_TYPE_UINT64);
+  guint64  video_uint64_property = 0;
+  int32_t ret = config_mgmt_get_uint64_value("video_uint64_property", (guint64  *)&video_uint64_property);
+  if (ret == 0) {
+    g_value_set_uint64(&skeleton->priv->properties[9], video_uint64_property);
+  } else {
+    g_value_set_uint64(&skeleton->priv->properties[9], 113);
+  }
+  }
+
+  {
+  g_value_init(&skeleton->priv->properties[10], G_TYPE_DOUBLE);
+  gdouble  video_double_property = 0;
+  int32_t ret = config_mgmt_get_double_value("video_double_property", (gdouble  *)&video_double_property);
+  if (ret == 0) {
+    g_value_set_double(&skeleton->priv->properties[10], video_double_property);
+  } else {
+    g_value_set_double(&skeleton->priv->properties[10], 1.1);
+  }
+  }
+
+  g_value_init(&skeleton->priv->properties[11], G_TYPE_STRV);
+
+  g_value_init(&skeleton->priv->properties[12], G_TYPE_VARIANT);
+
 }
 
 static const gchar *
@@ -3661,13 +3840,24 @@ video_skeleton_get_str_property (Video *object)
   return value;
 }
 
+static const gchar *
+video_skeleton_get_str_property1 (Video *object)
+{
+  VideoSkeleton *skeleton = VIDEO_SKELETON (object);
+  const gchar *value;
+  g_mutex_lock (&skeleton->priv->lock);
+  value = g_value_get_string (&(skeleton->priv->properties[1]));
+  g_mutex_unlock (&skeleton->priv->lock);
+  return value;
+}
+
 static guchar 
 video_skeleton_get_byte_property (Video *object)
 {
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   guchar value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_uchar (&(skeleton->priv->properties[1]));
+  value = g_value_get_uchar (&(skeleton->priv->properties[2]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3678,7 +3868,7 @@ video_skeleton_get_bool_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   gboolean value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_boolean (&(skeleton->priv->properties[2]));
+  value = g_value_get_boolean (&(skeleton->priv->properties[3]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3689,7 +3879,7 @@ video_skeleton_get_int16_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   gint value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_int (&(skeleton->priv->properties[3]));
+  value = g_value_get_int (&(skeleton->priv->properties[4]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3700,7 +3890,7 @@ video_skeleton_get_uint16_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   guint value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_uint (&(skeleton->priv->properties[4]));
+  value = g_value_get_uint (&(skeleton->priv->properties[5]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3711,7 +3901,7 @@ video_skeleton_get_int32_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   gint value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_int (&(skeleton->priv->properties[5]));
+  value = g_value_get_int (&(skeleton->priv->properties[6]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3722,7 +3912,7 @@ video_skeleton_get_uint32_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   guint value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_uint (&(skeleton->priv->properties[6]));
+  value = g_value_get_uint (&(skeleton->priv->properties[7]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3733,7 +3923,7 @@ video_skeleton_get_int64_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   gint64 value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_int64 (&(skeleton->priv->properties[7]));
+  value = g_value_get_int64 (&(skeleton->priv->properties[8]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3744,7 +3934,7 @@ video_skeleton_get_uint64_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   guint64 value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_uint64 (&(skeleton->priv->properties[8]));
+  value = g_value_get_uint64 (&(skeleton->priv->properties[9]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3755,7 +3945,7 @@ video_skeleton_get_double_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   gdouble value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_double (&(skeleton->priv->properties[9]));
+  value = g_value_get_double (&(skeleton->priv->properties[10]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3766,7 +3956,7 @@ video_skeleton_get_array_str_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   const gchar *const *value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_boxed (&(skeleton->priv->properties[10]));
+  value = g_value_get_boxed (&(skeleton->priv->properties[11]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3777,7 +3967,7 @@ video_skeleton_get_array_uint32_property (Video *object)
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   GVariant *value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_variant (&(skeleton->priv->properties[11]));
+  value = g_value_get_variant (&(skeleton->priv->properties[12]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
@@ -3814,6 +4004,7 @@ video_skeleton_iface_init (VideoIface *iface)
   iface->record_start = _video_on_signal_record_start;
   iface->record_stop = _video_on_signal_record_stop;
   iface->get_str_property = video_skeleton_get_str_property;
+  iface->get_str_property1 = video_skeleton_get_str_property1;
   iface->get_byte_property = video_skeleton_get_byte_property;
   iface->get_bool_property = video_skeleton_get_bool_property;
   iface->get_int16_property = video_skeleton_get_int16_property;
@@ -4192,7 +4383,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_str_property =
   "str-property",
   FALSE,
   TRUE,
-  TRUE
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _video2_property_info_byte_property =
@@ -7306,38 +7497,41 @@ video2_skeleton_init (Video2Skeleton *skeleton)
   g_mutex_init (&skeleton->priv->lock);
   skeleton->priv->context = g_main_context_ref_thread_default ();
   skeleton->priv->properties = g_new0 (GValue, 12);
-  g_value_init (&skeleton->priv->properties[0], G_TYPE_STRING);
-  g_value_set_string (&skeleton->priv->properties[0], "111");
 
-  g_value_init (&skeleton->priv->properties[1], G_TYPE_UCHAR);
-  g_value_set_uchar (&skeleton->priv->properties[1], 'a');
+  g_value_init(&skeleton->priv->properties[0], G_TYPE_STRING);
+  g_value_set_string(&skeleton->priv->properties[0], "111");
 
-  g_value_init (&skeleton->priv->properties[2], G_TYPE_BOOLEAN);
-  g_value_set_boolean (&skeleton->priv->properties[2], TRUE);
+  g_value_init(&skeleton->priv->properties[1], G_TYPE_UCHAR);
+  g_value_set_uchar(&skeleton->priv->properties[1], 'a');
 
-  g_value_init (&skeleton->priv->properties[3], G_TYPE_INT);
-  g_value_set_int (&skeleton->priv->properties[3], 10);
+  g_value_init(&skeleton->priv->properties[2], G_TYPE_BOOLEAN);
+  g_value_set_boolean(&skeleton->priv->properties[2], TRUE);
 
-  g_value_init (&skeleton->priv->properties[4], G_TYPE_UINT);
-  g_value_set_uint (&skeleton->priv->properties[4], 10);
+  g_value_init(&skeleton->priv->properties[3], G_TYPE_INT);
+  g_value_set_int(&skeleton->priv->properties[3], 10);
 
-  g_value_init (&skeleton->priv->properties[5], G_TYPE_INT);
-  g_value_set_int (&skeleton->priv->properties[5], -56);
+  g_value_init(&skeleton->priv->properties[4], G_TYPE_UINT);
+  g_value_set_uint(&skeleton->priv->properties[4], 10);
 
-  g_value_init (&skeleton->priv->properties[6], G_TYPE_UINT);
-  g_value_set_uint (&skeleton->priv->properties[6], 10);
+  g_value_init(&skeleton->priv->properties[5], G_TYPE_INT);
+  g_value_set_int(&skeleton->priv->properties[5], -56);
 
-  g_value_init (&skeleton->priv->properties[7], G_TYPE_INT64);
-  g_value_set_int64 (&skeleton->priv->properties[7], -99);
+  g_value_init(&skeleton->priv->properties[6], G_TYPE_UINT);
+  g_value_set_uint(&skeleton->priv->properties[6], 10);
 
-  g_value_init (&skeleton->priv->properties[8], G_TYPE_UINT64);
-  g_value_set_uint64 (&skeleton->priv->properties[8], 113);
+  g_value_init(&skeleton->priv->properties[7], G_TYPE_INT64);
+  g_value_set_int64(&skeleton->priv->properties[7], -99);
 
-  g_value_init (&skeleton->priv->properties[9], G_TYPE_DOUBLE);
-  g_value_set_double (&skeleton->priv->properties[9], 1.1);
+  g_value_init(&skeleton->priv->properties[8], G_TYPE_UINT64);
+  g_value_set_uint64(&skeleton->priv->properties[8], 113);
 
-  g_value_init (&skeleton->priv->properties[10], G_TYPE_STRV);
-  g_value_init (&skeleton->priv->properties[11], G_TYPE_VARIANT);
+  g_value_init(&skeleton->priv->properties[9], G_TYPE_DOUBLE);
+  g_value_set_double(&skeleton->priv->properties[9], 1.1);
+
+  g_value_init(&skeleton->priv->properties[10], G_TYPE_STRV);
+
+  g_value_init(&skeleton->priv->properties[11], G_TYPE_VARIANT);
+
 }
 
 static const gchar *

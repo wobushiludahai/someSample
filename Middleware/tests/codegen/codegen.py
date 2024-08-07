@@ -1,5 +1,6 @@
 # -*- Mode: Python -*-
 # coding=utf-8
+import sys
 from . import config
 from . import utils
 from . import dbustypes
@@ -334,7 +335,8 @@ class HeaderCodeGenerator:
                 self.outfile.write("\n")
                 self.outfile.write("/* D-Bus property accessors: */\n")
                 for p in i.properties:
-                    self.outfile.write("#define %s_%s_DEFAULT (%s)\n" % (i.name_upper, p.name.upper(), p.default))
+                    if p.default != "":
+                        self.outfile.write("#define %s_%s_DEFAULT (%s)\n" % (i.name_upper, p.name.upper(), p.default))
                     # getter
                     if self.symbol_decorator is not None:
                         self.outfile.write("%s\n" % self.symbol_decorator)
@@ -1450,6 +1452,7 @@ class CodeGenerator:
             '#  include "config.h"\n'
             "#endif\n"
             "\n"
+            '#include "config_mgmt.h"\n'
             '#include "%s"\n'
             "\n"
             "#include <string.h>\n" % (self.header_name)
@@ -4125,20 +4128,88 @@ class CodeGenerator:
         )
         if len(i.properties) > 0:
             self.outfile.write(
-                "  skeleton->priv->properties = g_new0 (GValue, %d);\n"
+                "  skeleton->priv->properties = g_new0 (GValue, %d);\n\n"
                 % (len(i.properties))
             )
             n = 0
             for p in i.properties:
-                self.outfile.write(
-                    "  g_value_init (&skeleton->priv->properties[%d], %s);\n"
-                    % (n, p.arg.gtype)
-                )
-                if p.default != "":
+                if p.persistence == True:
+                    if p.arg.db_get == "":
+                        print("Error:persistence is for base data type\n")
+                        sys.exit(-1)
+
                     self.outfile.write(
-                        "  %s (&skeleton->priv->properties[%d], %s);\n\n"
+                        "  {\n"
+                        "  g_value_init(&skeleton->priv->properties[%d], %s);\n"
+                        % (n, p.arg.gtype)
+                    )
+
+                    if p.arg.gtype == "G_TYPE_STRING":
+                        var_name = "%s_%s" % (i.name_lower, p.name_lower)
+                        var_type = "gchar"
+                        self.outfile.write(
+                            "  %s %s[512] = {0};\n" % (var_type, var_name)
+                        )
+
+                        self.outfile.write(
+                            "  int32_t ret = %s(\"%s\", %s, 512);\n" % (p.arg.db_get, var_name, var_name)
+                        )
+                    else:
+                        var_name = "%s_%s" % (i.name_lower, p.name_lower)
+
+                        if p.arg.gtype == "G_TYPE_UCHAR":
+                            var_type = "gchar"
+                        elif p.arg.gtype == "G_TYPE_INT":
+                            var_type = "gint32"
+                        elif p.arg.gtype == "G_TYPE_UINT":
+                            var_type = "guint32"
+                        else:
+                            var_type = p.arg.ctype_in
+
+                        if p.arg.gtype == "G_TYPE_UCHAR":
+                            self.outfile.write(
+                                "  %s %s = 0;\n" % (var_type, var_name)
+                            )
+                        else:
+                            self.outfile.write(
+                                "  %s %s = 0;\n" % (var_type, var_name)
+                            )
+
+                        self.outfile.write(
+                            "  int32_t ret = %s(\"%s\", (%s *)&%s);\n" % (p.arg.db_get, var_name, var_type, var_name)
+                        )
+
+                    if p.default != "": # 有默认值
+                        self.outfile.write(
+                            "  if (ret == 0) {\n"
+                            "    %s(&skeleton->priv->properties[%d], %s);\n"
+                            "  } else {\n"
+                            "    %s(&skeleton->priv->properties[%d], %s);\n"
+                            "  }\n"
+                            "  }\n\n" % (p.arg.gvalue_set,n, var_name, p.arg.gvalue_set,n, p.default)
+                        )
+                    else:
+                        self.outfile.write(
+                            "  if (ret == 0) {\n"
+                            "    %s(&skeleton->priv->properties[%d], %s);\n"
+                            "  }\n"
+                            "  }\n\n" % (p.arg.gvalue_set,n, var_name)
+                        )
+                elif p.default != "":
+                    self.outfile.write(
+                        "  g_value_init(&skeleton->priv->properties[%d], %s);\n"
+                        % (n, p.arg.gtype)
+                    )
+                    self.outfile.write(
+                        "  %s(&skeleton->priv->properties[%d], %s);\n\n"
                         % (p.arg.gvalue_set,n, p.default)
                     )
+                else:
+                    self.outfile.write(
+                        "  g_value_init(&skeleton->priv->properties[%d], %s);\n\n"
+                        % (n, p.arg.gtype)
+                    )
+
                 n += 1
         self.outfile.write("}\n" "\n")
 

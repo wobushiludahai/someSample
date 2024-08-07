@@ -85,6 +85,8 @@ struct _VideoIface
 
   const gchar * (*get_str_property) (Video *object);
 
+  const gchar * (*get_str_property1) (Video *object);
+
   guint16  (*get_uint16_property) (Video *object);
 
   guint  (*get_uint32_property) (Video *object);
@@ -316,6 +318,10 @@ const gchar *video_get_str_property (Video *object);
 gchar *video_dup_str_property (Video *object);
 void video_set_str_property (Video *object, const gchar *value);
 
+const gchar *video_get_str_property1 (Video *object);
+gchar *video_dup_str_property1 (Video *object);
+void video_set_str_property1 (Video *object, const gchar *value);
+
 #define VIDEO_BYTEPROPERTY_DEFAULT ('a')
 guchar video_get_byte_property (Video *object);
 void video_set_byte_property (Video *object, guchar value);
@@ -324,7 +330,6 @@ void video_set_byte_property (Video *object, guchar value);
 gboolean video_get_bool_property (Video *object);
 void video_set_bool_property (Video *object, gboolean value);
 
-#define VIDEO_INT16PROPERTY_DEFAULT (10)
 gint16 video_get_int16_property (Video *object);
 void video_set_int16_property (Video *object, gint16 value);
 
@@ -352,12 +357,10 @@ void video_set_uint64_property (Video *object, guint64 value);
 gdouble video_get_double_property (Video *object);
 void video_set_double_property (Video *object, gdouble value);
 
-#define VIDEO_ARRAYSTRPROPERTY_DEFAULT ()
 const gchar *const *video_get_array_str_property (Video *object);
 gchar **video_dup_array_str_property (Video *object);
 void video_set_array_str_property (Video *object, const gchar *const *value);
 
-#define VIDEO_ARRAYUINT32PROPERTY_DEFAULT ()
 GVariant *video_get_array_uint32_property (Video *object);
 GVariant *video_dup_array_uint32_property (Video *object);
 void video_set_array_uint32_property (Video *object, GVariant *value);
@@ -807,12 +810,10 @@ void video2_set_uint64_property (Video2 *object, guint64 value);
 gdouble video2_get_double_property (Video2 *object);
 void video2_set_double_property (Video2 *object, gdouble value);
 
-#define VIDEO2_ARRAYSTRPROPERTY_DEFAULT ()
 const gchar *const *video2_get_array_str_property (Video2 *object);
 gchar **video2_dup_array_str_property (Video2 *object);
 void video2_set_array_str_property (Video2 *object, const gchar *const *value);
 
-#define VIDEO2_ARRAYUINT32PROPERTY_DEFAULT ()
 GVariant *video2_get_array_uint32_property (Video2 *object);
 GVariant *video2_dup_array_uint32_property (Video2 *object);
 void video2_set_array_uint32_property (Video2 *object, GVariant *value);

@@ -232,12 +232,10 @@ void photo_set_uint64_property (Photo *object, guint64 value);
 gdouble photo_get_double_property (Photo *object);
 void photo_set_double_property (Photo *object, gdouble value);
 
-#define PHOTO_ARRAYSTRPROPERTY_DEFAULT ()
 const gchar *const *photo_get_array_str_property (Photo *object);
 gchar **photo_dup_array_str_property (Photo *object);
 void photo_set_array_str_property (Photo *object, const gchar *const *value);
 
-#define PHOTO_ARRAYUINT32PROPERTY_DEFAULT ()
 GVariant *photo_get_array_uint32_property (Photo *object);
 GVariant *photo_dup_array_uint32_property (Photo *object);
 void photo_set_array_uint32_property (Photo *object, GVariant *value);

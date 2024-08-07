@@ -8,6 +8,7 @@
 #  include "config.h"
 #endif
 
+#include "config_mgmt.h"
 #include "interface.h"
 
 #include <string.h>
@@ -2377,22 +2378,31 @@ my_interface_skeleton_init (MyInterfaceSkeleton *skeleton)
   g_mutex_init (&skeleton->priv->lock);
   skeleton->priv->context = g_main_context_ref_thread_default ();
   skeleton->priv->properties = g_new0 (GValue, 12);
-  g_value_init (&skeleton->priv->properties[0], G_TYPE_STRING);
-  g_value_set_string (&skeleton->priv->properties[0], "");
 
-  g_value_init (&skeleton->priv->properties[1], G_TYPE_UCHAR);
-  g_value_set_uchar (&skeleton->priv->properties[1], '');
+  g_value_init(&skeleton->priv->properties[0], G_TYPE_STRING);
 
-  g_value_init (&skeleton->priv->properties[2], G_TYPE_BOOLEAN);
-  g_value_init (&skeleton->priv->properties[3], G_TYPE_INT);
-  g_value_init (&skeleton->priv->properties[4], G_TYPE_UINT);
-  g_value_init (&skeleton->priv->properties[5], G_TYPE_INT);
-  g_value_init (&skeleton->priv->properties[6], G_TYPE_UINT);
-  g_value_init (&skeleton->priv->properties[7], G_TYPE_INT64);
-  g_value_init (&skeleton->priv->properties[8], G_TYPE_UINT64);
-  g_value_init (&skeleton->priv->properties[9], G_TYPE_DOUBLE);
-  g_value_init (&skeleton->priv->properties[10], G_TYPE_STRV);
-  g_value_init (&skeleton->priv->properties[11], G_TYPE_VARIANT);
+  g_value_init(&skeleton->priv->properties[1], G_TYPE_UCHAR);
+
+  g_value_init(&skeleton->priv->properties[2], G_TYPE_BOOLEAN);
+
+  g_value_init(&skeleton->priv->properties[3], G_TYPE_INT);
+
+  g_value_init(&skeleton->priv->properties[4], G_TYPE_UINT);
+
+  g_value_init(&skeleton->priv->properties[5], G_TYPE_INT);
+
+  g_value_init(&skeleton->priv->properties[6], G_TYPE_UINT);
+
+  g_value_init(&skeleton->priv->properties[7], G_TYPE_INT64);
+
+  g_value_init(&skeleton->priv->properties[8], G_TYPE_UINT64);
+
+  g_value_init(&skeleton->priv->properties[9], G_TYPE_DOUBLE);
+
+  g_value_init(&skeleton->priv->properties[10], G_TYPE_STRV);
+
+  g_value_init(&skeleton->priv->properties[11], G_TYPE_VARIANT);
+
 }
 
 static const gchar *

@@ -118,53 +118,41 @@ gboolean my_interface_call_my_method_sync (
 
 
 /* D-Bus property accessors: */
-#define MY_INTERFACE_STRPROPERTY_DEFAULT ("")
 const gchar *my_interface_get_str_property (MyInterface *object);
 gchar *my_interface_dup_str_property (MyInterface *object);
 void my_interface_set_str_property (MyInterface *object, const gchar *value);
 
-#define MY_INTERFACE_BYTEPROPERTY_DEFAULT ('')
 guchar my_interface_get_byte_property (MyInterface *object);
 void my_interface_set_byte_property (MyInterface *object, guchar value);
 
-#define MY_INTERFACE_BOOLPROPERTY_DEFAULT ()
 gboolean my_interface_get_bool_property (MyInterface *object);
 void my_interface_set_bool_property (MyInterface *object, gboolean value);
 
-#define MY_INTERFACE_INT16PROPERTY_DEFAULT ()
 gint16 my_interface_get_int16_property (MyInterface *object);
 void my_interface_set_int16_property (MyInterface *object, gint16 value);
 
-#define MY_INTERFACE_UINT16PROPERTY_DEFAULT ()
 guint16 my_interface_get_uint16_property (MyInterface *object);
 void my_interface_set_uint16_property (MyInterface *object, guint16 value);
 
-#define MY_INTERFACE_INT32PROPERTY_DEFAULT ()
 gint my_interface_get_int32_property (MyInterface *object);
 void my_interface_set_int32_property (MyInterface *object, gint value);
 
-#define MY_INTERFACE_UINT32PROPERTY_DEFAULT ()
 guint my_interface_get_uint32_property (MyInterface *object);
 void my_interface_set_uint32_property (MyInterface *object, guint value);
 
-#define MY_INTERFACE_INT64PROPERTY_DEFAULT ()
 gint64 my_interface_get_int64_property (MyInterface *object);
 void my_interface_set_int64_property (MyInterface *object, gint64 value);
 
-#define MY_INTERFACE_UINT64PROPERTY_DEFAULT ()
 guint64 my_interface_get_uint64_property (MyInterface *object);
 void my_interface_set_uint64_property (MyInterface *object, guint64 value);
 
-#define MY_INTERFACE_DOUBLEPROPERTY_DEFAULT ()
 gdouble my_interface_get_double_property (MyInterface *object);
 void my_interface_set_double_property (MyInterface *object, gdouble value);
 
-#define MY_INTERFACE_ARRAYSTRPROPERTY_DEFAULT ()
 const gchar *const *my_interface_get_array_str_property (MyInterface *object);
 gchar **my_interface_dup_array_str_property (MyInterface *object);
 void my_interface_set_array_str_property (MyInterface *object, const gchar *const *value);
 
-#define MY_INTERFACE_ARRAYUINT32PROPERTY_DEFAULT ()
 GVariant *my_interface_get_array_uint32_property (MyInterface *object);
 GVariant *my_interface_dup_array_uint32_property (MyInterface *object);
 void my_interface_set_array_uint32_property (MyInterface *object, GVariant *value);

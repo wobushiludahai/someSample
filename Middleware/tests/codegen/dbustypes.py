@@ -464,10 +464,11 @@ class Property:
         # recalculate arg
         self.arg.annotations = self.annotations
         self.arg.post_process(interface_prefix, cns, cns_upper, cns_lower, 0)
-        if self.arg.gtype == "G_TYPE_STRING":
-            self.default = '"%s"' % self.default
-        elif self.arg.gtype == "G_TYPE_UCHAR":
-            self.default = "'%s'" % self.default
+        if self.default != "":
+            if self.arg.gtype == "G_TYPE_STRING":
+                self.default = '"%s"' % self.default
+            elif self.arg.gtype == "G_TYPE_UCHAR":
+                self.default = "'%s'" % self.default
 
         if (
             utils.lookup_annotation(self.annotations, "org.freedesktop.DBus.Deprecated")

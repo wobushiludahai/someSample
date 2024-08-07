@@ -38,7 +38,7 @@ echo
 echo
 # ./middleware
 
-# ./video
+./video
 # ./client &
 # sleep 10
 # killall server
