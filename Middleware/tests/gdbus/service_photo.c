@@ -38,6 +38,13 @@ gpointer thread_test(gpointer data)
             // return NULL;
         }
 
+        video_set_int16_property(get_proxy_instance(PROXY_VIDEO_HASH_NAME), test++);
+        video_set_uint16_property(get_proxy_instance(PROXY_VIDEO_HASH_NAME), test++);
+        video_set_int32_property(get_proxy_instance(PROXY_VIDEO_HASH_NAME), test++);
+        video_set_uint32_property(get_proxy_instance(PROXY_VIDEO_HASH_NAME), test++);
+        video_set_int64_property(get_proxy_instance(PROXY_VIDEO_HASH_NAME), test++);
+        video_set_uint64_property(get_proxy_instance(PROXY_VIDEO_HASH_NAME), test++);
+
         if (test == 2)
         {
             g_print("bind property changed callback\n");

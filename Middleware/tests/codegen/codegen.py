@@ -1625,6 +1625,53 @@ class CodeGenerator:
             "\n"
         )
 
+        # simplified - only supports the types we use
+        self.outfile.write(
+            "static void write_into_db(const gchar *property_name, const gchar *if_name, const GValue *value)\n"
+            "{\n"
+            "  gchar *key = g_strdup_printf(\"%s_%s\", if_name, property_name);\n"
+            "  switch (G_VALUE_TYPE (value))\n"
+            "    {\n"
+            "      case G_TYPE_BOOLEAN:\n"
+            "          gboolean bool_value = g_value_get_boolean(value);\n"
+            "          config_mgmt_set_bool_value(key, bool_value);\n"
+            "          break;\n"
+            "      case G_TYPE_UCHAR:\n"
+            "          guchar uchar_value = g_value_get_uchar(value);\n"
+            "          config_mgmt_set_char_value(key, uchar_value);\n"
+            "          break;\n"
+            "      case G_TYPE_INT:\n"
+            "          gint int32_value = g_value_get_int(value);\n"
+            "          config_mgmt_set_int32_value(key, int32_value);\n"
+            "          break;\n"
+            "      case G_TYPE_UINT:\n"
+            "          guint uint32_value = g_value_get_uint(value);\n"
+            "          config_mgmt_set_uint32_value(key, uint32_value);\n"
+            "          break;\n"
+            "      case G_TYPE_INT64:\n"
+            "          gint64 int64_value = g_value_get_int64(value);\n"
+            "          config_mgmt_set_int64_value(key, int64_value);\n"
+            "          break;\n"
+            "      case G_TYPE_UINT64:\n"
+            "          guint64 uint64_value = g_value_get_uint64(value);\n"
+            "          config_mgmt_set_uint64_value(key, uint64_value);\n"
+            "          break;\n"
+            "      case G_TYPE_DOUBLE:\n"
+            "          gdouble double_value = g_value_get_double(value);\n"
+            "          config_mgmt_set_double_value(key, double_value);\n"
+            "          break;\n"
+            "      case G_TYPE_STRING:\n"
+            "          const gchar *str_value = g_value_get_string(value);\n"
+            "          config_mgmt_set_string_value(key, (char *)str_value);\n"
+            "          break;\n"
+            "      default:\n"
+            "          g_print(\"Unsupport type %ld\", G_VALUE_TYPE (value));\n"
+            "    }\n"
+            "    g_free(key);\n"
+            "}\n"
+            "\n"
+        )
+
     def generate_annotations(self, prefix, annotations):
         if annotations is None:
             return
@@ -4089,6 +4136,8 @@ class CodeGenerator:
                 "          info->emits_changed_signal)\n"
                 "        _%s_schedule_emit_changed (skeleton, info, prop_id, &skeleton->priv->properties[prop_id - 1]);\n"
                 "      g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);\n"
+                "      if (info->is_need_persistence == 1) \n"
+                "        write_into_db(info->parent_struct.name, g_dbus_interface_skeleton_get_info(G_DBUS_INTERFACE_SKELETON (skeleton))->name, value); \n"
                 "      g_object_notify_by_pspec (object, pspec);\n"
                 "    }\n"
                 "  g_mutex_unlock (&skeleton->priv->lock);\n"
@@ -4143,24 +4192,23 @@ class CodeGenerator:
                         "  g_value_init(&skeleton->priv->properties[%d], %s);\n"
                         % (n, p.arg.gtype)
                     )
-
                     if p.arg.gtype == "G_TYPE_STRING":
-                        var_name = "%s_%s" % (i.name_lower, p.name_lower)
+                        var_name = "%s_%s" % (i.name, p.name)
                         var_type = "gchar"
                         if p.default != "": #有默认值
                             self.outfile.write(
-                                "  %s %s[512] = {%s};\n" % (var_type, var_name, p.default)
+                                "  %s %s[512] = {%s};\n" % (var_type, p.name, p.default)
                             )
                         else:
                             self.outfile.write(
-                                "  %s %s[512] = {0};\n" % (var_type, var_name)
+                                "  %s %s[512] = {0};\n" % (var_type, p.name)
                             )
 
                         self.outfile.write(
-                            "  %s(\"%s\", %s, 512);\n" % (p.arg.db_get, var_name, var_name)
+                            "  %s(\"%s\", %s, 512);\n" % (p.arg.db_get, var_name, p.name)
                         )
                     else:
-                        var_name = "%s_%s" % (i.name_lower, p.name_lower)
+                        var_name = "%s_%s" % (i.name, p.name)
 
                         if p.arg.gtype == "G_TYPE_UCHAR":
                             var_type = "gchar"
@@ -4173,20 +4221,20 @@ class CodeGenerator:
 
                         if p.default != "": #有默认值
                             self.outfile.write(
-                                "  %s %s = %s;\n" % (var_type, var_name, p.default)
+                                "  %s %s = %s;\n" % (var_type, p.name, p.default)
                             )
                         else:
                             self.outfile.write(
-                                "  %s %s = 0;\n" % (var_type, var_name)
+                                "  %s %s = 0;\n" % (var_type, p.name)
                             )
 
                         self.outfile.write(
-                            "  %s(\"%s\", (%s *)&%s);\n" % (p.arg.db_get, var_name, var_type, var_name)
+                            "  %s(\"%s\", (%s *)&%s);\n" % (p.arg.db_get, var_name, var_type, p.name)
                         )
 
                     self.outfile.write(
                         "  %s(&skeleton->priv->properties[%d], %s);\n"
-                        "  }\n\n" % (p.arg.gvalue_set,n, var_name)
+                        "  }\n\n" % (p.arg.gvalue_set,n, p.name)
                     )
                 elif p.default != "":
                     self.outfile.write(

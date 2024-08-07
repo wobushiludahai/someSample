@@ -31,7 +31,7 @@ cp ${BUILD_DIR}/middleware ${OUTPUT_DIR}/
 cp ${BUILD_DIR}/gdbus/video ${OUTPUT_DIR}/
 cp ${BUILD_DIR}/gdbus/photo ${OUTPUT_DIR}/
 
-rm -rf ${OUTPUT_DIR}/test.db
+rm -rf ${OUTPUT_DIR}/config_mgmt.db
 
 cd ${OUTPUT_DIR}
 echo

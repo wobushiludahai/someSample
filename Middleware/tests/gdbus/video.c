@@ -151,6 +151,49 @@ _g_value_equal (const GValue *a, const GValue *b)
   return ret;
 }
 
+static void write_into_db(const gchar *property_name, const gchar *if_name, const GValue *value)
+{
+  gchar *key = g_strdup_printf("%s_%s", if_name, property_name);
+  switch (G_VALUE_TYPE (value))
+    {
+      case G_TYPE_BOOLEAN:
+          gboolean bool_value = g_value_get_boolean(value);
+          config_mgmt_set_bool_value(key, bool_value);
+          break;
+      case G_TYPE_UCHAR:
+          guchar uchar_value = g_value_get_uchar(value);
+          config_mgmt_set_char_value(key, uchar_value);
+          break;
+      case G_TYPE_INT:
+          gint int32_value = g_value_get_int(value);
+          config_mgmt_set_int32_value(key, int32_value);
+          break;
+      case G_TYPE_UINT:
+          guint uint32_value = g_value_get_uint(value);
+          config_mgmt_set_uint32_value(key, uint32_value);
+          break;
+      case G_TYPE_INT64:
+          gint64 int64_value = g_value_get_int64(value);
+          config_mgmt_set_int64_value(key, int64_value);
+          break;
+      case G_TYPE_UINT64:
+          guint64 uint64_value = g_value_get_uint64(value);
+          config_mgmt_set_uint64_value(key, uint64_value);
+          break;
+      case G_TYPE_DOUBLE:
+          gdouble double_value = g_value_get_double(value);
+          config_mgmt_set_double_value(key, double_value);
+          break;
+      case G_TYPE_STRING:
+          const gchar *str_value = g_value_get_string(value);
+          config_mgmt_set_string_value(key, (char *)str_value);
+          break;
+      default:
+          g_print("Unsupport type %ld", G_VALUE_TYPE (value));
+    }
+    g_free(key);
+}
+
 /* ------------------------------------------------------------------------
  * Code for interface com.example.video
  * ------------------------------------------------------------------------
@@ -578,7 +621,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint16_property =
   "uint16-property",
   FALSE,
   TRUE,
-  TRUE
+  FALSE
 };
 
 static const _ExtendedGDBusPropertyInfo _video_property_info_int32_property =
@@ -632,7 +675,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint64_property =
     -1,
     (gchar *) "Uint64Property",
     (gchar *) "t",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "uint64-property",
@@ -1111,7 +1154,7 @@ video_default_init (VideoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.Uint64Property">"Uint64Property"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_uint64 ("uint64-property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -1487,7 +1530,7 @@ video_set_int64_property (Video *object, gint64 value)
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-video.Uint64Property">"Uint64Property"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1506,7 +1549,7 @@ video_get_uint64_property (Video *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-video.Uint64Property">"Uint64Property"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 video_set_uint64_property (Video *object, guint64 value)
@@ -3695,6 +3738,8 @@ video_skeleton_set_property (GObject      *object,
           info->emits_changed_signal)
         _video_schedule_emit_changed (skeleton, info, prop_id, &skeleton->priv->properties[prop_id - 1]);
       g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);
+      if (info->is_need_persistence == 1) 
+        write_into_db(info->parent_struct.name, g_dbus_interface_skeleton_get_info(G_DBUS_INTERFACE_SKELETON (skeleton))->name, value); 
       g_object_notify_by_pspec (object, pspec);
     }
   g_mutex_unlock (&skeleton->priv->lock);
@@ -3716,23 +3761,23 @@ video_skeleton_init (VideoSkeleton *skeleton)
 
   {
   g_value_init(&skeleton->priv->properties[0], G_TYPE_STRING);
-  gchar video_str_property[512] = {"111"};
-  config_mgmt_get_string_value("video_str_property", video_str_property, 512);
-  g_value_set_string(&skeleton->priv->properties[0], video_str_property);
+  gchar StrProperty[512] = {"111"};
+  config_mgmt_get_string_value("com.example.video_StrProperty", StrProperty, 512);
+  g_value_set_string(&skeleton->priv->properties[0], StrProperty);
   }
 
   {
   g_value_init(&skeleton->priv->properties[1], G_TYPE_STRING);
-  gchar video_str_property1[512] = {0};
-  config_mgmt_get_string_value("video_str_property1", video_str_property1, 512);
-  g_value_set_string(&skeleton->priv->properties[1], video_str_property1);
+  gchar StrProperty1[512] = {0};
+  config_mgmt_get_string_value("com.example.video_StrProperty1", StrProperty1, 512);
+  g_value_set_string(&skeleton->priv->properties[1], StrProperty1);
   }
 
   {
   g_value_init(&skeleton->priv->properties[2], G_TYPE_UCHAR);
-  gchar video_byte_property = 'a';
-  config_mgmt_get_char_value("video_byte_property", (gchar *)&video_byte_property);
-  g_value_set_uchar(&skeleton->priv->properties[2], video_byte_property);
+  gchar ByteProperty = 'a';
+  config_mgmt_get_char_value("com.example.video_ByteProperty", (gchar *)&ByteProperty);
+  g_value_set_uchar(&skeleton->priv->properties[2], ByteProperty);
   }
 
   g_value_init(&skeleton->priv->properties[3], G_TYPE_BOOLEAN);
@@ -3740,51 +3785,47 @@ video_skeleton_init (VideoSkeleton *skeleton)
 
   {
   g_value_init(&skeleton->priv->properties[4], G_TYPE_INT);
-  gint32 video_int16_property = 0;
-  config_mgmt_get_int32_value("video_int16_property", (gint32 *)&video_int16_property);
-  g_value_set_int(&skeleton->priv->properties[4], video_int16_property);
+  gint32 Int16Property = 0;
+  config_mgmt_get_int32_value("com.example.video_Int16Property", (gint32 *)&Int16Property);
+  g_value_set_int(&skeleton->priv->properties[4], Int16Property);
   }
 
-  {
   g_value_init(&skeleton->priv->properties[5], G_TYPE_UINT);
-  guint32 video_uint16_property = 10;
-  config_mgmt_get_uint32_value("video_uint16_property", (guint32 *)&video_uint16_property);
-  g_value_set_uint(&skeleton->priv->properties[5], video_uint16_property);
-  }
+  g_value_set_uint(&skeleton->priv->properties[5], 10);
 
   {
   g_value_init(&skeleton->priv->properties[6], G_TYPE_INT);
-  gint32 video_int32_property = -56;
-  config_mgmt_get_int32_value("video_int32_property", (gint32 *)&video_int32_property);
-  g_value_set_int(&skeleton->priv->properties[6], video_int32_property);
+  gint32 Int32Property = -56;
+  config_mgmt_get_int32_value("com.example.video_Int32Property", (gint32 *)&Int32Property);
+  g_value_set_int(&skeleton->priv->properties[6], Int32Property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[7], G_TYPE_UINT);
-  guint32 video_uint32_property = 10;
-  config_mgmt_get_uint32_value("video_uint32_property", (guint32 *)&video_uint32_property);
-  g_value_set_uint(&skeleton->priv->properties[7], video_uint32_property);
+  guint32 Uint32Property = 10;
+  config_mgmt_get_uint32_value("com.example.video_Uint32Property", (guint32 *)&Uint32Property);
+  g_value_set_uint(&skeleton->priv->properties[7], Uint32Property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[8], G_TYPE_INT64);
-  gint64  video_int64_property = -99;
-  config_mgmt_get_int64_value("video_int64_property", (gint64  *)&video_int64_property);
-  g_value_set_int64(&skeleton->priv->properties[8], video_int64_property);
+  gint64  Int64Property = -99;
+  config_mgmt_get_int64_value("com.example.video_Int64Property", (gint64  *)&Int64Property);
+  g_value_set_int64(&skeleton->priv->properties[8], Int64Property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[9], G_TYPE_UINT64);
-  guint64  video_uint64_property = 113;
-  config_mgmt_get_uint64_value("video_uint64_property", (guint64  *)&video_uint64_property);
-  g_value_set_uint64(&skeleton->priv->properties[9], video_uint64_property);
+  guint64  Uint64Property = 113;
+  config_mgmt_get_uint64_value("com.example.video_Uint64Property", (guint64  *)&Uint64Property);
+  g_value_set_uint64(&skeleton->priv->properties[9], Uint64Property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[10], G_TYPE_DOUBLE);
-  gdouble  video_double_property = 1.1;
-  config_mgmt_get_double_value("video_double_property", (gdouble  *)&video_double_property);
-  g_value_set_double(&skeleton->priv->properties[10], video_double_property);
+  gdouble  DoubleProperty = 1.1;
+  config_mgmt_get_double_value("com.example.video_DoubleProperty", (gdouble  *)&DoubleProperty);
+  g_value_set_double(&skeleton->priv->properties[10], DoubleProperty);
   }
 
   g_value_init(&skeleton->priv->properties[11], G_TYPE_STRV);
@@ -7443,6 +7484,8 @@ video2_skeleton_set_property (GObject      *object,
           info->emits_changed_signal)
         _video2_schedule_emit_changed (skeleton, info, prop_id, &skeleton->priv->properties[prop_id - 1]);
       g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);
+      if (info->is_need_persistence == 1) 
+        write_into_db(info->parent_struct.name, g_dbus_interface_skeleton_get_info(G_DBUS_INTERFACE_SKELETON (skeleton))->name, value); 
       g_object_notify_by_pspec (object, pspec);
     }
   g_mutex_unlock (&skeleton->priv->lock);

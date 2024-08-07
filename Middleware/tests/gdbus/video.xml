@@ -37,11 +37,11 @@
 		<property name="ByteProperty" type="y" access="readwrite" persistence="y" default="a" />
 		<property name="BoolProperty" type="b" access="readwrite" default="TRUE" />
 		<property name="Int16Property" type="n" access="readwrite" persistence="y" />
-		<property name="Uint16Property" type="q" access="readwrite" persistence="y" default="10" />
+		<property name="Uint16Property" type="q" access="readwrite" default="10" />
 		<property name="Int32Property" type="i" access="readwrite" persistence="y" default="-56" />
 		<property name="Uint32Property" type="u" access="readwrite" persistence="y" default="10" />
 		<property name="Int64Property" type="x" access="readwrite" persistence="y" default="-99" />
-		<property name="Uint64Property" type="t" access="read" persistence="y" default="113" />
+		<property name="Uint64Property" type="t" access="readwrite" persistence="y" default="113" />
 		<property name="DoubleProperty" type="d" access="read" persistence="y" default="1.1" />
 		<property name="ArrayStrProperty" type="as" access="read" />
 		<property name="ArrayUint32Property" type="au" access="readwrite" />

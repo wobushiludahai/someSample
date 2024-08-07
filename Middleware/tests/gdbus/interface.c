@@ -151,6 +151,49 @@ _g_value_equal (const GValue *a, const GValue *b)
   return ret;
 }
 
+static void write_into_db(const gchar *property_name, const gchar *if_name, const GValue *value)
+{
+  gchar *key = g_strdup_printf("%s_%s", if_name, property_name);
+  switch (G_VALUE_TYPE (value))
+    {
+      case G_TYPE_BOOLEAN:
+          gboolean bool_value = g_value_get_boolean(value);
+          config_mgmt_set_bool_value(key, bool_value);
+          break;
+      case G_TYPE_UCHAR:
+          guchar uchar_value = g_value_get_uchar(value);
+          config_mgmt_set_char_value(key, uchar_value);
+          break;
+      case G_TYPE_INT:
+          gint int32_value = g_value_get_int(value);
+          config_mgmt_set_int32_value(key, int32_value);
+          break;
+      case G_TYPE_UINT:
+          guint uint32_value = g_value_get_uint(value);
+          config_mgmt_set_uint32_value(key, uint32_value);
+          break;
+      case G_TYPE_INT64:
+          gint64 int64_value = g_value_get_int64(value);
+          config_mgmt_set_int64_value(key, int64_value);
+          break;
+      case G_TYPE_UINT64:
+          guint64 uint64_value = g_value_get_uint64(value);
+          config_mgmt_set_uint64_value(key, uint64_value);
+          break;
+      case G_TYPE_DOUBLE:
+          gdouble double_value = g_value_get_double(value);
+          config_mgmt_set_double_value(key, double_value);
+          break;
+      case G_TYPE_STRING:
+          const gchar *str_value = g_value_get_string(value);
+          config_mgmt_set_string_value(key, (char *)str_value);
+          break;
+      default:
+          g_print("Unsupport type %ld", G_VALUE_TYPE (value));
+    }
+    g_free(key);
+}
+
 /* ------------------------------------------------------------------------
  * Code for interface com.example.MyInterface
  * ------------------------------------------------------------------------
@@ -2360,6 +2403,8 @@ my_interface_skeleton_set_property (GObject      *object,
           info->emits_changed_signal)
         _my_interface_schedule_emit_changed (skeleton, info, prop_id, &skeleton->priv->properties[prop_id - 1]);
       g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);
+      if (info->is_need_persistence == 1) 
+        write_into_db(info->parent_struct.name, g_dbus_interface_skeleton_get_info(G_DBUS_INTERFACE_SKELETON (skeleton))->name, value); 
       g_object_notify_by_pspec (object, pspec);
     }
   g_mutex_unlock (&skeleton->priv->lock);
