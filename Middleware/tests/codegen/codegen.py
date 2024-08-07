@@ -4147,12 +4147,17 @@ class CodeGenerator:
                     if p.arg.gtype == "G_TYPE_STRING":
                         var_name = "%s_%s" % (i.name_lower, p.name_lower)
                         var_type = "gchar"
-                        self.outfile.write(
-                            "  %s %s[512] = {0};\n" % (var_type, var_name)
-                        )
+                        if p.default != "": #有默认值
+                            self.outfile.write(
+                                "  %s %s[512] = {%s};\n" % (var_type, var_name, p.default)
+                            )
+                        else:
+                            self.outfile.write(
+                                "  %s %s[512] = {0};\n" % (var_type, var_name)
+                            )
 
                         self.outfile.write(
-                            "  int32_t ret = %s(\"%s\", %s, 512);\n" % (p.arg.db_get, var_name, var_name)
+                            "  %s(\"%s\", %s, 512);\n" % (p.arg.db_get, var_name, var_name)
                         )
                     else:
                         var_name = "%s_%s" % (i.name_lower, p.name_lower)
@@ -4166,9 +4171,9 @@ class CodeGenerator:
                         else:
                             var_type = p.arg.ctype_in
 
-                        if p.arg.gtype == "G_TYPE_UCHAR":
+                        if p.default != "": #有默认值
                             self.outfile.write(
-                                "  %s %s = 0;\n" % (var_type, var_name)
+                                "  %s %s = %s;\n" % (var_type, var_name, p.default)
                             )
                         else:
                             self.outfile.write(
@@ -4176,25 +4181,13 @@ class CodeGenerator:
                             )
 
                         self.outfile.write(
-                            "  int32_t ret = %s(\"%s\", (%s *)&%s);\n" % (p.arg.db_get, var_name, var_type, var_name)
+                            "  %s(\"%s\", (%s *)&%s);\n" % (p.arg.db_get, var_name, var_type, var_name)
                         )
 
-                    if p.default != "": # 有默认值
-                        self.outfile.write(
-                            "  if (ret == 0) {\n"
-                            "    %s(&skeleton->priv->properties[%d], %s);\n"
-                            "  } else {\n"
-                            "    %s(&skeleton->priv->properties[%d], %s);\n"
-                            "  }\n"
-                            "  }\n\n" % (p.arg.gvalue_set,n, var_name, p.arg.gvalue_set,n, p.default)
-                        )
-                    else:
-                        self.outfile.write(
-                            "  if (ret == 0) {\n"
-                            "    %s(&skeleton->priv->properties[%d], %s);\n"
-                            "  }\n"
-                            "  }\n\n" % (p.arg.gvalue_set,n, var_name)
-                        )
+                    self.outfile.write(
+                        "  %s(&skeleton->priv->properties[%d], %s);\n"
+                        "  }\n\n" % (p.arg.gvalue_set,n, var_name)
+                    )
                 elif p.default != "":
                     self.outfile.write(
                         "  g_value_init(&skeleton->priv->properties[%d], %s);\n"

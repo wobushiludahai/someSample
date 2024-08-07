@@ -3716,33 +3716,23 @@ video_skeleton_init (VideoSkeleton *skeleton)
 
   {
   g_value_init(&skeleton->priv->properties[0], G_TYPE_STRING);
-  gchar video_str_property[512] = {0};
-  int32_t ret = config_mgmt_get_string_value("video_str_property", video_str_property, 512);
-  if (ret == 0) {
-    g_value_set_string(&skeleton->priv->properties[0], video_str_property);
-  } else {
-    g_value_set_string(&skeleton->priv->properties[0], "111");
-  }
+  gchar video_str_property[512] = {"111"};
+  config_mgmt_get_string_value("video_str_property", video_str_property, 512);
+  g_value_set_string(&skeleton->priv->properties[0], video_str_property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[1], G_TYPE_STRING);
   gchar video_str_property1[512] = {0};
-  int32_t ret = config_mgmt_get_string_value("video_str_property1", video_str_property1, 512);
-  if (ret == 0) {
-    g_value_set_string(&skeleton->priv->properties[1], video_str_property1);
-  }
+  config_mgmt_get_string_value("video_str_property1", video_str_property1, 512);
+  g_value_set_string(&skeleton->priv->properties[1], video_str_property1);
   }
 
   {
   g_value_init(&skeleton->priv->properties[2], G_TYPE_UCHAR);
-  gchar video_byte_property = 0;
-  int32_t ret = config_mgmt_get_char_value("video_byte_property", (gchar *)&video_byte_property);
-  if (ret == 0) {
-    g_value_set_uchar(&skeleton->priv->properties[2], video_byte_property);
-  } else {
-    g_value_set_uchar(&skeleton->priv->properties[2], 'a');
-  }
+  gchar video_byte_property = 'a';
+  config_mgmt_get_char_value("video_byte_property", (gchar *)&video_byte_property);
+  g_value_set_uchar(&skeleton->priv->properties[2], video_byte_property);
   }
 
   g_value_init(&skeleton->priv->properties[3], G_TYPE_BOOLEAN);
@@ -3751,76 +3741,50 @@ video_skeleton_init (VideoSkeleton *skeleton)
   {
   g_value_init(&skeleton->priv->properties[4], G_TYPE_INT);
   gint32 video_int16_property = 0;
-  int32_t ret = config_mgmt_get_int32_value("video_int16_property", (gint32 *)&video_int16_property);
-  if (ret == 0) {
-    g_value_set_int(&skeleton->priv->properties[4], video_int16_property);
-  }
+  config_mgmt_get_int32_value("video_int16_property", (gint32 *)&video_int16_property);
+  g_value_set_int(&skeleton->priv->properties[4], video_int16_property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[5], G_TYPE_UINT);
-  guint32 video_uint16_property = 0;
-  int32_t ret = config_mgmt_get_uint32_value("video_uint16_property", (guint32 *)&video_uint16_property);
-  if (ret == 0) {
-    g_value_set_uint(&skeleton->priv->properties[5], video_uint16_property);
-  } else {
-    g_value_set_uint(&skeleton->priv->properties[5], 10);
-  }
+  guint32 video_uint16_property = 10;
+  config_mgmt_get_uint32_value("video_uint16_property", (guint32 *)&video_uint16_property);
+  g_value_set_uint(&skeleton->priv->properties[5], video_uint16_property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[6], G_TYPE_INT);
-  gint32 video_int32_property = 0;
-  int32_t ret = config_mgmt_get_int32_value("video_int32_property", (gint32 *)&video_int32_property);
-  if (ret == 0) {
-    g_value_set_int(&skeleton->priv->properties[6], video_int32_property);
-  } else {
-    g_value_set_int(&skeleton->priv->properties[6], -56);
-  }
+  gint32 video_int32_property = -56;
+  config_mgmt_get_int32_value("video_int32_property", (gint32 *)&video_int32_property);
+  g_value_set_int(&skeleton->priv->properties[6], video_int32_property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[7], G_TYPE_UINT);
-  guint32 video_uint32_property = 0;
-  int32_t ret = config_mgmt_get_uint32_value("video_uint32_property", (guint32 *)&video_uint32_property);
-  if (ret == 0) {
-    g_value_set_uint(&skeleton->priv->properties[7], video_uint32_property);
-  } else {
-    g_value_set_uint(&skeleton->priv->properties[7], 10);
-  }
+  guint32 video_uint32_property = 10;
+  config_mgmt_get_uint32_value("video_uint32_property", (guint32 *)&video_uint32_property);
+  g_value_set_uint(&skeleton->priv->properties[7], video_uint32_property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[8], G_TYPE_INT64);
-  gint64  video_int64_property = 0;
-  int32_t ret = config_mgmt_get_int64_value("video_int64_property", (gint64  *)&video_int64_property);
-  if (ret == 0) {
-    g_value_set_int64(&skeleton->priv->properties[8], video_int64_property);
-  } else {
-    g_value_set_int64(&skeleton->priv->properties[8], -99);
-  }
+  gint64  video_int64_property = -99;
+  config_mgmt_get_int64_value("video_int64_property", (gint64  *)&video_int64_property);
+  g_value_set_int64(&skeleton->priv->properties[8], video_int64_property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[9], G_TYPE_UINT64);
-  guint64  video_uint64_property = 0;
-  int32_t ret = config_mgmt_get_uint64_value("video_uint64_property", (guint64  *)&video_uint64_property);
-  if (ret == 0) {
-    g_value_set_uint64(&skeleton->priv->properties[9], video_uint64_property);
-  } else {
-    g_value_set_uint64(&skeleton->priv->properties[9], 113);
-  }
+  guint64  video_uint64_property = 113;
+  config_mgmt_get_uint64_value("video_uint64_property", (guint64  *)&video_uint64_property);
+  g_value_set_uint64(&skeleton->priv->properties[9], video_uint64_property);
   }
 
   {
   g_value_init(&skeleton->priv->properties[10], G_TYPE_DOUBLE);
-  gdouble  video_double_property = 0;
-  int32_t ret = config_mgmt_get_double_value("video_double_property", (gdouble  *)&video_double_property);
-  if (ret == 0) {
-    g_value_set_double(&skeleton->priv->properties[10], video_double_property);
-  } else {
-    g_value_set_double(&skeleton->priv->properties[10], 1.1);
-  }
+  gdouble  video_double_property = 1.1;
+  config_mgmt_get_double_value("video_double_property", (gdouble  *)&video_double_property);
+  g_value_set_double(&skeleton->priv->properties[10], video_double_property);
   }
 
   g_value_init(&skeleton->priv->properties[11], G_TYPE_STRV);

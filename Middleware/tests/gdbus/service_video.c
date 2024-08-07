@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     GMainLoop *loop = NULL;
 
     config_mgmt_init();
-    config_mgmt_set_uint32_value("video_int32_property", 1999);
+    // config_mgmt_set_uint32_value("video_int32_property", 1999);
 
     service_init(MODULE_NAME, service_register_success_callback);
     g_thread_new("thread_test", thread_test, NULL);
