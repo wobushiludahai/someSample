@@ -455,7 +455,8 @@ class Property:
             if overridden_name:
                 name = overridden_name
             self.name_lower = utils.camel_case_to_uscore(name).lower().replace("-", "_")
-        self.name_hyphen = self.name_lower.replace("_", "-")
+        # self.name_hyphen = self.name_lower.replace("_", "-")
+        self.name_hyphen = self.name
         # don't clash with the GType getter, e.g.:
         # GType foo_bar_get_type (void); G_GNUC_CONST
         if self.name_lower == "type":

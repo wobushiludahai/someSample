@@ -543,7 +543,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_str_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "str-property",
+  "StrProperty",
   FALSE,
   TRUE,
   TRUE
@@ -558,7 +558,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_str_property1 =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "str-property1",
+  "StrProperty1",
   FALSE,
   TRUE,
   TRUE
@@ -573,7 +573,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_byte_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "byte-property",
+  "ByteProperty",
   FALSE,
   TRUE,
   TRUE
@@ -588,7 +588,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_bool_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "bool-property",
+  "BoolProperty",
   FALSE,
   TRUE,
   FALSE
@@ -603,7 +603,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_int16_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int16-property",
+  "Int16Property",
   FALSE,
   TRUE,
   TRUE
@@ -618,7 +618,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint16_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "uint16-property",
+  "Uint16Property",
   FALSE,
   TRUE,
   FALSE
@@ -633,7 +633,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_int32_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int32-property",
+  "Int32Property",
   FALSE,
   TRUE,
   TRUE
@@ -648,7 +648,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint32_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "uint32-property",
+  "Uint32Property",
   FALSE,
   TRUE,
   TRUE
@@ -663,7 +663,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_int64_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int64-property",
+  "Int64Property",
   FALSE,
   TRUE,
   TRUE
@@ -678,7 +678,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint64_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "uint64-property",
+  "Uint64Property",
   FALSE,
   TRUE,
   TRUE
@@ -693,7 +693,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_double_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "double-property",
+  "DoubleProperty",
   FALSE,
   TRUE,
   TRUE
@@ -708,7 +708,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_array_str_property 
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "array-str-property",
+  "ArrayStrProperty",
   FALSE,
   TRUE,
   FALSE
@@ -723,7 +723,7 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_array_uint32_proper
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "array-uint32-property",
+  "ArrayUint32Property",
   FALSE,
   TRUE,
   FALSE
@@ -787,19 +787,19 @@ video_interface_info (void)
 guint
 video_override_properties (GObjectClass *klass, guint property_id_begin)
 {
-  g_object_class_override_property (klass, property_id_begin++, "str-property");
-  g_object_class_override_property (klass, property_id_begin++, "str-property1");
-  g_object_class_override_property (klass, property_id_begin++, "byte-property");
-  g_object_class_override_property (klass, property_id_begin++, "bool-property");
-  g_object_class_override_property (klass, property_id_begin++, "int16-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint16-property");
-  g_object_class_override_property (klass, property_id_begin++, "int32-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint32-property");
-  g_object_class_override_property (klass, property_id_begin++, "int64-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint64-property");
-  g_object_class_override_property (klass, property_id_begin++, "double-property");
-  g_object_class_override_property (klass, property_id_begin++, "array-str-property");
-  g_object_class_override_property (klass, property_id_begin++, "array-uint32-property");
+  g_object_class_override_property (klass, property_id_begin++, "StrProperty");
+  g_object_class_override_property (klass, property_id_begin++, "StrProperty1");
+  g_object_class_override_property (klass, property_id_begin++, "ByteProperty");
+  g_object_class_override_property (klass, property_id_begin++, "BoolProperty");
+  g_object_class_override_property (klass, property_id_begin++, "Int16Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint16Property");
+  g_object_class_override_property (klass, property_id_begin++, "Int32Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint32Property");
+  g_object_class_override_property (klass, property_id_begin++, "Int64Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint64Property");
+  g_object_class_override_property (klass, property_id_begin++, "DoubleProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ArrayStrProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ArrayUint32Property");
   return property_id_begin - 1;
 }
 
@@ -822,19 +822,19 @@ video_override_properties (GObjectClass *klass, guint property_id_begin)
  * @handle_share_video: Handler for the #Video::ShareVideo signal.
  * @handle_start_video: Handler for the #Video::StartVideo signal.
  * @handle_stop_video: Handler for the #Video::StopVideo signal.
- * @get_array_str_property: Getter for the #Video:array-str-property property.
- * @get_array_uint32_property: Getter for the #Video:array-uint32-property property.
- * @get_bool_property: Getter for the #Video:bool-property property.
- * @get_byte_property: Getter for the #Video:byte-property property.
- * @get_double_property: Getter for the #Video:double-property property.
- * @get_int16_property: Getter for the #Video:int16-property property.
- * @get_int32_property: Getter for the #Video:int32-property property.
- * @get_int64_property: Getter for the #Video:int64-property property.
- * @get_str_property: Getter for the #Video:str-property property.
- * @get_str_property1: Getter for the #Video:str-property1 property.
- * @get_uint16_property: Getter for the #Video:uint16-property property.
- * @get_uint32_property: Getter for the #Video:uint32-property property.
- * @get_uint64_property: Getter for the #Video:uint64-property property.
+ * @get_array_str_property: Getter for the #Video:ArrayStrProperty property.
+ * @get_array_uint32_property: Getter for the #Video:ArrayUint32Property property.
+ * @get_bool_property: Getter for the #Video:BoolProperty property.
+ * @get_byte_property: Getter for the #Video:ByteProperty property.
+ * @get_double_property: Getter for the #Video:DoubleProperty property.
+ * @get_int16_property: Getter for the #Video:Int16Property property.
+ * @get_int32_property: Getter for the #Video:Int32Property property.
+ * @get_int64_property: Getter for the #Video:Int64Property property.
+ * @get_str_property: Getter for the #Video:StrProperty property.
+ * @get_str_property1: Getter for the #Video:StrProperty1 property.
+ * @get_uint16_property: Getter for the #Video:Uint16Property property.
+ * @get_uint32_property: Getter for the #Video:Uint32Property property.
+ * @get_uint64_property: Getter for the #Video:Uint64Property property.
  * @record_start: Handler for the #Video::RecordStart signal.
  * @record_stop: Handler for the #Video::RecordStop signal.
  *
@@ -1069,122 +1069,122 @@ video_default_init (VideoIface *iface)
 
   /* GObject properties for D-Bus properties: */
   /**
-   * Video:str-property:
+   * Video:StrProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.StrProperty">"StrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_string ("str-property", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_string ("StrProperty", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:str-property1:
+   * Video:StrProperty1:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.StrProperty1">"StrProperty1"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_string ("str-property1", "StrProperty1", "StrProperty1", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_string ("StrProperty1", "StrProperty1", "StrProperty1", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:byte-property:
+   * Video:ByteProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.ByteProperty">"ByteProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uchar ("byte-property", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uchar ("ByteProperty", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:bool-property:
+   * Video:BoolProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.BoolProperty">"BoolProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_boolean ("bool-property", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_boolean ("BoolProperty", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:int16-property:
+   * Video:Int16Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.Int16Property">"Int16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int ("int16-property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int ("Int16Property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:uint16-property:
+   * Video:Uint16Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.Uint16Property">"Uint16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint ("uint16-property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint ("Uint16Property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:int32-property:
+   * Video:Int32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.Int32Property">"Int32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int ("int32-property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int ("Int32Property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:uint32-property:
+   * Video:Uint32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.Uint32Property">"Uint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint ("uint32-property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint ("Uint32Property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:int64-property:
+   * Video:Int64Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.Int64Property">"Int64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int64 ("int64-property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int64 ("Int64Property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:uint64-property:
+   * Video:Uint64Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.Uint64Property">"Uint64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint64 ("uint64-property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint64 ("Uint64Property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:double-property:
+   * Video:DoubleProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.DoubleProperty">"DoubleProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_double ("double-property", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_double ("DoubleProperty", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:array-str-property:
+   * Video:ArrayStrProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.ArrayStrProperty">"ArrayStrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_boxed ("array-str-property", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_boxed ("ArrayStrProperty", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video:array-uint32-property:
+   * Video:ArrayUint32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.ArrayUint32Property">"ArrayUint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_variant ("array-uint32-property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_variant ("ArrayUint32Property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 /**
@@ -1221,7 +1221,7 @@ gchar *
 video_dup_str_property (Video *object)
 {
   gchar *value;
-  g_object_get (G_OBJECT (object), "str-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "StrProperty", &value, NULL);
   return value;
 }
 
@@ -1237,7 +1237,7 @@ video_dup_str_property (Video *object)
 void
 video_set_str_property (Video *object, const gchar *value)
 {
-  g_object_set (G_OBJECT (object), "str-property", value, NULL);
+  g_object_set (G_OBJECT (object), "StrProperty", value, NULL);
 }
 
 /**
@@ -1274,7 +1274,7 @@ gchar *
 video_dup_str_property1 (Video *object)
 {
   gchar *value;
-  g_object_get (G_OBJECT (object), "str-property1", &value, NULL);
+  g_object_get (G_OBJECT (object), "StrProperty1", &value, NULL);
   return value;
 }
 
@@ -1290,7 +1290,7 @@ video_dup_str_property1 (Video *object)
 void
 video_set_str_property1 (Video *object, const gchar *value)
 {
-  g_object_set (G_OBJECT (object), "str-property1", value, NULL);
+  g_object_set (G_OBJECT (object), "StrProperty1", value, NULL);
 }
 
 /**
@@ -1323,7 +1323,7 @@ video_get_byte_property (Video *object)
 void
 video_set_byte_property (Video *object, guchar value)
 {
-  g_object_set (G_OBJECT (object), "byte-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ByteProperty", value, NULL);
 }
 
 /**
@@ -1356,7 +1356,7 @@ video_get_bool_property (Video *object)
 void
 video_set_bool_property (Video *object, gboolean value)
 {
-  g_object_set (G_OBJECT (object), "bool-property", value, NULL);
+  g_object_set (G_OBJECT (object), "BoolProperty", value, NULL);
 }
 
 /**
@@ -1389,7 +1389,7 @@ video_get_int16_property (Video *object)
 void
 video_set_int16_property (Video *object, gint16 value)
 {
-  g_object_set (G_OBJECT (object), "int16-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int16Property", value, NULL);
 }
 
 /**
@@ -1422,7 +1422,7 @@ video_get_uint16_property (Video *object)
 void
 video_set_uint16_property (Video *object, guint16 value)
 {
-  g_object_set (G_OBJECT (object), "uint16-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint16Property", value, NULL);
 }
 
 /**
@@ -1455,7 +1455,7 @@ video_get_int32_property (Video *object)
 void
 video_set_int32_property (Video *object, gint value)
 {
-  g_object_set (G_OBJECT (object), "int32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int32Property", value, NULL);
 }
 
 /**
@@ -1488,7 +1488,7 @@ video_get_uint32_property (Video *object)
 void
 video_set_uint32_property (Video *object, guint value)
 {
-  g_object_set (G_OBJECT (object), "uint32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint32Property", value, NULL);
 }
 
 /**
@@ -1521,7 +1521,7 @@ video_get_int64_property (Video *object)
 void
 video_set_int64_property (Video *object, gint64 value)
 {
-  g_object_set (G_OBJECT (object), "int64-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int64Property", value, NULL);
 }
 
 /**
@@ -1554,7 +1554,7 @@ video_get_uint64_property (Video *object)
 void
 video_set_uint64_property (Video *object, guint64 value)
 {
-  g_object_set (G_OBJECT (object), "uint64-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint64Property", value, NULL);
 }
 
 /**
@@ -1587,7 +1587,7 @@ video_get_double_property (Video *object)
 void
 video_set_double_property (Video *object, gdouble value)
 {
-  g_object_set (G_OBJECT (object), "double-property", value, NULL);
+  g_object_set (G_OBJECT (object), "DoubleProperty", value, NULL);
 }
 
 /**
@@ -1624,7 +1624,7 @@ gchar **
 video_dup_array_str_property (Video *object)
 {
   gchar **value;
-  g_object_get (G_OBJECT (object), "array-str-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "ArrayStrProperty", &value, NULL);
   return value;
 }
 
@@ -1640,7 +1640,7 @@ video_dup_array_str_property (Video *object)
 void
 video_set_array_str_property (Video *object, const gchar *const *value)
 {
-  g_object_set (G_OBJECT (object), "array-str-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ArrayStrProperty", value, NULL);
 }
 
 /**
@@ -1677,7 +1677,7 @@ GVariant *
 video_dup_array_uint32_property (Video *object)
 {
   GVariant *value;
-  g_object_get (G_OBJECT (object), "array-uint32-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "ArrayUint32Property", &value, NULL);
   return value;
 }
 
@@ -1693,7 +1693,7 @@ video_dup_array_uint32_property (Video *object)
 void
 video_set_array_uint32_property (Video *object, GVariant *value)
 {
-  g_object_set (G_OBJECT (object), "array-uint32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ArrayUint32Property", value, NULL);
 }
 
 /**
@@ -4385,7 +4385,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_str_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "str-property",
+  "StrProperty",
   FALSE,
   TRUE,
   FALSE
@@ -4400,7 +4400,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_byte_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "byte-property",
+  "ByteProperty",
   FALSE,
   TRUE,
   FALSE
@@ -4415,7 +4415,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_bool_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "bool-property",
+  "BoolProperty",
   FALSE,
   TRUE,
   FALSE
@@ -4430,7 +4430,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_int16_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int16-property",
+  "Int16Property",
   FALSE,
   TRUE,
   FALSE
@@ -4445,7 +4445,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_uint16_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "uint16-property",
+  "Uint16Property",
   FALSE,
   TRUE,
   FALSE
@@ -4460,7 +4460,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_int32_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int32-property",
+  "Int32Property",
   FALSE,
   TRUE,
   FALSE
@@ -4475,7 +4475,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_uint32_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "uint32-property",
+  "Uint32Property",
   FALSE,
   TRUE,
   FALSE
@@ -4490,7 +4490,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_int64_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int64-property",
+  "Int64Property",
   FALSE,
   TRUE,
   FALSE
@@ -4505,7 +4505,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_uint64_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "uint64-property",
+  "Uint64Property",
   FALSE,
   TRUE,
   FALSE
@@ -4520,7 +4520,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_double_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "double-property",
+  "DoubleProperty",
   FALSE,
   TRUE,
   FALSE
@@ -4535,7 +4535,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_array_str_property
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "array-str-property",
+  "ArrayStrProperty",
   FALSE,
   TRUE,
   FALSE
@@ -4550,7 +4550,7 @@ static const _ExtendedGDBusPropertyInfo _video2_property_info_array_uint32_prope
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "array-uint32-property",
+  "ArrayUint32Property",
   FALSE,
   TRUE,
   FALSE
@@ -4613,18 +4613,18 @@ video2_interface_info (void)
 guint
 video2_override_properties (GObjectClass *klass, guint property_id_begin)
 {
-  g_object_class_override_property (klass, property_id_begin++, "str-property");
-  g_object_class_override_property (klass, property_id_begin++, "byte-property");
-  g_object_class_override_property (klass, property_id_begin++, "bool-property");
-  g_object_class_override_property (klass, property_id_begin++, "int16-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint16-property");
-  g_object_class_override_property (klass, property_id_begin++, "int32-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint32-property");
-  g_object_class_override_property (klass, property_id_begin++, "int64-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint64-property");
-  g_object_class_override_property (klass, property_id_begin++, "double-property");
-  g_object_class_override_property (klass, property_id_begin++, "array-str-property");
-  g_object_class_override_property (klass, property_id_begin++, "array-uint32-property");
+  g_object_class_override_property (klass, property_id_begin++, "StrProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ByteProperty");
+  g_object_class_override_property (klass, property_id_begin++, "BoolProperty");
+  g_object_class_override_property (klass, property_id_begin++, "Int16Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint16Property");
+  g_object_class_override_property (klass, property_id_begin++, "Int32Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint32Property");
+  g_object_class_override_property (klass, property_id_begin++, "Int64Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint64Property");
+  g_object_class_override_property (klass, property_id_begin++, "DoubleProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ArrayStrProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ArrayUint32Property");
   return property_id_begin - 1;
 }
 
@@ -4647,18 +4647,18 @@ video2_override_properties (GObjectClass *klass, guint property_id_begin)
  * @handle_share_video: Handler for the #Video2::ShareVideo signal.
  * @handle_start_video: Handler for the #Video2::StartVideo signal.
  * @handle_stop_video: Handler for the #Video2::StopVideo signal.
- * @get_array_str_property: Getter for the #Video2:array-str-property property.
- * @get_array_uint32_property: Getter for the #Video2:array-uint32-property property.
- * @get_bool_property: Getter for the #Video2:bool-property property.
- * @get_byte_property: Getter for the #Video2:byte-property property.
- * @get_double_property: Getter for the #Video2:double-property property.
- * @get_int16_property: Getter for the #Video2:int16-property property.
- * @get_int32_property: Getter for the #Video2:int32-property property.
- * @get_int64_property: Getter for the #Video2:int64-property property.
- * @get_str_property: Getter for the #Video2:str-property property.
- * @get_uint16_property: Getter for the #Video2:uint16-property property.
- * @get_uint32_property: Getter for the #Video2:uint32-property property.
- * @get_uint64_property: Getter for the #Video2:uint64-property property.
+ * @get_array_str_property: Getter for the #Video2:ArrayStrProperty property.
+ * @get_array_uint32_property: Getter for the #Video2:ArrayUint32Property property.
+ * @get_bool_property: Getter for the #Video2:BoolProperty property.
+ * @get_byte_property: Getter for the #Video2:ByteProperty property.
+ * @get_double_property: Getter for the #Video2:DoubleProperty property.
+ * @get_int16_property: Getter for the #Video2:Int16Property property.
+ * @get_int32_property: Getter for the #Video2:Int32Property property.
+ * @get_int64_property: Getter for the #Video2:Int64Property property.
+ * @get_str_property: Getter for the #Video2:StrProperty property.
+ * @get_uint16_property: Getter for the #Video2:Uint16Property property.
+ * @get_uint32_property: Getter for the #Video2:Uint32Property property.
+ * @get_uint64_property: Getter for the #Video2:Uint64Property property.
  * @record_start: Handler for the #Video2::RecordStart signal.
  * @record_stop: Handler for the #Video2::RecordStop signal.
  *
@@ -4893,113 +4893,113 @@ video2_default_init (Video2Iface *iface)
 
   /* GObject properties for D-Bus properties: */
   /**
-   * Video2:str-property:
+   * Video2:StrProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.StrProperty">"StrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_string ("str-property", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_string ("StrProperty", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:byte-property:
+   * Video2:ByteProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.ByteProperty">"ByteProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uchar ("byte-property", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uchar ("ByteProperty", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:bool-property:
+   * Video2:BoolProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.BoolProperty">"BoolProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_boolean ("bool-property", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_boolean ("BoolProperty", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:int16-property:
+   * Video2:Int16Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Int16Property">"Int16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int ("int16-property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int ("Int16Property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:uint16-property:
+   * Video2:Uint16Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Uint16Property">"Uint16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint ("uint16-property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint ("Uint16Property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:int32-property:
+   * Video2:Int32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Int32Property">"Int32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int ("int32-property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int ("Int32Property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:uint32-property:
+   * Video2:Uint32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Uint32Property">"Uint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint ("uint32-property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint ("Uint32Property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:int64-property:
+   * Video2:Int64Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Int64Property">"Int64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int64 ("int64-property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int64 ("Int64Property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:uint64-property:
+   * Video2:Uint64Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Uint64Property">"Uint64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint64 ("uint64-property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint64 ("Uint64Property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:double-property:
+   * Video2:DoubleProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.DoubleProperty">"DoubleProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_double ("double-property", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_double ("DoubleProperty", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:array-str-property:
+   * Video2:ArrayStrProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.ArrayStrProperty">"ArrayStrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_boxed ("array-str-property", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_boxed ("ArrayStrProperty", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Video2:array-uint32-property:
+   * Video2:ArrayUint32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.ArrayUint32Property">"ArrayUint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_variant ("array-uint32-property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_variant ("ArrayUint32Property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 /**
@@ -5036,7 +5036,7 @@ gchar *
 video2_dup_str_property (Video2 *object)
 {
   gchar *value;
-  g_object_get (G_OBJECT (object), "str-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "StrProperty", &value, NULL);
   return value;
 }
 
@@ -5052,7 +5052,7 @@ video2_dup_str_property (Video2 *object)
 void
 video2_set_str_property (Video2 *object, const gchar *value)
 {
-  g_object_set (G_OBJECT (object), "str-property", value, NULL);
+  g_object_set (G_OBJECT (object), "StrProperty", value, NULL);
 }
 
 /**
@@ -5085,7 +5085,7 @@ video2_get_byte_property (Video2 *object)
 void
 video2_set_byte_property (Video2 *object, guchar value)
 {
-  g_object_set (G_OBJECT (object), "byte-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ByteProperty", value, NULL);
 }
 
 /**
@@ -5118,7 +5118,7 @@ video2_get_bool_property (Video2 *object)
 void
 video2_set_bool_property (Video2 *object, gboolean value)
 {
-  g_object_set (G_OBJECT (object), "bool-property", value, NULL);
+  g_object_set (G_OBJECT (object), "BoolProperty", value, NULL);
 }
 
 /**
@@ -5151,7 +5151,7 @@ video2_get_int16_property (Video2 *object)
 void
 video2_set_int16_property (Video2 *object, gint16 value)
 {
-  g_object_set (G_OBJECT (object), "int16-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int16Property", value, NULL);
 }
 
 /**
@@ -5184,7 +5184,7 @@ video2_get_uint16_property (Video2 *object)
 void
 video2_set_uint16_property (Video2 *object, guint16 value)
 {
-  g_object_set (G_OBJECT (object), "uint16-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint16Property", value, NULL);
 }
 
 /**
@@ -5217,7 +5217,7 @@ video2_get_int32_property (Video2 *object)
 void
 video2_set_int32_property (Video2 *object, gint value)
 {
-  g_object_set (G_OBJECT (object), "int32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int32Property", value, NULL);
 }
 
 /**
@@ -5250,7 +5250,7 @@ video2_get_uint32_property (Video2 *object)
 void
 video2_set_uint32_property (Video2 *object, guint value)
 {
-  g_object_set (G_OBJECT (object), "uint32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint32Property", value, NULL);
 }
 
 /**
@@ -5283,7 +5283,7 @@ video2_get_int64_property (Video2 *object)
 void
 video2_set_int64_property (Video2 *object, gint64 value)
 {
-  g_object_set (G_OBJECT (object), "int64-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int64Property", value, NULL);
 }
 
 /**
@@ -5316,7 +5316,7 @@ video2_get_uint64_property (Video2 *object)
 void
 video2_set_uint64_property (Video2 *object, guint64 value)
 {
-  g_object_set (G_OBJECT (object), "uint64-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint64Property", value, NULL);
 }
 
 /**
@@ -5349,7 +5349,7 @@ video2_get_double_property (Video2 *object)
 void
 video2_set_double_property (Video2 *object, gdouble value)
 {
-  g_object_set (G_OBJECT (object), "double-property", value, NULL);
+  g_object_set (G_OBJECT (object), "DoubleProperty", value, NULL);
 }
 
 /**
@@ -5386,7 +5386,7 @@ gchar **
 video2_dup_array_str_property (Video2 *object)
 {
   gchar **value;
-  g_object_get (G_OBJECT (object), "array-str-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "ArrayStrProperty", &value, NULL);
   return value;
 }
 
@@ -5402,7 +5402,7 @@ video2_dup_array_str_property (Video2 *object)
 void
 video2_set_array_str_property (Video2 *object, const gchar *const *value)
 {
-  g_object_set (G_OBJECT (object), "array-str-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ArrayStrProperty", value, NULL);
 }
 
 /**
@@ -5439,7 +5439,7 @@ GVariant *
 video2_dup_array_uint32_property (Video2 *object)
 {
   GVariant *value;
-  g_object_get (G_OBJECT (object), "array-uint32-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "ArrayUint32Property", &value, NULL);
   return value;
 }
 
@@ -5455,7 +5455,7 @@ video2_dup_array_uint32_property (Video2 *object)
 void
 video2_set_array_uint32_property (Video2 *object, GVariant *value)
 {
-  g_object_set (G_OBJECT (object), "array-uint32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ArrayUint32Property", value, NULL);
 }
 
 /**

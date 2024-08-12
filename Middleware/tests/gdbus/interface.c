@@ -341,7 +341,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_str_property
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "str-property",
+  "StrProperty",
   FALSE,
   TRUE,
   FALSE
@@ -356,7 +356,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_byte_propert
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "byte-property",
+  "ByteProperty",
   FALSE,
   TRUE,
   FALSE
@@ -371,7 +371,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_bool_propert
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "bool-property",
+  "BoolProperty",
   FALSE,
   TRUE,
   FALSE
@@ -386,7 +386,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int16_proper
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int16-property",
+  "Int16Property",
   FALSE,
   TRUE,
   FALSE
@@ -401,7 +401,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint16_prope
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "uint16-property",
+  "Uint16Property",
   FALSE,
   TRUE,
   FALSE
@@ -416,7 +416,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int32_proper
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int32-property",
+  "Int32Property",
   FALSE,
   TRUE,
   FALSE
@@ -431,7 +431,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint32_prope
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "uint32-property",
+  "Uint32Property",
   FALSE,
   TRUE,
   FALSE
@@ -446,7 +446,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int64_proper
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int64-property",
+  "Int64Property",
   FALSE,
   TRUE,
   FALSE
@@ -461,7 +461,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint64_prope
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "uint64-property",
+  "Uint64Property",
   FALSE,
   TRUE,
   FALSE
@@ -476,7 +476,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_double_prope
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "double-property",
+  "DoubleProperty",
   FALSE,
   TRUE,
   FALSE
@@ -491,7 +491,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_str_pr
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "array-str-property",
+  "ArrayStrProperty",
   FALSE,
   TRUE,
   FALSE
@@ -506,7 +506,7 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_uint32
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "array-uint32-property",
+  "ArrayUint32Property",
   FALSE,
   TRUE,
   FALSE
@@ -569,18 +569,18 @@ my_interface_interface_info (void)
 guint
 my_interface_override_properties (GObjectClass *klass, guint property_id_begin)
 {
-  g_object_class_override_property (klass, property_id_begin++, "str-property");
-  g_object_class_override_property (klass, property_id_begin++, "byte-property");
-  g_object_class_override_property (klass, property_id_begin++, "bool-property");
-  g_object_class_override_property (klass, property_id_begin++, "int16-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint16-property");
-  g_object_class_override_property (klass, property_id_begin++, "int32-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint32-property");
-  g_object_class_override_property (klass, property_id_begin++, "int64-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint64-property");
-  g_object_class_override_property (klass, property_id_begin++, "double-property");
-  g_object_class_override_property (klass, property_id_begin++, "array-str-property");
-  g_object_class_override_property (klass, property_id_begin++, "array-uint32-property");
+  g_object_class_override_property (klass, property_id_begin++, "StrProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ByteProperty");
+  g_object_class_override_property (klass, property_id_begin++, "BoolProperty");
+  g_object_class_override_property (klass, property_id_begin++, "Int16Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint16Property");
+  g_object_class_override_property (klass, property_id_begin++, "Int32Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint32Property");
+  g_object_class_override_property (klass, property_id_begin++, "Int64Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint64Property");
+  g_object_class_override_property (klass, property_id_begin++, "DoubleProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ArrayStrProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ArrayUint32Property");
   return property_id_begin - 1;
 }
 
@@ -596,18 +596,18 @@ my_interface_override_properties (GObjectClass *klass, guint property_id_begin)
  * MyInterfaceIface:
  * @parent_iface: The parent interface.
  * @handle_my_method: Handler for the #MyInterface::MyMethod signal.
- * @get_array_str_property: Getter for the #MyInterface:array-str-property property.
- * @get_array_uint32_property: Getter for the #MyInterface:array-uint32-property property.
- * @get_bool_property: Getter for the #MyInterface:bool-property property.
- * @get_byte_property: Getter for the #MyInterface:byte-property property.
- * @get_double_property: Getter for the #MyInterface:double-property property.
- * @get_int16_property: Getter for the #MyInterface:int16-property property.
- * @get_int32_property: Getter for the #MyInterface:int32-property property.
- * @get_int64_property: Getter for the #MyInterface:int64-property property.
- * @get_str_property: Getter for the #MyInterface:str-property property.
- * @get_uint16_property: Getter for the #MyInterface:uint16-property property.
- * @get_uint32_property: Getter for the #MyInterface:uint32-property property.
- * @get_uint64_property: Getter for the #MyInterface:uint64-property property.
+ * @get_array_str_property: Getter for the #MyInterface:ArrayStrProperty property.
+ * @get_array_uint32_property: Getter for the #MyInterface:ArrayUint32Property property.
+ * @get_bool_property: Getter for the #MyInterface:BoolProperty property.
+ * @get_byte_property: Getter for the #MyInterface:ByteProperty property.
+ * @get_double_property: Getter for the #MyInterface:DoubleProperty property.
+ * @get_int16_property: Getter for the #MyInterface:Int16Property property.
+ * @get_int32_property: Getter for the #MyInterface:Int32Property property.
+ * @get_int64_property: Getter for the #MyInterface:Int64Property property.
+ * @get_str_property: Getter for the #MyInterface:StrProperty property.
+ * @get_uint16_property: Getter for the #MyInterface:Uint16Property property.
+ * @get_uint32_property: Getter for the #MyInterface:Uint32Property property.
+ * @get_uint64_property: Getter for the #MyInterface:Uint64Property property.
  * @bar_signal: Handler for the #MyInterface::BarSignal signal.
  *
  * Virtual table for the D-Bus interface <link linkend="gdbus-interface-com-example-MyInterface.top_of_page">com.example.MyInterface</link>.
@@ -667,113 +667,113 @@ my_interface_default_init (MyInterfaceIface *iface)
 
   /* GObject properties for D-Bus properties: */
   /**
-   * MyInterface:str-property:
+   * MyInterface:StrProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.StrProperty">"StrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_string ("str-property", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_string ("StrProperty", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:byte-property:
+   * MyInterface:ByteProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.ByteProperty">"ByteProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uchar ("byte-property", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uchar ("ByteProperty", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:bool-property:
+   * MyInterface:BoolProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.BoolProperty">"BoolProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_boolean ("bool-property", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_boolean ("BoolProperty", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:int16-property:
+   * MyInterface:Int16Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Int16Property">"Int16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int ("int16-property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int ("Int16Property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:uint16-property:
+   * MyInterface:Uint16Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Uint16Property">"Uint16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint ("uint16-property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint ("Uint16Property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:int32-property:
+   * MyInterface:Int32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Int32Property">"Int32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int ("int32-property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int ("Int32Property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:uint32-property:
+   * MyInterface:Uint32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Uint32Property">"Uint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint ("uint32-property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint ("Uint32Property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:int64-property:
+   * MyInterface:Int64Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Int64Property">"Int64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int64 ("int64-property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int64 ("Int64Property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:uint64-property:
+   * MyInterface:Uint64Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.Uint64Property">"Uint64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint64 ("uint64-property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint64 ("Uint64Property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:double-property:
+   * MyInterface:DoubleProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.DoubleProperty">"DoubleProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_double ("double-property", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_double ("DoubleProperty", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:array-str-property:
+   * MyInterface:ArrayStrProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.ArrayStrProperty">"ArrayStrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_boxed ("array-str-property", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_boxed ("ArrayStrProperty", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * MyInterface:array-uint32-property:
+   * MyInterface:ArrayUint32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-MyInterface.ArrayUint32Property">"ArrayUint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_variant ("array-uint32-property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_variant ("ArrayUint32Property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 /**
@@ -810,7 +810,7 @@ gchar *
 my_interface_dup_str_property (MyInterface *object)
 {
   gchar *value;
-  g_object_get (G_OBJECT (object), "str-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "StrProperty", &value, NULL);
   return value;
 }
 
@@ -826,7 +826,7 @@ my_interface_dup_str_property (MyInterface *object)
 void
 my_interface_set_str_property (MyInterface *object, const gchar *value)
 {
-  g_object_set (G_OBJECT (object), "str-property", value, NULL);
+  g_object_set (G_OBJECT (object), "StrProperty", value, NULL);
 }
 
 /**
@@ -859,7 +859,7 @@ my_interface_get_byte_property (MyInterface *object)
 void
 my_interface_set_byte_property (MyInterface *object, guchar value)
 {
-  g_object_set (G_OBJECT (object), "byte-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ByteProperty", value, NULL);
 }
 
 /**
@@ -892,7 +892,7 @@ my_interface_get_bool_property (MyInterface *object)
 void
 my_interface_set_bool_property (MyInterface *object, gboolean value)
 {
-  g_object_set (G_OBJECT (object), "bool-property", value, NULL);
+  g_object_set (G_OBJECT (object), "BoolProperty", value, NULL);
 }
 
 /**
@@ -925,7 +925,7 @@ my_interface_get_int16_property (MyInterface *object)
 void
 my_interface_set_int16_property (MyInterface *object, gint16 value)
 {
-  g_object_set (G_OBJECT (object), "int16-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int16Property", value, NULL);
 }
 
 /**
@@ -958,7 +958,7 @@ my_interface_get_uint16_property (MyInterface *object)
 void
 my_interface_set_uint16_property (MyInterface *object, guint16 value)
 {
-  g_object_set (G_OBJECT (object), "uint16-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint16Property", value, NULL);
 }
 
 /**
@@ -991,7 +991,7 @@ my_interface_get_int32_property (MyInterface *object)
 void
 my_interface_set_int32_property (MyInterface *object, gint value)
 {
-  g_object_set (G_OBJECT (object), "int32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int32Property", value, NULL);
 }
 
 /**
@@ -1024,7 +1024,7 @@ my_interface_get_uint32_property (MyInterface *object)
 void
 my_interface_set_uint32_property (MyInterface *object, guint value)
 {
-  g_object_set (G_OBJECT (object), "uint32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint32Property", value, NULL);
 }
 
 /**
@@ -1057,7 +1057,7 @@ my_interface_get_int64_property (MyInterface *object)
 void
 my_interface_set_int64_property (MyInterface *object, gint64 value)
 {
-  g_object_set (G_OBJECT (object), "int64-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int64Property", value, NULL);
 }
 
 /**
@@ -1090,7 +1090,7 @@ my_interface_get_uint64_property (MyInterface *object)
 void
 my_interface_set_uint64_property (MyInterface *object, guint64 value)
 {
-  g_object_set (G_OBJECT (object), "uint64-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint64Property", value, NULL);
 }
 
 /**
@@ -1123,7 +1123,7 @@ my_interface_get_double_property (MyInterface *object)
 void
 my_interface_set_double_property (MyInterface *object, gdouble value)
 {
-  g_object_set (G_OBJECT (object), "double-property", value, NULL);
+  g_object_set (G_OBJECT (object), "DoubleProperty", value, NULL);
 }
 
 /**
@@ -1160,7 +1160,7 @@ gchar **
 my_interface_dup_array_str_property (MyInterface *object)
 {
   gchar **value;
-  g_object_get (G_OBJECT (object), "array-str-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "ArrayStrProperty", &value, NULL);
   return value;
 }
 
@@ -1176,7 +1176,7 @@ my_interface_dup_array_str_property (MyInterface *object)
 void
 my_interface_set_array_str_property (MyInterface *object, const gchar *const *value)
 {
-  g_object_set (G_OBJECT (object), "array-str-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ArrayStrProperty", value, NULL);
 }
 
 /**
@@ -1213,7 +1213,7 @@ GVariant *
 my_interface_dup_array_uint32_property (MyInterface *object)
 {
   GVariant *value;
-  g_object_get (G_OBJECT (object), "array-uint32-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "ArrayUint32Property", &value, NULL);
   return value;
 }
 
@@ -1229,7 +1229,7 @@ my_interface_dup_array_uint32_property (MyInterface *object)
 void
 my_interface_set_array_uint32_property (MyInterface *object, GVariant *value)
 {
-  g_object_set (G_OBJECT (object), "array-uint32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ArrayUint32Property", value, NULL);
 }
 
 /**

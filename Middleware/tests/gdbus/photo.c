@@ -458,7 +458,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_str_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "str-property",
+  "StrProperty",
   FALSE,
   TRUE,
   FALSE
@@ -473,7 +473,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_byte_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "byte-property",
+  "ByteProperty",
   FALSE,
   TRUE,
   FALSE
@@ -488,7 +488,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_bool_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "bool-property",
+  "BoolProperty",
   FALSE,
   TRUE,
   FALSE
@@ -503,7 +503,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int16_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int16-property",
+  "Int16Property",
   FALSE,
   TRUE,
   FALSE
@@ -518,7 +518,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint16_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "uint16-property",
+  "Uint16Property",
   FALSE,
   TRUE,
   FALSE
@@ -533,7 +533,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int32_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int32-property",
+  "Int32Property",
   FALSE,
   TRUE,
   FALSE
@@ -548,7 +548,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint32_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "uint32-property",
+  "Uint32Property",
   FALSE,
   TRUE,
   FALSE
@@ -563,7 +563,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_int64_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "int64-property",
+  "Int64Property",
   FALSE,
   TRUE,
   FALSE
@@ -578,7 +578,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_uint64_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "uint64-property",
+  "Uint64Property",
   FALSE,
   TRUE,
   FALSE
@@ -593,7 +593,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_double_property =
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "double-property",
+  "DoubleProperty",
   FALSE,
   TRUE,
   FALSE
@@ -608,7 +608,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_array_str_property 
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "array-str-property",
+  "ArrayStrProperty",
   FALSE,
   TRUE,
   FALSE
@@ -623,7 +623,7 @@ static const _ExtendedGDBusPropertyInfo _photo_property_info_array_uint32_proper
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
-  "array-uint32-property",
+  "ArrayUint32Property",
   FALSE,
   TRUE,
   FALSE
@@ -686,18 +686,18 @@ photo_interface_info (void)
 guint
 photo_override_properties (GObjectClass *klass, guint property_id_begin)
 {
-  g_object_class_override_property (klass, property_id_begin++, "str-property");
-  g_object_class_override_property (klass, property_id_begin++, "byte-property");
-  g_object_class_override_property (klass, property_id_begin++, "bool-property");
-  g_object_class_override_property (klass, property_id_begin++, "int16-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint16-property");
-  g_object_class_override_property (klass, property_id_begin++, "int32-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint32-property");
-  g_object_class_override_property (klass, property_id_begin++, "int64-property");
-  g_object_class_override_property (klass, property_id_begin++, "uint64-property");
-  g_object_class_override_property (klass, property_id_begin++, "double-property");
-  g_object_class_override_property (klass, property_id_begin++, "array-str-property");
-  g_object_class_override_property (klass, property_id_begin++, "array-uint32-property");
+  g_object_class_override_property (klass, property_id_begin++, "StrProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ByteProperty");
+  g_object_class_override_property (klass, property_id_begin++, "BoolProperty");
+  g_object_class_override_property (klass, property_id_begin++, "Int16Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint16Property");
+  g_object_class_override_property (klass, property_id_begin++, "Int32Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint32Property");
+  g_object_class_override_property (klass, property_id_begin++, "Int64Property");
+  g_object_class_override_property (klass, property_id_begin++, "Uint64Property");
+  g_object_class_override_property (klass, property_id_begin++, "DoubleProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ArrayStrProperty");
+  g_object_class_override_property (klass, property_id_begin++, "ArrayUint32Property");
   return property_id_begin - 1;
 }
 
@@ -715,18 +715,18 @@ photo_override_properties (GObjectClass *klass, guint property_id_begin)
  * @handle_get_photo_info: Handler for the #Photo::GetPhotoInfo signal.
  * @handle_stop_photo: Handler for the #Photo::StopPhoto signal.
  * @handle_take_photo: Handler for the #Photo::TakePhoto signal.
- * @get_array_str_property: Getter for the #Photo:array-str-property property.
- * @get_array_uint32_property: Getter for the #Photo:array-uint32-property property.
- * @get_bool_property: Getter for the #Photo:bool-property property.
- * @get_byte_property: Getter for the #Photo:byte-property property.
- * @get_double_property: Getter for the #Photo:double-property property.
- * @get_int16_property: Getter for the #Photo:int16-property property.
- * @get_int32_property: Getter for the #Photo:int32-property property.
- * @get_int64_property: Getter for the #Photo:int64-property property.
- * @get_str_property: Getter for the #Photo:str-property property.
- * @get_uint16_property: Getter for the #Photo:uint16-property property.
- * @get_uint32_property: Getter for the #Photo:uint32-property property.
- * @get_uint64_property: Getter for the #Photo:uint64-property property.
+ * @get_array_str_property: Getter for the #Photo:ArrayStrProperty property.
+ * @get_array_uint32_property: Getter for the #Photo:ArrayUint32Property property.
+ * @get_bool_property: Getter for the #Photo:BoolProperty property.
+ * @get_byte_property: Getter for the #Photo:ByteProperty property.
+ * @get_double_property: Getter for the #Photo:DoubleProperty property.
+ * @get_int16_property: Getter for the #Photo:Int16Property property.
+ * @get_int32_property: Getter for the #Photo:Int32Property property.
+ * @get_int64_property: Getter for the #Photo:Int64Property property.
+ * @get_str_property: Getter for the #Photo:StrProperty property.
+ * @get_uint16_property: Getter for the #Photo:Uint16Property property.
+ * @get_uint32_property: Getter for the #Photo:Uint32Property property.
+ * @get_uint64_property: Getter for the #Photo:Uint64Property property.
  * @start: Handler for the #Photo::Start signal.
  * @stop: Handler for the #Photo::Stop signal.
  *
@@ -848,113 +848,113 @@ photo_default_init (PhotoIface *iface)
 
   /* GObject properties for D-Bus properties: */
   /**
-   * Photo:str-property:
+   * Photo:StrProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.StrProperty">"StrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_string ("str-property", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_string ("StrProperty", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:byte-property:
+   * Photo:ByteProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ByteProperty">"ByteProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uchar ("byte-property", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uchar ("ByteProperty", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:bool-property:
+   * Photo:BoolProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.BoolProperty">"BoolProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_boolean ("bool-property", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_boolean ("BoolProperty", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:int16-property:
+   * Photo:Int16Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int16Property">"Int16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int ("int16-property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int ("Int16Property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:uint16-property:
+   * Photo:Uint16Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint16Property">"Uint16Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint ("uint16-property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint ("Uint16Property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:int32-property:
+   * Photo:Int32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int32Property">"Int32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int ("int32-property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int ("Int32Property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:uint32-property:
+   * Photo:Uint32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint32Property">"Uint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint ("uint32-property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint ("Uint32Property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:int64-property:
+   * Photo:Int64Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Int64Property">"Int64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_int64 ("int64-property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_int64 ("Int64Property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:uint64-property:
+   * Photo:Uint64Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.Uint64Property">"Uint64Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_uint64 ("uint64-property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_uint64 ("Uint64Property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:double-property:
+   * Photo:DoubleProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.DoubleProperty">"DoubleProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_double ("double-property", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_double ("DoubleProperty", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:array-str-property:
+   * Photo:ArrayStrProperty:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ArrayStrProperty">"ArrayStrProperty"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_boxed ("array-str-property", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_boxed ("ArrayStrProperty", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * Photo:array-uint32-property:
+   * Photo:ArrayUint32Property:
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-photo.ArrayUint32Property">"ArrayUint32Property"</link>.
    *
    * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_variant ("array-uint32-property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_variant ("ArrayUint32Property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 /**
@@ -991,7 +991,7 @@ gchar *
 photo_dup_str_property (Photo *object)
 {
   gchar *value;
-  g_object_get (G_OBJECT (object), "str-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "StrProperty", &value, NULL);
   return value;
 }
 
@@ -1007,7 +1007,7 @@ photo_dup_str_property (Photo *object)
 void
 photo_set_str_property (Photo *object, const gchar *value)
 {
-  g_object_set (G_OBJECT (object), "str-property", value, NULL);
+  g_object_set (G_OBJECT (object), "StrProperty", value, NULL);
 }
 
 /**
@@ -1040,7 +1040,7 @@ photo_get_byte_property (Photo *object)
 void
 photo_set_byte_property (Photo *object, guchar value)
 {
-  g_object_set (G_OBJECT (object), "byte-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ByteProperty", value, NULL);
 }
 
 /**
@@ -1073,7 +1073,7 @@ photo_get_bool_property (Photo *object)
 void
 photo_set_bool_property (Photo *object, gboolean value)
 {
-  g_object_set (G_OBJECT (object), "bool-property", value, NULL);
+  g_object_set (G_OBJECT (object), "BoolProperty", value, NULL);
 }
 
 /**
@@ -1106,7 +1106,7 @@ photo_get_int16_property (Photo *object)
 void
 photo_set_int16_property (Photo *object, gint16 value)
 {
-  g_object_set (G_OBJECT (object), "int16-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int16Property", value, NULL);
 }
 
 /**
@@ -1139,7 +1139,7 @@ photo_get_uint16_property (Photo *object)
 void
 photo_set_uint16_property (Photo *object, guint16 value)
 {
-  g_object_set (G_OBJECT (object), "uint16-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint16Property", value, NULL);
 }
 
 /**
@@ -1172,7 +1172,7 @@ photo_get_int32_property (Photo *object)
 void
 photo_set_int32_property (Photo *object, gint value)
 {
-  g_object_set (G_OBJECT (object), "int32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int32Property", value, NULL);
 }
 
 /**
@@ -1205,7 +1205,7 @@ photo_get_uint32_property (Photo *object)
 void
 photo_set_uint32_property (Photo *object, guint value)
 {
-  g_object_set (G_OBJECT (object), "uint32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint32Property", value, NULL);
 }
 
 /**
@@ -1238,7 +1238,7 @@ photo_get_int64_property (Photo *object)
 void
 photo_set_int64_property (Photo *object, gint64 value)
 {
-  g_object_set (G_OBJECT (object), "int64-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Int64Property", value, NULL);
 }
 
 /**
@@ -1271,7 +1271,7 @@ photo_get_uint64_property (Photo *object)
 void
 photo_set_uint64_property (Photo *object, guint64 value)
 {
-  g_object_set (G_OBJECT (object), "uint64-property", value, NULL);
+  g_object_set (G_OBJECT (object), "Uint64Property", value, NULL);
 }
 
 /**
@@ -1304,7 +1304,7 @@ photo_get_double_property (Photo *object)
 void
 photo_set_double_property (Photo *object, gdouble value)
 {
-  g_object_set (G_OBJECT (object), "double-property", value, NULL);
+  g_object_set (G_OBJECT (object), "DoubleProperty", value, NULL);
 }
 
 /**
@@ -1341,7 +1341,7 @@ gchar **
 photo_dup_array_str_property (Photo *object)
 {
   gchar **value;
-  g_object_get (G_OBJECT (object), "array-str-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "ArrayStrProperty", &value, NULL);
   return value;
 }
 
@@ -1357,7 +1357,7 @@ photo_dup_array_str_property (Photo *object)
 void
 photo_set_array_str_property (Photo *object, const gchar *const *value)
 {
-  g_object_set (G_OBJECT (object), "array-str-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ArrayStrProperty", value, NULL);
 }
 
 /**
@@ -1394,7 +1394,7 @@ GVariant *
 photo_dup_array_uint32_property (Photo *object)
 {
   GVariant *value;
-  g_object_get (G_OBJECT (object), "array-uint32-property", &value, NULL);
+  g_object_get (G_OBJECT (object), "ArrayUint32Property", &value, NULL);
   return value;
 }
 
@@ -1410,7 +1410,7 @@ photo_dup_array_uint32_property (Photo *object)
 void
 photo_set_array_uint32_property (Photo *object, GVariant *value)
 {
-  g_object_set (G_OBJECT (object), "array-uint32-property", value, NULL);
+  g_object_set (G_OBJECT (object), "ArrayUint32Property", value, NULL);
 }
 
 /**

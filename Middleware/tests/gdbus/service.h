@@ -92,17 +92,17 @@ gboolean bind_signal_callback(const gchar *proxy_hash_name, const gchar *signal_
  * @return     gboolean
  */
 gboolean unbind_signal_callback(const gchar *proxy_hash_name, const gchar *signal_name);
+
 /**
  * @brief      绑定一个属性回调
  *             1、请确保对应service已经注册
- *             2、目前暂不支持监听自身属性
- *             3、请控制回调函数执行时间，防止出现大量执行排队 *
+ *             2、请控制回调函数执行时间，防止出现大量执行排队 *
  * @param[in]  proxy_hash_name
  * @param[in]  property_name
  * @param[in]  callback
  * @return     gboolean
  */
-gboolean bind_property_changed_callback(
+gboolean bind_proxy_property_changed_callback(
     const gchar *proxy_hash_name, const gchar *property_name, property_changed_callback callback);
 
 /**
@@ -112,7 +112,7 @@ gboolean bind_property_changed_callback(
  * @param[in]  property_name
  * @return     gboolean
  */
-gboolean unbind_property_changed_callback(const gchar *proxy_hash_name, const gchar *property_name);
+gboolean unbind_proxy_property_changed_callback(const gchar *proxy_hash_name, const gchar *property_name);
 
 /**
  * @brief      注册一个代理

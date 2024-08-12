@@ -27,6 +27,13 @@ gpointer thread_test(gpointer data)
     register_proxy("VIDEO", "video", PROXY_VIDEO_HASH_NAME, (proxy_new_sync)video_proxy_new_for_bus_sync);
     bind_signal_callback(PROXY_VIDEO_HASH_NAME, "RecordStop", (gpointer)record_stop_signal);
 
+    bind_proxy_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Int16Property", test_property_changed_callback);
+    bind_proxy_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Uint16Property", test_property_changed_callback);
+    bind_proxy_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Int32Property", test_property_changed_callback);
+    bind_proxy_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Uint32Property", test_property_changed_callback);
+    bind_proxy_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Int64Property", test_property_changed_callback);
+    bind_proxy_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Uint64Property", test_property_changed_callback);
+
     while (1)
     {
         g_usleep(1000 * 1000); // 1s
@@ -44,17 +51,6 @@ gpointer thread_test(gpointer data)
         video_set_uint32_property(get_proxy_instance(PROXY_VIDEO_HASH_NAME), test++);
         video_set_int64_property(get_proxy_instance(PROXY_VIDEO_HASH_NAME), test++);
         video_set_uint64_property(get_proxy_instance(PROXY_VIDEO_HASH_NAME), test++);
-
-        if (test == 2)
-        {
-            g_print("bind property changed callback\n");
-            bind_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Int16Property", test_property_changed_callback);
-            bind_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Uint16Property", test_property_changed_callback);
-            bind_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Int32Property", test_property_changed_callback);
-            bind_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Uint32Property", test_property_changed_callback);
-            bind_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Int64Property", test_property_changed_callback);
-            bind_property_changed_callback(PROXY_VIDEO_HASH_NAME, "Uint64Property", test_property_changed_callback);
-        }
     }
 
     return NULL;

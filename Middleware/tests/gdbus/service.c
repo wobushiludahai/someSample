@@ -355,17 +355,124 @@ static void _properties_changed(GDBusProxy *proxy, GVariant *changed_properties,
     g_thread_pool_push(proxy_info->pool, changed_properties, NULL);
 }
 
+GVariant* gvalue_to_gvariant(const GValue* value) {
+    GType type = G_VALUE_TYPE(value);
+    GVariant* variant = NULL;
+
+    if (G_VALUE_HOLDS_BOOLEAN(value)) {
+        variant = g_variant_new_boolean(g_value_get_boolean(value));
+    } else if (G_VALUE_HOLDS_INT32(value)) {
+        variant = g_variant_new_int32(g_value_get_int(value));
+    } else if (G_VALUE_HOLDS_UINT32(value)) {
+        variant = g_variant_new_uint32(g_value_get_uint(value));
+    } else if (G_VALUE_HOLDS_INT64(value)) {
+        variant = g_variant_new_int64(g_value_get_int64(value));
+    } else if (G_VALUE_HOLDS_UINT64(value)) {
+        variant = g_variant_new_uint64(g_value_get_uint64(value));
+    } else if (G_VALUE_HOLDS_DOUBLE(value)) {
+        variant = g_variant_new_double(g_value_get_double(value));
+    } else if (G_VALUE_HOLDS_STRING(value)) {
+        variant = g_variant_new_string(g_value_get_string(value));
+    } else if (G_VALUE_HOLDS_POINTER(value)) {
+        variant = g_variant_new("(p)", g_value_get_pointer(value));
+    } else {
+        g_warning("Unsupported GValue type");
+    }
+
+    return variant;
+}
+
+void on_property_changed_test(GObject *object, GParamSpec *pspec, gpointer user_data)
+{
+    g_print("Property %s changed.\n", g_param_spec_get_name(pspec));
+
+    GValue test_value = G_VALUE_INIT;
+
+    g_object_get_property(object, g_param_spec_get_name(pspec), &test_value);
+    g_print("Test value:%d\n", g_value_get_int(&test_value));
+}
+
 /**
  * @brief      绑定一个属性回调
- *             1、请确保对应service已经注册
- *             2、目前暂不支持监听自身属性
- *             3、请控制回调函数执行时间，防止出现大量执行排队 *
+ *             1、请控制回调函数执行时间，防止出现大量执行排队 *
  * @param[in]  proxy_hash_name
  * @param[in]  property_name
  * @param[in]  callback
  * @return     gboolean
  */
-gboolean bind_property_changed_callback(
+gboolean bind_server_property_changed_callback(
+    const gchar *server_hash_name, const gchar *property_name, property_changed_callback callback)
+{
+    if (server_hash_name == NULL)
+    {
+        g_print("server_hash_name is NULL\n");
+        return FALSE;
+    }
+
+    SERVER_INFO_T *server_info = (SERVER_INFO_T *)g_hash_table_lookup(g_service.server, server_hash_name);
+    if (server_info == NULL)
+    {
+        g_print("can not find %s\n", server_hash_name);
+        return FALSE;
+    }
+
+    g_signal_connect(server_info->instance, "notify::Int16Property", G_CALLBACK(on_property_changed_test), NULL);
+
+    return TRUE;
+}
+
+/**
+ * @brief      解绑一个属性回调
+ *
+ * @param[in]  proxy_hash_name
+ * @param[in]  property_name
+ * @return     gboolean
+ */
+gboolean unbind_server_property_changed_callback(const gchar *proxy_hash_name, const gchar *property_name)
+{
+    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, proxy_hash_name);
+    if (proxy_info == NULL)
+    {
+        error("can not find %s\n", proxy_hash_name);
+        return FALSE;
+    }
+
+    gchar *key = g_strdup_printf("%s_%s", proxy_hash_name, property_name);
+    gpointer value = g_hash_table_lookup(proxy_info->property_changed_callback, key);
+    if (value == NULL)
+    {
+        error("can not find callback %s:%s\n", proxy_hash_name, property_name);
+        g_free(key);
+        return FALSE;
+    }
+
+    g_hash_table_remove(proxy_info->property_changed_callback, key);
+    g_free(key);
+
+    if (g_hash_table_size(proxy_info->property_changed_callback) == 0) // 已经没有监听属性
+    {
+        if (proxy_info->is_have_monitor_property == TRUE)
+        {
+            g_signal_handler_disconnect(proxy_info->proxy, proxy_info->property_changed_signal_id);
+            proxy_info->is_have_monitor_property = FALSE;
+            g_thread_pool_free(proxy_info->pool, FALSE, TRUE);
+            proxy_info->pool = NULL;
+        }
+    }
+
+    return TRUE;
+}
+
+/**
+ * @brief      绑定一个属性回调
+ *             1、请确保对应service已经注册
+ *             2、请控制回调函数执行时间，防止出现大量执行排队 *
+ * @param[in]  proxy_hash_name
+ * @param[in]  property_name
+ * @param[in]  callback
+ * @return     gboolean
+ */
+gboolean bind_proxy_property_changed_callback(
     const gchar *proxy_hash_name, const gchar *property_name, property_changed_callback callback)
 {
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, proxy_hash_name);
@@ -409,7 +516,7 @@ gboolean bind_property_changed_callback(
  * @param[in]  property_name
  * @return     gboolean
  */
-gboolean unbind_property_changed_callback(const gchar *proxy_hash_name, const gchar *property_name)
+gboolean unbind_proxy_property_changed_callback(const gchar *proxy_hash_name, const gchar *property_name)
 {
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, proxy_hash_name);
     if (proxy_info == NULL)
