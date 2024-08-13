@@ -29,18 +29,30 @@ gpointer thread_test(gpointer data)
     return NULL;
 }
 
-extern gboolean bind_server_property_changed_callback(
-    const gchar *server_hash_name, const gchar *property_name, property_changed_callback callback);
+// 返回值为 true则执行后续修改动作，返回值为false则不会去执行后续修改动作
+gboolean test_server_property_before_change_callback(gpointer value)
+{
+    gchar *test_value = *(gchar **)value;
+    g_print("func:%s %s\n", "test_server_property_before_change_callback", test_value);
+
+    return TRUE;
+}
+// 值不同，且被修改后触发回调
+void test_server_property_after_changed_callback(gpointer value)
+{
+    g_print("func:%s.\n", "test_server_property_after_changed_callback");
+}
+
 static void service_register_success_callback(void)
 {
     // 注册服务
     register_server(SERVER_VIDEO_HASH_NAME, (skelete_new)video_skeleton_new);
-    register_server(SERVER_VIDEO2_HASH_NAME, (skelete_new)video2_skeleton_new);
 
     // 绑定方法回调
     bind_service_method_callback(SERVER_VIDEO_HASH_NAME, "StopVideo", G_CALLBACK(handle_stop_video));
 
-    bind_server_property_changed_callback(SERVER_VIDEO_HASH_NAME, "Int16Property", NULL);
+    video_server_set_str_property_before_change_callback(test_server_property_before_change_callback);
+    video_server_set_str_property_after_changed_callback(test_server_property_after_changed_callback);
 }
 
 #include "config_mgmt.h"

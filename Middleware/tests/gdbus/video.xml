@@ -42,53 +42,7 @@
 		<property name="Uint32Property" type="u" access="readwrite" persistence="y" default="10" />
 		<property name="Int64Property" type="x" access="readwrite" persistence="y" default="-99" />
 		<property name="Uint64Property" type="t" access="readwrite" persistence="y" default="113" />
-		<property name="DoubleProperty" type="d" access="read" persistence="y" default="1.1" />
-		<property name="ArrayStrProperty" type="as" access="read" />
-		<property name="ArrayUint32Property" type="au" access="readwrite" />
-	</interface>
-	<interface name="com.example.video2">
-		<method name="StartVideo">
-			<arg name="in_arg1" type="s" direction="in" />
-			<arg name="in_arg2" type="i" direction="in" />
-			<arg name="out_arg1" type="s" direction="out" />
-			<arg name="out_arg2" type="i" direction="out" />
-		</method>
-		<method name="StopVideo">
-		</method>
-		<method name="PauseVideo">
-		</method>
-		<method name="ResumeVideo">
-		</method>
-		<method name="GetVideoStatus">
-			<arg name="status" type="y" direction="out" />
-		</method>
-		<method name="SetVideoStatus">
-			<arg name="status" type="y" direction="in" />
-		</method>
-		<method name="GetVideoInfo">
-			<arg name="name" type="s" direction="out" />
-			<arg name="frame" type="u" direction="out" />
-			<arg name="format" type="s" direction="out" />
-		</method>
-		<method name="ShareVideo">
-			<arg name="path" type="s" direction="in" />
-			<arg name="time" type="u" direction="in" />
-		</method>
-		<signal name="RecordStart">
-			<arg name="time" type="u" />
-		</signal>
-		<signal name="RecordStop">
-		</signal>
-		<property name="StrProperty" type="s" access="readwrite" default="111" />
-		<property name="ByteProperty" type="y" access="readwrite" default="a" />
-		<property name="BoolProperty" type="b" access="readwrite" default="TRUE" />
-		<property name="Int16Property" type="n" access="readwrite" default="10" />
-		<property name="Uint16Property" type="q" access="readwrite" default="10" />
-		<property name="Int32Property" type="i" access="readwrite" default="-56" />
-		<property name="Uint32Property" type="u" access="readwrite" default="10" />
-		<property name="Int64Property" type="x" access="readwrite" default="-99" />
-		<property name="Uint64Property" type="t" access="read" default="113" />
-		<property name="DoubleProperty" type="d" access="read" default="1.1" />
+		<property name="DoubleProperty" type="d" access="readwrite" persistence="y" default="1.1" />
 		<property name="ArrayStrProperty" type="as" access="read" />
 		<property name="ArrayUint32Property" type="au" access="readwrite" />
 	</interface>

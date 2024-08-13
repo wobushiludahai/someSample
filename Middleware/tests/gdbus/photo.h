@@ -9,6 +9,7 @@
 
 #include <gio/gio.h>
 
+#include "service.h"
 G_BEGIN_DECLS
 
 
@@ -195,50 +196,74 @@ gboolean photo_call_get_photo_info_sync (
 const gchar *photo_get_str_property (Photo *object);
 gchar *photo_dup_str_property (Photo *object);
 void photo_set_str_property (Photo *object, const gchar *value);
+void photo_server_set_str_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_str_property_after_changed_callback (server_property_after_changed_callback call);
 
 #define PHOTO_BYTEPROPERTY_DEFAULT ('a')
 guchar photo_get_byte_property (Photo *object);
 void photo_set_byte_property (Photo *object, guchar value);
+void photo_server_set_byte_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_byte_property_after_changed_callback (server_property_after_changed_callback call);
 
 #define PHOTO_BOOLPROPERTY_DEFAULT (TRUE)
 gboolean photo_get_bool_property (Photo *object);
 void photo_set_bool_property (Photo *object, gboolean value);
+void photo_server_set_bool_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_bool_property_after_changed_callback (server_property_after_changed_callback call);
 
 #define PHOTO_INT16PROPERTY_DEFAULT (10)
 gint16 photo_get_int16_property (Photo *object);
 void photo_set_int16_property (Photo *object, gint16 value);
+void photo_server_set_int16_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_int16_property_after_changed_callback (server_property_after_changed_callback call);
 
 #define PHOTO_UINT16PROPERTY_DEFAULT (10)
 guint16 photo_get_uint16_property (Photo *object);
 void photo_set_uint16_property (Photo *object, guint16 value);
+void photo_server_set_uint16_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_uint16_property_after_changed_callback (server_property_after_changed_callback call);
 
 #define PHOTO_INT32PROPERTY_DEFAULT (-56)
 gint photo_get_int32_property (Photo *object);
 void photo_set_int32_property (Photo *object, gint value);
+void photo_server_set_int32_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_int32_property_after_changed_callback (server_property_after_changed_callback call);
 
 #define PHOTO_UINT32PROPERTY_DEFAULT (10)
 guint photo_get_uint32_property (Photo *object);
 void photo_set_uint32_property (Photo *object, guint value);
+void photo_server_set_uint32_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_uint32_property_after_changed_callback (server_property_after_changed_callback call);
 
 #define PHOTO_INT64PROPERTY_DEFAULT (-99)
 gint64 photo_get_int64_property (Photo *object);
 void photo_set_int64_property (Photo *object, gint64 value);
+void photo_server_set_int64_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_int64_property_after_changed_callback (server_property_after_changed_callback call);
 
 #define PHOTO_UINT64PROPERTY_DEFAULT (113)
 guint64 photo_get_uint64_property (Photo *object);
 void photo_set_uint64_property (Photo *object, guint64 value);
+void photo_server_set_uint64_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_uint64_property_after_changed_callback (server_property_after_changed_callback call);
 
 #define PHOTO_DOUBLEPROPERTY_DEFAULT (1.1)
 gdouble photo_get_double_property (Photo *object);
 void photo_set_double_property (Photo *object, gdouble value);
+void photo_server_set_double_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_double_property_after_changed_callback (server_property_after_changed_callback call);
 
 const gchar *const *photo_get_array_str_property (Photo *object);
 gchar **photo_dup_array_str_property (Photo *object);
 void photo_set_array_str_property (Photo *object, const gchar *const *value);
+void photo_server_set_array_str_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_array_str_property_after_changed_callback (server_property_after_changed_callback call);
 
 GVariant *photo_get_array_uint32_property (Photo *object);
 GVariant *photo_dup_array_uint32_property (Photo *object);
 void photo_set_array_uint32_property (Photo *object, GVariant *value);
+void photo_server_set_array_uint32_property_before_change_callback (server_property_before_change_callback call);
+void photo_server_set_array_uint32_property_after_changed_callback (server_property_after_changed_callback call);
 
 
 /* ---- */

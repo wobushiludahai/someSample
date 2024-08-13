@@ -15,7 +15,7 @@ typedef struct
     gchar *if_name; // interface name
     GThreadPool *pool;
     GHashTable *signal_callback_id;
-    GHashTable *property_changed_callback;
+    GHashTable *proxy_property_changed_callback;
     gboolean is_have_monitor_property; // 是否有属性被监听
     gulong property_changed_signal_id;
 } PROXY_INFO_T;
@@ -23,6 +23,7 @@ typedef struct
 typedef struct
 {
     GHashTable *method_callback_id;
+    GHashTable *server_property_after_changed_callback;
     gpointer instance;
 } SERVER_INFO_T;
 
@@ -72,7 +73,7 @@ static void _destory_proxy_hashtable(gpointer data)
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)data;
 
     g_hash_table_destroy(proxy_info->signal_callback_id);
-    g_hash_table_destroy(proxy_info->property_changed_callback);
+    g_hash_table_destroy(proxy_info->proxy_property_changed_callback);
 
     g_free(proxy_info->if_name);
     g_free(proxy_info->service_name);
@@ -85,6 +86,7 @@ static void _destroy_server_hashtable(gpointer data)
 {
     SERVER_INFO_T *server_info = (SERVER_INFO_T *)data;
     g_hash_table_destroy(server_info->method_callback_id);
+    g_hash_table_destroy(server_info->server_property_after_changed_callback);
     g_object_unref(server_info->instance);
 }
 
@@ -160,6 +162,7 @@ gboolean register_server(const gchar *server_hash_name, skelete_new call)
     server_info = g_malloc0(sizeof(SERVER_INFO_T));
     server_info->instance = instance;
     server_info->method_callback_id = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+    server_info->server_property_after_changed_callback = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
     g_hash_table_insert(g_service.server, g_strdup(server_hash_name), server_info);
 
@@ -334,10 +337,10 @@ static void _property_changed_handle_thread_pool(gpointer data, gpointer user_da
     while (g_variant_iter_next(&iter, "{sv}", &key, &value))
     {
         gchar *callback_key = g_strdup_printf("%s_%s", proxy_info->if_name, key);
-        gpointer callback = g_hash_table_lookup(proxy_info->property_changed_callback, callback_key);
+        gpointer callback = g_hash_table_lookup(proxy_info->proxy_property_changed_callback, callback_key);
         if (callback != NULL)
         {
-            ((property_changed_callback)callback)(value);
+            ((proxy_property_changed_callback)callback)(value);
         }
 
         g_free(callback_key);
@@ -355,41 +358,77 @@ static void _properties_changed(GDBusProxy *proxy, GVariant *changed_properties,
     g_thread_pool_push(proxy_info->pool, changed_properties, NULL);
 }
 
-GVariant* gvalue_to_gvariant(const GValue* value) {
-    GType type = G_VALUE_TYPE(value);
-    GVariant* variant = NULL;
+// gpointer get_g_value(const GValue *value)
+// {
+//     switch (G_VALUE_TYPE(value))
+//     {
+//         case G_TYPE_BOOLEAN:
+//             gboolean bool_value = g_value_get_boolean(value);
+//             break;
+//         case G_TYPE_UCHAR:
+//             guchar uchar_value = g_value_get_uchar(value);
+//             break;
+//         case G_TYPE_INT:
+//             gint int32_value = g_value_get_int(value);
+//             break;
+//         case G_TYPE_UINT:
+//             guint uint32_value = g_value_get_uint(value);
+//             break;
+//         case G_TYPE_INT64:
+//             gint64 int64_value = g_value_get_int64(value);
+//             break;
+//         case G_TYPE_UINT64:
+//             guint64 uint64_value = g_value_get_uint64(value);
+//             break;
+//         case G_TYPE_DOUBLE:
+//             gdouble double_value = g_value_get_double(value);
+//             break;
+//         case G_TYPE_STRING:
+//             const gchar *str_value = g_value_get_string(value);
+//             break;
+//         default:
+//             g_print("Unsupport type %ld", G_VALUE_TYPE(value));
+//     }
+// }
 
-    if (G_VALUE_HOLDS_BOOLEAN(value)) {
+GVariant *gvalue_to_gvariant(const GValue *value)
+{
+    GVariant *variant = NULL;
+
+    if (G_VALUE_HOLDS_BOOLEAN(value))
+    {
         variant = g_variant_new_boolean(g_value_get_boolean(value));
-    } else if (G_VALUE_HOLDS_INT32(value)) {
+    }
+    else if (G_VALUE_HOLDS_INT(value))
+    {
         variant = g_variant_new_int32(g_value_get_int(value));
-    } else if (G_VALUE_HOLDS_UINT32(value)) {
+    }
+    else if (G_VALUE_HOLDS_UINT(value))
+    {
         variant = g_variant_new_uint32(g_value_get_uint(value));
-    } else if (G_VALUE_HOLDS_INT64(value)) {
+    }
+    else if (G_VALUE_HOLDS_INT64(value))
+    {
         variant = g_variant_new_int64(g_value_get_int64(value));
-    } else if (G_VALUE_HOLDS_UINT64(value)) {
+    }
+    else if (G_VALUE_HOLDS_UINT64(value))
+    {
         variant = g_variant_new_uint64(g_value_get_uint64(value));
-    } else if (G_VALUE_HOLDS_DOUBLE(value)) {
+    }
+    else if (G_VALUE_HOLDS_DOUBLE(value))
+    {
         variant = g_variant_new_double(g_value_get_double(value));
-    } else if (G_VALUE_HOLDS_STRING(value)) {
+    }
+    else if (G_VALUE_HOLDS_STRING(value))
+    {
         variant = g_variant_new_string(g_value_get_string(value));
-    } else if (G_VALUE_HOLDS_POINTER(value)) {
-        variant = g_variant_new("(p)", g_value_get_pointer(value));
-    } else {
+    }
+    else
+    {
         g_warning("Unsupported GValue type");
     }
 
     return variant;
-}
-
-void on_property_changed_test(GObject *object, GParamSpec *pspec, gpointer user_data)
-{
-    g_print("Property %s changed.\n", g_param_spec_get_name(pspec));
-
-    GValue test_value = G_VALUE_INIT;
-
-    g_object_get_property(object, g_param_spec_get_name(pspec), &test_value);
-    g_print("Test value:%d\n", g_value_get_int(&test_value));
 }
 
 /**
@@ -401,11 +440,11 @@ void on_property_changed_test(GObject *object, GParamSpec *pspec, gpointer user_
  * @return     gboolean
  */
 gboolean bind_server_property_changed_callback(
-    const gchar *server_hash_name, const gchar *property_name, property_changed_callback callback)
+    const gchar *server_hash_name, const gchar *property_name, server_property_after_changed_callback callback)
 {
-    if (server_hash_name == NULL)
+    if (server_hash_name == NULL || property_name == NULL || callback == NULL)
     {
-        g_print("server_hash_name is NULL\n");
+        g_print("params is NULL\n");
         return FALSE;
     }
 
@@ -416,7 +455,12 @@ gboolean bind_server_property_changed_callback(
         return FALSE;
     }
 
-    g_signal_connect(server_info->instance, "notify::Int16Property", G_CALLBACK(on_property_changed_test), NULL);
+    gchar *signal_key = g_strdup_printf("notify::%s", property_name);
+    gulong id = g_signal_connect(server_info->instance, signal_key, G_CALLBACK(callback), NULL);
+    g_hash_table_insert(
+        server_info->server_property_after_changed_callback, g_strdup(property_name), GUINT_TO_POINTER(id));
+
+    g_free(signal_key);
 
     return TRUE;
 }
@@ -428,37 +472,32 @@ gboolean bind_server_property_changed_callback(
  * @param[in]  property_name
  * @return     gboolean
  */
-gboolean unbind_server_property_changed_callback(const gchar *proxy_hash_name, const gchar *property_name)
+gboolean unbind_server_property_changed_callback(const gchar *server_hash_name, const gchar *property_name)
 {
-    PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, proxy_hash_name);
-    if (proxy_info == NULL)
+    if (server_hash_name == NULL || property_name == NULL)
     {
-        error("can not find %s\n", proxy_hash_name);
+        g_print("params is NULL\n");
         return FALSE;
     }
 
-    gchar *key = g_strdup_printf("%s_%s", proxy_hash_name, property_name);
-    gpointer value = g_hash_table_lookup(proxy_info->property_changed_callback, key);
+    SERVER_INFO_T *server_info = (SERVER_INFO_T *)g_hash_table_lookup(g_service.server, server_hash_name);
+    if (server_info == NULL)
+    {
+        g_print("can not find %s\n", server_hash_name);
+        return FALSE;
+    }
+
+    gpointer value = g_hash_table_lookup(server_info->server_property_after_changed_callback, property_name);
     if (value == NULL)
     {
-        error("can not find callback %s:%s\n", proxy_hash_name, property_name);
-        g_free(key);
+        g_print("hash table can not find %s\n", property_name);
         return FALSE;
     }
 
-    g_hash_table_remove(proxy_info->property_changed_callback, key);
-    g_free(key);
+    g_signal_handler_disconnect(server_info->instance, GPOINTER_TO_UINT(value));
+    g_print("unbind_service_method_callback %s   %u\n", server_hash_name, GPOINTER_TO_UINT(value));
 
-    if (g_hash_table_size(proxy_info->property_changed_callback) == 0) // 已经没有监听属性
-    {
-        if (proxy_info->is_have_monitor_property == TRUE)
-        {
-            g_signal_handler_disconnect(proxy_info->proxy, proxy_info->property_changed_signal_id);
-            proxy_info->is_have_monitor_property = FALSE;
-            g_thread_pool_free(proxy_info->pool, FALSE, TRUE);
-            proxy_info->pool = NULL;
-        }
-    }
+    g_hash_table_remove(server_info->server_property_after_changed_callback, property_name);
 
     return TRUE;
 }
@@ -473,7 +512,7 @@ gboolean unbind_server_property_changed_callback(const gchar *proxy_hash_name, c
  * @return     gboolean
  */
 gboolean bind_proxy_property_changed_callback(
-    const gchar *proxy_hash_name, const gchar *property_name, property_changed_callback callback)
+    const gchar *proxy_hash_name, const gchar *property_name, proxy_property_changed_callback callback)
 {
     PROXY_INFO_T *proxy_info = (PROXY_INFO_T *)g_hash_table_lookup(g_service.proxy, proxy_hash_name);
     if (proxy_info == NULL)
@@ -483,7 +522,7 @@ gboolean bind_proxy_property_changed_callback(
     }
 
     gchar *key = g_strdup_printf("%s_%s", proxy_hash_name, property_name);
-    gpointer value = g_hash_table_lookup(proxy_info->property_changed_callback, key);
+    gpointer value = g_hash_table_lookup(proxy_info->proxy_property_changed_callback, key);
     if (value != NULL)
     {
         debug("The property %s callback for %s has been binded\n", property_name, proxy_hash_name);
@@ -503,7 +542,7 @@ gboolean bind_proxy_property_changed_callback(
         }
     }
 
-    g_hash_table_insert(proxy_info->property_changed_callback, g_strdup(key), (gpointer)callback);
+    g_hash_table_insert(proxy_info->proxy_property_changed_callback, g_strdup(key), (gpointer)callback);
     g_free(key);
 
     return TRUE;
@@ -526,7 +565,7 @@ gboolean unbind_proxy_property_changed_callback(const gchar *proxy_hash_name, co
     }
 
     gchar *key = g_strdup_printf("%s_%s", proxy_hash_name, property_name);
-    gpointer value = g_hash_table_lookup(proxy_info->property_changed_callback, key);
+    gpointer value = g_hash_table_lookup(proxy_info->proxy_property_changed_callback, key);
     if (value == NULL)
     {
         error("can not find callback %s:%s\n", proxy_hash_name, property_name);
@@ -534,10 +573,10 @@ gboolean unbind_proxy_property_changed_callback(const gchar *proxy_hash_name, co
         return FALSE;
     }
 
-    g_hash_table_remove(proxy_info->property_changed_callback, key);
+    g_hash_table_remove(proxy_info->proxy_property_changed_callback, key);
     g_free(key);
 
-    if (g_hash_table_size(proxy_info->property_changed_callback) == 0) // 已经没有监听属性
+    if (g_hash_table_size(proxy_info->proxy_property_changed_callback) == 0) // 已经没有监听属性
     {
         if (proxy_info->is_have_monitor_property == TRUE)
         {
@@ -588,7 +627,7 @@ gpointer register_proxy(const gchar *service_name, const gchar *if_name, const g
     proxy_info->property_changed_signal_id = 0;
     proxy_info->proxy = proxy;
     proxy_info->signal_callback_id = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
-    proxy_info->property_changed_callback = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+    proxy_info->proxy_property_changed_callback = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
     proxy_info->pool = NULL;
     proxy_info->if_name = g_strdup(if_name);
 

@@ -9,6 +9,7 @@
 
 #include <gio/gio.h>
 
+#include "service.h"
 G_BEGIN_DECLS
 
 
@@ -121,41 +122,65 @@ gboolean my_interface_call_my_method_sync (
 const gchar *my_interface_get_str_property (MyInterface *object);
 gchar *my_interface_dup_str_property (MyInterface *object);
 void my_interface_set_str_property (MyInterface *object, const gchar *value);
+void my_interface_server_set_str_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_str_property_after_changed_callback (server_property_after_changed_callback call);
 
 guchar my_interface_get_byte_property (MyInterface *object);
 void my_interface_set_byte_property (MyInterface *object, guchar value);
+void my_interface_server_set_byte_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_byte_property_after_changed_callback (server_property_after_changed_callback call);
 
 gboolean my_interface_get_bool_property (MyInterface *object);
 void my_interface_set_bool_property (MyInterface *object, gboolean value);
+void my_interface_server_set_bool_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_bool_property_after_changed_callback (server_property_after_changed_callback call);
 
 gint16 my_interface_get_int16_property (MyInterface *object);
 void my_interface_set_int16_property (MyInterface *object, gint16 value);
+void my_interface_server_set_int16_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_int16_property_after_changed_callback (server_property_after_changed_callback call);
 
 guint16 my_interface_get_uint16_property (MyInterface *object);
 void my_interface_set_uint16_property (MyInterface *object, guint16 value);
+void my_interface_server_set_uint16_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_uint16_property_after_changed_callback (server_property_after_changed_callback call);
 
 gint my_interface_get_int32_property (MyInterface *object);
 void my_interface_set_int32_property (MyInterface *object, gint value);
+void my_interface_server_set_int32_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_int32_property_after_changed_callback (server_property_after_changed_callback call);
 
 guint my_interface_get_uint32_property (MyInterface *object);
 void my_interface_set_uint32_property (MyInterface *object, guint value);
+void my_interface_server_set_uint32_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_uint32_property_after_changed_callback (server_property_after_changed_callback call);
 
 gint64 my_interface_get_int64_property (MyInterface *object);
 void my_interface_set_int64_property (MyInterface *object, gint64 value);
+void my_interface_server_set_int64_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_int64_property_after_changed_callback (server_property_after_changed_callback call);
 
 guint64 my_interface_get_uint64_property (MyInterface *object);
 void my_interface_set_uint64_property (MyInterface *object, guint64 value);
+void my_interface_server_set_uint64_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_uint64_property_after_changed_callback (server_property_after_changed_callback call);
 
 gdouble my_interface_get_double_property (MyInterface *object);
 void my_interface_set_double_property (MyInterface *object, gdouble value);
+void my_interface_server_set_double_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_double_property_after_changed_callback (server_property_after_changed_callback call);
 
 const gchar *const *my_interface_get_array_str_property (MyInterface *object);
 gchar **my_interface_dup_array_str_property (MyInterface *object);
 void my_interface_set_array_str_property (MyInterface *object, const gchar *const *value);
+void my_interface_server_set_array_str_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_array_str_property_after_changed_callback (server_property_after_changed_callback call);
 
 GVariant *my_interface_get_array_uint32_property (MyInterface *object);
 GVariant *my_interface_dup_array_uint32_property (MyInterface *object);
 void my_interface_set_array_uint32_property (MyInterface *object, GVariant *value);
+void my_interface_server_set_array_uint32_property_before_change_callback (server_property_before_change_callback call);
+void my_interface_server_set_array_uint32_property_after_changed_callback (server_property_after_changed_callback call);
 
 
 /* ---- */

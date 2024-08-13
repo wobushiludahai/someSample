@@ -17,6 +17,13 @@ G_BEGIN_DECLS
 
 typedef gpointer (*proxy_new_sync)(GBusType bus_type, GDBusProxyFlags flags, const gchar *name,
     const gchar *object_path, GCancellable *cancellable, GError **error);
+typedef void (*proxy_property_changed_callback)(GVariant *property);
+
+// 返回值为 true则执行后续修改动作，返回值为false则不会去执行后续修改动作
+typedef gboolean (*server_property_before_change_callback)(gpointer value);
+// 值不同，且被修改后触发回调
+typedef void (*server_property_after_changed_callback)(gpointer value);
+
 typedef void (*property_changed_callback)(GVariant *property);
 typedef gpointer (*skelete_new)(void);
 typedef void (*service_register_success_call)(void);
@@ -103,7 +110,7 @@ gboolean unbind_signal_callback(const gchar *proxy_hash_name, const gchar *signa
  * @return     gboolean
  */
 gboolean bind_proxy_property_changed_callback(
-    const gchar *proxy_hash_name, const gchar *property_name, property_changed_callback callback);
+    const gchar *proxy_hash_name, const gchar *property_name, proxy_property_changed_callback callback);
 
 /**
  * @brief      解绑一个属性回调

@@ -39,6 +39,8 @@ typedef struct
 {
   GDBusPropertyInfo parent_struct;
   const gchar *hyphen_name;
+  server_property_before_change_callback before_change_call;
+  server_property_after_changed_callback after_changed_call;
   guint use_gvariant : 1;
   guint emits_changed_signal : 1;
   guint is_need_persistence : 1;
@@ -332,7 +334,7 @@ static const GDBusSignalInfo * const _my_interface_signal_info_pointers[] =
   NULL
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_str_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_str_property =
 {
   {
     -1,
@@ -342,12 +344,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_str_property
     NULL
   },
   "StrProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_byte_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_byte_property =
 {
   {
     -1,
@@ -357,12 +361,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_byte_propert
     NULL
   },
   "ByteProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_bool_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_bool_property =
 {
   {
     -1,
@@ -372,12 +378,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_bool_propert
     NULL
   },
   "BoolProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int16_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_int16_property =
 {
   {
     -1,
@@ -387,12 +395,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int16_proper
     NULL
   },
   "Int16Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint16_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_uint16_property =
 {
   {
     -1,
@@ -402,12 +412,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint16_prope
     NULL
   },
   "Uint16Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int32_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_int32_property =
 {
   {
     -1,
@@ -417,12 +429,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int32_proper
     NULL
   },
   "Int32Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint32_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_uint32_property =
 {
   {
     -1,
@@ -432,12 +446,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint32_prope
     NULL
   },
   "Uint32Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int64_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_int64_property =
 {
   {
     -1,
@@ -447,12 +463,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_int64_proper
     NULL
   },
   "Int64Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint64_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_uint64_property =
 {
   {
     -1,
@@ -462,12 +480,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_uint64_prope
     NULL
   },
   "Uint64Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_double_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_double_property =
 {
   {
     -1,
@@ -477,12 +497,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_double_prope
     NULL
   },
   "DoubleProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_str_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_array_str_property =
 {
   {
     -1,
@@ -492,12 +514,14 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_str_pr
     NULL
   },
   "ArrayStrProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_uint32_property =
+static _ExtendedGDBusPropertyInfo _my_interface_property_info_array_uint32_property =
 {
   {
     -1,
@@ -507,6 +531,8 @@ static const _ExtendedGDBusPropertyInfo _my_interface_property_info_array_uint32
     NULL
   },
   "ArrayUint32Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
@@ -829,6 +855,18 @@ my_interface_set_str_property (MyInterface *object, const gchar *value)
   g_object_set (G_OBJECT (object), "StrProperty", value, NULL);
 }
 
+void
+my_interface_server_set_str_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_str_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_str_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_str_property.after_changed_call = call;
+}
+
 /**
  * my_interface_get_byte_property: (skip)
  * @object: A #MyInterface.
@@ -860,6 +898,18 @@ void
 my_interface_set_byte_property (MyInterface *object, guchar value)
 {
   g_object_set (G_OBJECT (object), "ByteProperty", value, NULL);
+}
+
+void
+my_interface_server_set_byte_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_byte_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_byte_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_byte_property.after_changed_call = call;
 }
 
 /**
@@ -895,6 +945,18 @@ my_interface_set_bool_property (MyInterface *object, gboolean value)
   g_object_set (G_OBJECT (object), "BoolProperty", value, NULL);
 }
 
+void
+my_interface_server_set_bool_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_bool_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_bool_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_bool_property.after_changed_call = call;
+}
+
 /**
  * my_interface_get_int16_property: (skip)
  * @object: A #MyInterface.
@@ -926,6 +988,18 @@ void
 my_interface_set_int16_property (MyInterface *object, gint16 value)
 {
   g_object_set (G_OBJECT (object), "Int16Property", value, NULL);
+}
+
+void
+my_interface_server_set_int16_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_int16_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_int16_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_int16_property.after_changed_call = call;
 }
 
 /**
@@ -961,6 +1035,18 @@ my_interface_set_uint16_property (MyInterface *object, guint16 value)
   g_object_set (G_OBJECT (object), "Uint16Property", value, NULL);
 }
 
+void
+my_interface_server_set_uint16_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_uint16_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_uint16_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_uint16_property.after_changed_call = call;
+}
+
 /**
  * my_interface_get_int32_property: (skip)
  * @object: A #MyInterface.
@@ -992,6 +1078,18 @@ void
 my_interface_set_int32_property (MyInterface *object, gint value)
 {
   g_object_set (G_OBJECT (object), "Int32Property", value, NULL);
+}
+
+void
+my_interface_server_set_int32_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_int32_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_int32_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_int32_property.after_changed_call = call;
 }
 
 /**
@@ -1027,6 +1125,18 @@ my_interface_set_uint32_property (MyInterface *object, guint value)
   g_object_set (G_OBJECT (object), "Uint32Property", value, NULL);
 }
 
+void
+my_interface_server_set_uint32_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_uint32_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_uint32_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_uint32_property.after_changed_call = call;
+}
+
 /**
  * my_interface_get_int64_property: (skip)
  * @object: A #MyInterface.
@@ -1058,6 +1168,18 @@ void
 my_interface_set_int64_property (MyInterface *object, gint64 value)
 {
   g_object_set (G_OBJECT (object), "Int64Property", value, NULL);
+}
+
+void
+my_interface_server_set_int64_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_int64_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_int64_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_int64_property.after_changed_call = call;
 }
 
 /**
@@ -1093,6 +1215,18 @@ my_interface_set_uint64_property (MyInterface *object, guint64 value)
   g_object_set (G_OBJECT (object), "Uint64Property", value, NULL);
 }
 
+void
+my_interface_server_set_uint64_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_uint64_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_uint64_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_uint64_property.after_changed_call = call;
+}
+
 /**
  * my_interface_get_double_property: (skip)
  * @object: A #MyInterface.
@@ -1124,6 +1258,18 @@ void
 my_interface_set_double_property (MyInterface *object, gdouble value)
 {
   g_object_set (G_OBJECT (object), "DoubleProperty", value, NULL);
+}
+
+void
+my_interface_server_set_double_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_double_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_double_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_double_property.after_changed_call = call;
 }
 
 /**
@@ -1179,6 +1325,18 @@ my_interface_set_array_str_property (MyInterface *object, const gchar *const *va
   g_object_set (G_OBJECT (object), "ArrayStrProperty", value, NULL);
 }
 
+void
+my_interface_server_set_array_str_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_array_str_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_array_str_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_array_str_property.after_changed_call = call;
+}
+
 /**
  * my_interface_get_array_uint32_property: (skip)
  * @object: A #MyInterface.
@@ -1230,6 +1388,18 @@ void
 my_interface_set_array_uint32_property (MyInterface *object, GVariant *value)
 {
   g_object_set (G_OBJECT (object), "ArrayUint32Property", value, NULL);
+}
+
+void
+my_interface_server_set_array_uint32_property_before_change_callback (server_property_before_change_callback call)
+{
+ _my_interface_property_info_array_uint32_property.before_change_call = call;
+}
+
+void
+my_interface_server_set_array_uint32_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _my_interface_property_info_array_uint32_property.after_changed_call = call;
 }
 
 /**
@@ -2395,6 +2565,10 @@ my_interface_skeleton_set_property (GObject      *object,
   MyInterfaceSkeleton *skeleton = MY_INTERFACE_SKELETON (object);
   g_assert (prop_id != 0 && prop_id - 1 < 12);
   info = (const _ExtendedGDBusPropertyInfo *) _my_interface_property_info_pointers[prop_id - 1];
+  if (info->before_change_call != NULL) {
+    if(info->before_change_call((gpointer)&value->data[0]) == false)
+      return;
+ }
   g_mutex_lock (&skeleton->priv->lock);
   g_object_freeze_notify (object);
   if (!_g_value_equal (value, &skeleton->priv->properties[prop_id - 1]))
@@ -2405,7 +2579,9 @@ my_interface_skeleton_set_property (GObject      *object,
       g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);
       if (info->is_need_persistence == 1) 
         write_into_db(info->parent_struct.name, g_dbus_interface_skeleton_get_info(G_DBUS_INTERFACE_SKELETON (skeleton))->name, value); 
-      g_object_notify_by_pspec (object, pspec);
+      if (info->after_changed_call != NULL) {
+        info->after_changed_call((gpointer)&value->data[0]);
+      }
     }
   g_mutex_unlock (&skeleton->priv->lock);
   g_object_thaw_notify (object);

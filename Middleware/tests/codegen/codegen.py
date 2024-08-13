@@ -85,6 +85,7 @@ class HeaderCodeGenerator:
         self.outfile.write("\n")
         self.outfile.write("#include <gio/gio.h>\n")
         self.outfile.write("\n")
+        self.outfile.write('#include "service.h"\n')
         self.outfile.write("G_BEGIN_DECLS\n")
         self.outfile.write("\n")
 
@@ -369,6 +370,17 @@ class HeaderCodeGenerator:
                         "void %s_set_%s (%s *object, %svalue);\n"
                         % (i.name_lower, p.name_lower, i.camel_name, p.arg.ctype_in)
                     )
+                    # set before call back
+                    self.outfile.write(
+                        "void %s_server_set_%s_before_change_callback (server_property_before_change_callback call);\n"
+                        % (i.name_lower, p.name_lower)
+                    )
+                    # set after call back
+                    self.outfile.write(
+                        "void %s_server_set_%s_after_changed_callback (server_property_after_changed_callback call);\n"
+                        % (i.name_lower, p.name_lower)
+                    )
+                
                     self.outfile.write("\n")
 
             # Then the proxy
@@ -1495,6 +1507,8 @@ class CodeGenerator:
             "{\n"
             "  GDBusPropertyInfo parent_struct;\n"
             "  const gchar *hyphen_name;\n"
+            "  server_property_before_change_callback before_change_call;\n"
+            "  server_property_after_changed_callback after_changed_call;\n"
             "  guint use_gvariant : 1;\n"
             "  guint emits_changed_signal : 1;\n"
             "  guint is_need_persistence : 1;\n"
@@ -1883,7 +1897,7 @@ class CodeGenerator:
                     p.annotations,
                 )
                 self.outfile.write(
-                    "static const _ExtendedGDBusPropertyInfo _%s_property_info_%s =\n"
+                    "static _ExtendedGDBusPropertyInfo _%s_property_info_%s =\n"
                     "{\n"
                     "  {\n"
                     "    -1,\n"
@@ -1900,6 +1914,8 @@ class CodeGenerator:
                         % (i.name_lower, p.name_lower)
                     )
                 self.outfile.write("  },\n" '  "%s",\n' % (p.name_hyphen))
+                self.outfile.write("  NULL,\n")
+                self.outfile.write("  NULL,\n")
                 if not utils.lookup_annotation(
                     p.annotations, "org.gtk.GDBus.C.ForceGVariant"
                 ):
@@ -2492,6 +2508,31 @@ class CodeGenerator:
             )
             self.outfile.write("}\n")
             self.outfile.write("\n")
+            # set before call back
+            self.outfile.write(
+                "void\n"
+                "%s_server_set_%s_before_change_callback (server_property_before_change_callback call)\n"
+                "{\n" % (i.name_lower, p.name_lower)
+            )
+            self.outfile.write(
+                " _%s_property_info_%s.before_change_call = call;\n" 
+                "}\n"
+                "\n"
+                % (i.name_lower, p.name_lower)
+            )
+
+            # set after call back
+            self.outfile.write(
+                "void\n"
+                "%s_server_set_%s_after_changed_callback (server_property_after_changed_callback call)\n"
+                "{\n" % (i.name_lower, p.name_lower)
+            )
+            self.outfile.write(
+                " _%s_property_info_%s.after_changed_call = call;\n" 
+                "}\n"
+                "\n"
+                % (i.name_lower, p.name_lower)
+            )
 
     # ---------------------------------------------------------------------------------------------------
 
@@ -4128,6 +4169,10 @@ class CodeGenerator:
                 "  %sSkeleton *skeleton = %s%s_SKELETON (object);\n"
                 "  g_assert (prop_id != 0 && prop_id - 1 < %d);\n"
                 "  info = (const _ExtendedGDBusPropertyInfo *) _%s_property_info_pointers[prop_id - 1];\n"
+                "  if (info->before_change_call != NULL) {\n"
+                "    if(info->before_change_call((gpointer)&value->data[0]) == false)\n"
+                "      return;\n"
+                " }\n"
                 "  g_mutex_lock (&skeleton->priv->lock);\n"
                 "  g_object_freeze_notify (object);\n"
                 "  if (!_g_value_equal (value, &skeleton->priv->properties[prop_id - 1]))\n"
@@ -4138,7 +4183,9 @@ class CodeGenerator:
                 "      g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);\n"
                 "      if (info->is_need_persistence == 1) \n"
                 "        write_into_db(info->parent_struct.name, g_dbus_interface_skeleton_get_info(G_DBUS_INTERFACE_SKELETON (skeleton))->name, value); \n"
-                "      g_object_notify_by_pspec (object, pspec);\n"
+                "      if (info->after_changed_call != NULL) {\n"
+                "        info->after_changed_call((gpointer)&value->data[0]);\n"
+                "      }\n"
                 "    }\n"
                 "  g_mutex_unlock (&skeleton->priv->lock);\n"
                 "  g_object_thaw_notify (object);\n"

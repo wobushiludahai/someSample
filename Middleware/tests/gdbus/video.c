@@ -39,6 +39,8 @@ typedef struct
 {
   GDBusPropertyInfo parent_struct;
   const gchar *hyphen_name;
+  server_property_before_change_callback before_change_call;
+  server_property_after_changed_callback after_changed_call;
   guint use_gvariant : 1;
   guint emits_changed_signal : 1;
   guint is_need_persistence : 1;
@@ -534,7 +536,7 @@ static const GDBusSignalInfo * const _video_signal_info_pointers[] =
   NULL
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_str_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_str_property =
 {
   {
     -1,
@@ -544,12 +546,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_str_property =
     NULL
   },
   "StrProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_str_property1 =
+static _ExtendedGDBusPropertyInfo _video_property_info_str_property1 =
 {
   {
     -1,
@@ -559,12 +563,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_str_property1 =
     NULL
   },
   "StrProperty1",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_byte_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_byte_property =
 {
   {
     -1,
@@ -574,12 +580,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_byte_property =
     NULL
   },
   "ByteProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_bool_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_bool_property =
 {
   {
     -1,
@@ -589,12 +597,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_bool_property =
     NULL
   },
   "BoolProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_int16_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_int16_property =
 {
   {
     -1,
@@ -604,12 +614,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_int16_property =
     NULL
   },
   "Int16Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_uint16_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_uint16_property =
 {
   {
     -1,
@@ -619,12 +631,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint16_property =
     NULL
   },
   "Uint16Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_int32_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_int32_property =
 {
   {
     -1,
@@ -634,12 +648,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_int32_property =
     NULL
   },
   "Int32Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_uint32_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_uint32_property =
 {
   {
     -1,
@@ -649,12 +665,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint32_property =
     NULL
   },
   "Uint32Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_int64_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_int64_property =
 {
   {
     -1,
@@ -664,12 +682,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_int64_property =
     NULL
   },
   "Int64Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_uint64_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_uint64_property =
 {
   {
     -1,
@@ -679,27 +699,31 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_uint64_property =
     NULL
   },
   "Uint64Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_double_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_double_property =
 {
   {
     -1,
     (gchar *) "DoubleProperty",
     (gchar *) "d",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
+    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
     NULL
   },
   "DoubleProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   TRUE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_array_str_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_array_str_property =
 {
   {
     -1,
@@ -709,12 +733,14 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_array_str_property 
     NULL
   },
   "ArrayStrProperty",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _video_property_info_array_uint32_property =
+static _ExtendedGDBusPropertyInfo _video_property_info_array_uint32_property =
 {
   {
     -1,
@@ -724,6 +750,8 @@ static const _ExtendedGDBusPropertyInfo _video_property_info_array_uint32_proper
     NULL
   },
   "ArrayUint32Property",
+  NULL,
+  NULL,
   FALSE,
   TRUE,
   FALSE
@@ -1163,7 +1191,7 @@ video_default_init (VideoIface *iface)
    *
    * Represents the D-Bus property <link linkend="gdbus-property-com-example-video.DoubleProperty">"DoubleProperty"</link>.
    *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
+   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
    */
   g_object_interface_install_property (iface,
     g_param_spec_double ("DoubleProperty", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
@@ -1240,6 +1268,18 @@ video_set_str_property (Video *object, const gchar *value)
   g_object_set (G_OBJECT (object), "StrProperty", value, NULL);
 }
 
+void
+video_server_set_str_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_str_property.before_change_call = call;
+}
+
+void
+video_server_set_str_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_str_property.after_changed_call = call;
+}
+
 /**
  * video_get_str_property1: (skip)
  * @object: A #Video.
@@ -1293,6 +1333,18 @@ video_set_str_property1 (Video *object, const gchar *value)
   g_object_set (G_OBJECT (object), "StrProperty1", value, NULL);
 }
 
+void
+video_server_set_str_property1_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_str_property1.before_change_call = call;
+}
+
+void
+video_server_set_str_property1_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_str_property1.after_changed_call = call;
+}
+
 /**
  * video_get_byte_property: (skip)
  * @object: A #Video.
@@ -1324,6 +1376,18 @@ void
 video_set_byte_property (Video *object, guchar value)
 {
   g_object_set (G_OBJECT (object), "ByteProperty", value, NULL);
+}
+
+void
+video_server_set_byte_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_byte_property.before_change_call = call;
+}
+
+void
+video_server_set_byte_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_byte_property.after_changed_call = call;
 }
 
 /**
@@ -1359,6 +1423,18 @@ video_set_bool_property (Video *object, gboolean value)
   g_object_set (G_OBJECT (object), "BoolProperty", value, NULL);
 }
 
+void
+video_server_set_bool_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_bool_property.before_change_call = call;
+}
+
+void
+video_server_set_bool_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_bool_property.after_changed_call = call;
+}
+
 /**
  * video_get_int16_property: (skip)
  * @object: A #Video.
@@ -1390,6 +1466,18 @@ void
 video_set_int16_property (Video *object, gint16 value)
 {
   g_object_set (G_OBJECT (object), "Int16Property", value, NULL);
+}
+
+void
+video_server_set_int16_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_int16_property.before_change_call = call;
+}
+
+void
+video_server_set_int16_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_int16_property.after_changed_call = call;
 }
 
 /**
@@ -1425,6 +1513,18 @@ video_set_uint16_property (Video *object, guint16 value)
   g_object_set (G_OBJECT (object), "Uint16Property", value, NULL);
 }
 
+void
+video_server_set_uint16_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_uint16_property.before_change_call = call;
+}
+
+void
+video_server_set_uint16_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_uint16_property.after_changed_call = call;
+}
+
 /**
  * video_get_int32_property: (skip)
  * @object: A #Video.
@@ -1456,6 +1556,18 @@ void
 video_set_int32_property (Video *object, gint value)
 {
   g_object_set (G_OBJECT (object), "Int32Property", value, NULL);
+}
+
+void
+video_server_set_int32_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_int32_property.before_change_call = call;
+}
+
+void
+video_server_set_int32_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_int32_property.after_changed_call = call;
 }
 
 /**
@@ -1491,6 +1603,18 @@ video_set_uint32_property (Video *object, guint value)
   g_object_set (G_OBJECT (object), "Uint32Property", value, NULL);
 }
 
+void
+video_server_set_uint32_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_uint32_property.before_change_call = call;
+}
+
+void
+video_server_set_uint32_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_uint32_property.after_changed_call = call;
+}
+
 /**
  * video_get_int64_property: (skip)
  * @object: A #Video.
@@ -1522,6 +1646,18 @@ void
 video_set_int64_property (Video *object, gint64 value)
 {
   g_object_set (G_OBJECT (object), "Int64Property", value, NULL);
+}
+
+void
+video_server_set_int64_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_int64_property.before_change_call = call;
+}
+
+void
+video_server_set_int64_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_int64_property.after_changed_call = call;
 }
 
 /**
@@ -1557,13 +1693,25 @@ video_set_uint64_property (Video *object, guint64 value)
   g_object_set (G_OBJECT (object), "Uint64Property", value, NULL);
 }
 
+void
+video_server_set_uint64_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_uint64_property.before_change_call = call;
+}
+
+void
+video_server_set_uint64_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_uint64_property.after_changed_call = call;
+}
+
 /**
  * video_get_double_property: (skip)
  * @object: A #Video.
  *
  * Gets the value of the <link linkend="gdbus-property-com-example-video.DoubleProperty">"DoubleProperty"</link> D-Bus property.
  *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: The property value.
  */
@@ -1582,12 +1730,24 @@ video_get_double_property (Video *object)
  *
  * Sets the <link linkend="gdbus-property-com-example-video.DoubleProperty">"DoubleProperty"</link> D-Bus property to @value.
  *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
+ * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
  */
 void
 video_set_double_property (Video *object, gdouble value)
 {
   g_object_set (G_OBJECT (object), "DoubleProperty", value, NULL);
+}
+
+void
+video_server_set_double_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_double_property.before_change_call = call;
+}
+
+void
+video_server_set_double_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_double_property.after_changed_call = call;
 }
 
 /**
@@ -1643,6 +1803,18 @@ video_set_array_str_property (Video *object, const gchar *const *value)
   g_object_set (G_OBJECT (object), "ArrayStrProperty", value, NULL);
 }
 
+void
+video_server_set_array_str_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_array_str_property.before_change_call = call;
+}
+
+void
+video_server_set_array_str_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_array_str_property.after_changed_call = call;
+}
+
 /**
  * video_get_array_uint32_property: (skip)
  * @object: A #Video.
@@ -1694,6 +1866,18 @@ void
 video_set_array_uint32_property (Video *object, GVariant *value)
 {
   g_object_set (G_OBJECT (object), "ArrayUint32Property", value, NULL);
+}
+
+void
+video_server_set_array_uint32_property_before_change_callback (server_property_before_change_callback call)
+{
+ _video_property_info_array_uint32_property.before_change_call = call;
+}
+
+void
+video_server_set_array_uint32_property_after_changed_callback (server_property_after_changed_callback call)
+{
+ _video_property_info_array_uint32_property.after_changed_call = call;
 }
 
 /**
@@ -3730,6 +3914,10 @@ video_skeleton_set_property (GObject      *object,
   VideoSkeleton *skeleton = VIDEO_SKELETON (object);
   g_assert (prop_id != 0 && prop_id - 1 < 13);
   info = (const _ExtendedGDBusPropertyInfo *) _video_property_info_pointers[prop_id - 1];
+  if (info->before_change_call != NULL) {
+    if(info->before_change_call((gpointer)&value->data[0]) == false)
+      return;
+ }
   g_mutex_lock (&skeleton->priv->lock);
   g_object_freeze_notify (object);
   if (!_g_value_equal (value, &skeleton->priv->properties[prop_id - 1]))
@@ -3740,7 +3928,9 @@ video_skeleton_set_property (GObject      *object,
       g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);
       if (info->is_need_persistence == 1) 
         write_into_db(info->parent_struct.name, g_dbus_interface_skeleton_get_info(G_DBUS_INTERFACE_SKELETON (skeleton))->name, value); 
-      g_object_notify_by_pspec (object, pspec);
+      if (info->after_changed_call != NULL) {
+        info->after_changed_call((gpointer)&value->data[0]);
+      }
     }
   g_mutex_unlock (&skeleton->priv->lock);
   g_object_thaw_notify (object);
@@ -4034,3700 +4224,5 @@ Video *
 video_skeleton_new (void)
 {
   return VIDEO (g_object_new (TYPE_VIDEO_SKELETON, NULL));
-}
-
-/* ------------------------------------------------------------------------
- * Code for interface com.example.video2
- * ------------------------------------------------------------------------
- */
-
-/**
- * SECTION:Video2
- * @title: Video2
- * @short_description: Generated C code for the com.example.video2 D-Bus interface
- *
- * This section contains code for working with the <link linkend="gdbus-interface-com-example-video2.top_of_page">com.example.video2</link> D-Bus interface in C.
- */
-
-/* ---- Introspection data for com.example.video2 ---- */
-
-static const _ExtendedGDBusArgInfo _video2_method_info_start_video_IN_ARG_in_arg1 =
-{
-  {
-    -1,
-    (gchar *) "in_arg1",
-    (gchar *) "s",
-    NULL
-  },
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_start_video_IN_ARG_in_arg2 =
-{
-  {
-    -1,
-    (gchar *) "in_arg2",
-    (gchar *) "i",
-    NULL
-  },
-  FALSE
-};
-
-static const GDBusArgInfo * const _video2_method_info_start_video_IN_ARG_pointers[] =
-{
-  &_video2_method_info_start_video_IN_ARG_in_arg1.parent_struct,
-  &_video2_method_info_start_video_IN_ARG_in_arg2.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_start_video_OUT_ARG_out_arg1 =
-{
-  {
-    -1,
-    (gchar *) "out_arg1",
-    (gchar *) "s",
-    NULL
-  },
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_start_video_OUT_ARG_out_arg2 =
-{
-  {
-    -1,
-    (gchar *) "out_arg2",
-    (gchar *) "i",
-    NULL
-  },
-  FALSE
-};
-
-static const GDBusArgInfo * const _video2_method_info_start_video_OUT_ARG_pointers[] =
-{
-  &_video2_method_info_start_video_OUT_ARG_out_arg1.parent_struct,
-  &_video2_method_info_start_video_OUT_ARG_out_arg2.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusMethodInfo _video2_method_info_start_video =
-{
-  {
-    -1,
-    (gchar *) "StartVideo",
-    (GDBusArgInfo **) &_video2_method_info_start_video_IN_ARG_pointers,
-    (GDBusArgInfo **) &_video2_method_info_start_video_OUT_ARG_pointers,
-    NULL
-  },
-  "StartVideo",
-  FALSE
-};
-
-static const _ExtendedGDBusMethodInfo _video2_method_info_stop_video =
-{
-  {
-    -1,
-    (gchar *) "StopVideo",
-    NULL,
-    NULL,
-    NULL
-  },
-  "StopVideo",
-  FALSE
-};
-
-static const _ExtendedGDBusMethodInfo _video2_method_info_pause_video =
-{
-  {
-    -1,
-    (gchar *) "PauseVideo",
-    NULL,
-    NULL,
-    NULL
-  },
-  "PauseVideo",
-  FALSE
-};
-
-static const _ExtendedGDBusMethodInfo _video2_method_info_resume_video =
-{
-  {
-    -1,
-    (gchar *) "ResumeVideo",
-    NULL,
-    NULL,
-    NULL
-  },
-  "ResumeVideo",
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_get_video_status_OUT_ARG_status =
-{
-  {
-    -1,
-    (gchar *) "status",
-    (gchar *) "y",
-    NULL
-  },
-  FALSE
-};
-
-static const GDBusArgInfo * const _video2_method_info_get_video_status_OUT_ARG_pointers[] =
-{
-  &_video2_method_info_get_video_status_OUT_ARG_status.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusMethodInfo _video2_method_info_get_video_status =
-{
-  {
-    -1,
-    (gchar *) "GetVideoStatus",
-    NULL,
-    (GDBusArgInfo **) &_video2_method_info_get_video_status_OUT_ARG_pointers,
-    NULL
-  },
-  "GetVideoStatus",
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_set_video_status_IN_ARG_status =
-{
-  {
-    -1,
-    (gchar *) "status",
-    (gchar *) "y",
-    NULL
-  },
-  FALSE
-};
-
-static const GDBusArgInfo * const _video2_method_info_set_video_status_IN_ARG_pointers[] =
-{
-  &_video2_method_info_set_video_status_IN_ARG_status.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusMethodInfo _video2_method_info_set_video_status =
-{
-  {
-    -1,
-    (gchar *) "SetVideoStatus",
-    (GDBusArgInfo **) &_video2_method_info_set_video_status_IN_ARG_pointers,
-    NULL,
-    NULL
-  },
-  "SetVideoStatus",
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_get_video_info_OUT_ARG_name =
-{
-  {
-    -1,
-    (gchar *) "name",
-    (gchar *) "s",
-    NULL
-  },
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_get_video_info_OUT_ARG_frame =
-{
-  {
-    -1,
-    (gchar *) "frame",
-    (gchar *) "u",
-    NULL
-  },
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_get_video_info_OUT_ARG_format =
-{
-  {
-    -1,
-    (gchar *) "format",
-    (gchar *) "s",
-    NULL
-  },
-  FALSE
-};
-
-static const GDBusArgInfo * const _video2_method_info_get_video_info_OUT_ARG_pointers[] =
-{
-  &_video2_method_info_get_video_info_OUT_ARG_name.parent_struct,
-  &_video2_method_info_get_video_info_OUT_ARG_frame.parent_struct,
-  &_video2_method_info_get_video_info_OUT_ARG_format.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusMethodInfo _video2_method_info_get_video_info =
-{
-  {
-    -1,
-    (gchar *) "GetVideoInfo",
-    NULL,
-    (GDBusArgInfo **) &_video2_method_info_get_video_info_OUT_ARG_pointers,
-    NULL
-  },
-  "GetVideoInfo",
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_share_video_IN_ARG_path =
-{
-  {
-    -1,
-    (gchar *) "path",
-    (gchar *) "s",
-    NULL
-  },
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _video2_method_info_share_video_IN_ARG_time =
-{
-  {
-    -1,
-    (gchar *) "time",
-    (gchar *) "u",
-    NULL
-  },
-  FALSE
-};
-
-static const GDBusArgInfo * const _video2_method_info_share_video_IN_ARG_pointers[] =
-{
-  &_video2_method_info_share_video_IN_ARG_path.parent_struct,
-  &_video2_method_info_share_video_IN_ARG_time.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusMethodInfo _video2_method_info_share_video =
-{
-  {
-    -1,
-    (gchar *) "ShareVideo",
-    (GDBusArgInfo **) &_video2_method_info_share_video_IN_ARG_pointers,
-    NULL,
-    NULL
-  },
-  "ShareVideo",
-  FALSE
-};
-
-static const GDBusMethodInfo * const _video2_method_info_pointers[] =
-{
-  &_video2_method_info_start_video.parent_struct,
-  &_video2_method_info_stop_video.parent_struct,
-  &_video2_method_info_pause_video.parent_struct,
-  &_video2_method_info_resume_video.parent_struct,
-  &_video2_method_info_get_video_status.parent_struct,
-  &_video2_method_info_set_video_status.parent_struct,
-  &_video2_method_info_get_video_info.parent_struct,
-  &_video2_method_info_share_video.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusArgInfo _video2_signal_info_record_start_ARG_time =
-{
-  {
-    -1,
-    (gchar *) "time",
-    (gchar *) "u",
-    NULL
-  },
-  FALSE
-};
-
-static const GDBusArgInfo * const _video2_signal_info_record_start_ARG_pointers[] =
-{
-  &_video2_signal_info_record_start_ARG_time.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusSignalInfo _video2_signal_info_record_start =
-{
-  {
-    -1,
-    (gchar *) "RecordStart",
-    (GDBusArgInfo **) &_video2_signal_info_record_start_ARG_pointers,
-    NULL
-  },
-  "RecordStart"
-};
-
-static const _ExtendedGDBusSignalInfo _video2_signal_info_record_stop =
-{
-  {
-    -1,
-    (gchar *) "RecordStop",
-    NULL,
-    NULL
-  },
-  "RecordStop"
-};
-
-static const GDBusSignalInfo * const _video2_signal_info_pointers[] =
-{
-  &_video2_signal_info_record_start.parent_struct,
-  &_video2_signal_info_record_stop.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_str_property =
-{
-  {
-    -1,
-    (gchar *) "StrProperty",
-    (gchar *) "s",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
-    NULL
-  },
-  "StrProperty",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_byte_property =
-{
-  {
-    -1,
-    (gchar *) "ByteProperty",
-    (gchar *) "y",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
-    NULL
-  },
-  "ByteProperty",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_bool_property =
-{
-  {
-    -1,
-    (gchar *) "BoolProperty",
-    (gchar *) "b",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
-    NULL
-  },
-  "BoolProperty",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_int16_property =
-{
-  {
-    -1,
-    (gchar *) "Int16Property",
-    (gchar *) "n",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
-    NULL
-  },
-  "Int16Property",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_uint16_property =
-{
-  {
-    -1,
-    (gchar *) "Uint16Property",
-    (gchar *) "q",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
-    NULL
-  },
-  "Uint16Property",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_int32_property =
-{
-  {
-    -1,
-    (gchar *) "Int32Property",
-    (gchar *) "i",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
-    NULL
-  },
-  "Int32Property",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_uint32_property =
-{
-  {
-    -1,
-    (gchar *) "Uint32Property",
-    (gchar *) "u",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
-    NULL
-  },
-  "Uint32Property",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_int64_property =
-{
-  {
-    -1,
-    (gchar *) "Int64Property",
-    (gchar *) "x",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
-    NULL
-  },
-  "Int64Property",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_uint64_property =
-{
-  {
-    -1,
-    (gchar *) "Uint64Property",
-    (gchar *) "t",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
-    NULL
-  },
-  "Uint64Property",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_double_property =
-{
-  {
-    -1,
-    (gchar *) "DoubleProperty",
-    (gchar *) "d",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
-    NULL
-  },
-  "DoubleProperty",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_array_str_property =
-{
-  {
-    -1,
-    (gchar *) "ArrayStrProperty",
-    (gchar *) "as",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
-    NULL
-  },
-  "ArrayStrProperty",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _video2_property_info_array_uint32_property =
-{
-  {
-    -1,
-    (gchar *) "ArrayUint32Property",
-    (gchar *) "au",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE | G_DBUS_PROPERTY_INFO_FLAGS_WRITABLE,
-    NULL
-  },
-  "ArrayUint32Property",
-  FALSE,
-  TRUE,
-  FALSE
-};
-
-static const GDBusPropertyInfo * const _video2_property_info_pointers[] =
-{
-  &_video2_property_info_str_property.parent_struct,
-  &_video2_property_info_byte_property.parent_struct,
-  &_video2_property_info_bool_property.parent_struct,
-  &_video2_property_info_int16_property.parent_struct,
-  &_video2_property_info_uint16_property.parent_struct,
-  &_video2_property_info_int32_property.parent_struct,
-  &_video2_property_info_uint32_property.parent_struct,
-  &_video2_property_info_int64_property.parent_struct,
-  &_video2_property_info_uint64_property.parent_struct,
-  &_video2_property_info_double_property.parent_struct,
-  &_video2_property_info_array_str_property.parent_struct,
-  &_video2_property_info_array_uint32_property.parent_struct,
-  NULL
-};
-
-static const _ExtendedGDBusInterfaceInfo _video2_interface_info =
-{
-  {
-    -1,
-    (gchar *) "com.example.video2",
-    (GDBusMethodInfo **) &_video2_method_info_pointers,
-    (GDBusSignalInfo **) &_video2_signal_info_pointers,
-    (GDBusPropertyInfo **) &_video2_property_info_pointers,
-    NULL
-  },
-  "video2",
-};
-
-
-/**
- * video2_interface_info:
- *
- * Gets a machine-readable description of the <link linkend="gdbus-interface-com-example-video2.top_of_page">com.example.video2</link> D-Bus interface.
- *
- * Returns: (transfer none): A #GDBusInterfaceInfo. Do not free.
- */
-GDBusInterfaceInfo *
-video2_interface_info (void)
-{
-  return (GDBusInterfaceInfo *) &_video2_interface_info.parent_struct;
-}
-
-/**
- * video2_override_properties:
- * @klass: The class structure for a #GObject derived class.
- * @property_id_begin: The property id to assign to the first overridden property.
- *
- * Overrides all #GObject properties in the #Video2 interface for a concrete class.
- * The properties are overridden in the order they are defined.
- *
- * Returns: The last property id.
- */
-guint
-video2_override_properties (GObjectClass *klass, guint property_id_begin)
-{
-  g_object_class_override_property (klass, property_id_begin++, "StrProperty");
-  g_object_class_override_property (klass, property_id_begin++, "ByteProperty");
-  g_object_class_override_property (klass, property_id_begin++, "BoolProperty");
-  g_object_class_override_property (klass, property_id_begin++, "Int16Property");
-  g_object_class_override_property (klass, property_id_begin++, "Uint16Property");
-  g_object_class_override_property (klass, property_id_begin++, "Int32Property");
-  g_object_class_override_property (klass, property_id_begin++, "Uint32Property");
-  g_object_class_override_property (klass, property_id_begin++, "Int64Property");
-  g_object_class_override_property (klass, property_id_begin++, "Uint64Property");
-  g_object_class_override_property (klass, property_id_begin++, "DoubleProperty");
-  g_object_class_override_property (klass, property_id_begin++, "ArrayStrProperty");
-  g_object_class_override_property (klass, property_id_begin++, "ArrayUint32Property");
-  return property_id_begin - 1;
-}
-
-
-
-/**
- * Video2:
- *
- * Abstract interface type for the D-Bus interface <link linkend="gdbus-interface-com-example-video2.top_of_page">com.example.video2</link>.
- */
-
-/**
- * Video2Iface:
- * @parent_iface: The parent interface.
- * @handle_get_video_info: Handler for the #Video2::GetVideoInfo signal.
- * @handle_get_video_status: Handler for the #Video2::GetVideoStatus signal.
- * @handle_pause_video: Handler for the #Video2::PauseVideo signal.
- * @handle_resume_video: Handler for the #Video2::ResumeVideo signal.
- * @handle_set_video_status: Handler for the #Video2::SetVideoStatus signal.
- * @handle_share_video: Handler for the #Video2::ShareVideo signal.
- * @handle_start_video: Handler for the #Video2::StartVideo signal.
- * @handle_stop_video: Handler for the #Video2::StopVideo signal.
- * @get_array_str_property: Getter for the #Video2:ArrayStrProperty property.
- * @get_array_uint32_property: Getter for the #Video2:ArrayUint32Property property.
- * @get_bool_property: Getter for the #Video2:BoolProperty property.
- * @get_byte_property: Getter for the #Video2:ByteProperty property.
- * @get_double_property: Getter for the #Video2:DoubleProperty property.
- * @get_int16_property: Getter for the #Video2:Int16Property property.
- * @get_int32_property: Getter for the #Video2:Int32Property property.
- * @get_int64_property: Getter for the #Video2:Int64Property property.
- * @get_str_property: Getter for the #Video2:StrProperty property.
- * @get_uint16_property: Getter for the #Video2:Uint16Property property.
- * @get_uint32_property: Getter for the #Video2:Uint32Property property.
- * @get_uint64_property: Getter for the #Video2:Uint64Property property.
- * @record_start: Handler for the #Video2::RecordStart signal.
- * @record_stop: Handler for the #Video2::RecordStop signal.
- *
- * Virtual table for the D-Bus interface <link linkend="gdbus-interface-com-example-video2.top_of_page">com.example.video2</link>.
- */
-
-typedef Video2Iface Video2Interface;
-G_DEFINE_INTERFACE (Video2, video2, G_TYPE_OBJECT)
-
-static void
-video2_default_init (Video2Iface *iface)
-{
-  /* GObject signals for incoming D-Bus method calls: */
-  /**
-   * Video2::StartVideo:
-   * @object: A #Video2.
-   * @invocation: A #GDBusMethodInvocation.
-   * @arg_in_arg1: Argument passed by remote caller.
-   * @arg_in_arg2: Argument passed by remote caller.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-video2.StartVideo">StartVideo()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call video2_complete_start_video() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("StartVideo",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, handle_start_video),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    3,
-    G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING, G_TYPE_INT);
-
-  /**
-   * Video2::StopVideo:
-   * @object: A #Video2.
-   * @invocation: A #GDBusMethodInvocation.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-video2.StopVideo">StopVideo()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call video2_complete_stop_video() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("StopVideo",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, handle_stop_video),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    1,
-    G_TYPE_DBUS_METHOD_INVOCATION);
-
-  /**
-   * Video2::PauseVideo:
-   * @object: A #Video2.
-   * @invocation: A #GDBusMethodInvocation.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-video2.PauseVideo">PauseVideo()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call video2_complete_pause_video() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("PauseVideo",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, handle_pause_video),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    1,
-    G_TYPE_DBUS_METHOD_INVOCATION);
-
-  /**
-   * Video2::ResumeVideo:
-   * @object: A #Video2.
-   * @invocation: A #GDBusMethodInvocation.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-video2.ResumeVideo">ResumeVideo()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call video2_complete_resume_video() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("ResumeVideo",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, handle_resume_video),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    1,
-    G_TYPE_DBUS_METHOD_INVOCATION);
-
-  /**
-   * Video2::GetVideoStatus:
-   * @object: A #Video2.
-   * @invocation: A #GDBusMethodInvocation.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-video2.GetVideoStatus">GetVideoStatus()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call video2_complete_get_video_status() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("GetVideoStatus",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, handle_get_video_status),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    1,
-    G_TYPE_DBUS_METHOD_INVOCATION);
-
-  /**
-   * Video2::SetVideoStatus:
-   * @object: A #Video2.
-   * @invocation: A #GDBusMethodInvocation.
-   * @arg_status: Argument passed by remote caller.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-video2.SetVideoStatus">SetVideoStatus()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call video2_complete_set_video_status() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("SetVideoStatus",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, handle_set_video_status),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    2,
-    G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_UCHAR);
-
-  /**
-   * Video2::GetVideoInfo:
-   * @object: A #Video2.
-   * @invocation: A #GDBusMethodInvocation.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-video2.GetVideoInfo">GetVideoInfo()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call video2_complete_get_video_info() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("GetVideoInfo",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, handle_get_video_info),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    1,
-    G_TYPE_DBUS_METHOD_INVOCATION);
-
-  /**
-   * Video2::ShareVideo:
-   * @object: A #Video2.
-   * @invocation: A #GDBusMethodInvocation.
-   * @arg_path: Argument passed by remote caller.
-   * @arg_time: Argument passed by remote caller.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-com-example-video2.ShareVideo">ShareVideo()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call video2_complete_share_video() or e.g. g_dbus_method_invocation_return_error() on it) and no other signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %G_DBUS_METHOD_INVOCATION_HANDLED or %TRUE if the invocation was handled, %G_DBUS_METHOD_INVOCATION_UNHANDLED or %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("ShareVideo",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, handle_share_video),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    3,
-    G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING, G_TYPE_UINT);
-
-  /* GObject signals for received D-Bus signals: */
-  /**
-   * Video2::RecordStart:
-   * @object: A #Video2.
-   * @arg_time: Argument.
-   *
-   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-video2.RecordStart">"RecordStart"</link> is received.
-   *
-   * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
-   */
-  g_signal_new ("RecordStart",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, record_start),
-    NULL,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_NONE,
-    1, G_TYPE_UINT);
-
-  /**
-   * Video2::RecordStop:
-   * @object: A #Video2.
-   *
-   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-example-video2.RecordStop">"RecordStop"</link> is received.
-   *
-   * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
-   */
-  g_signal_new ("RecordStop",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (Video2Iface, record_stop),
-    NULL,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_NONE,
-    0);
-
-  /* GObject properties for D-Bus properties: */
-  /**
-   * Video2:StrProperty:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.StrProperty">"StrProperty"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_string ("StrProperty", "StrProperty", "StrProperty", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:ByteProperty:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.ByteProperty">"ByteProperty"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_uchar ("ByteProperty", "ByteProperty", "ByteProperty", 0, 255, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:BoolProperty:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.BoolProperty">"BoolProperty"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_boolean ("BoolProperty", "BoolProperty", "BoolProperty", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:Int16Property:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Int16Property">"Int16Property"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_int ("Int16Property", "Int16Property", "Int16Property", G_MININT16, G_MAXINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:Uint16Property:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Uint16Property">"Uint16Property"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_uint ("Uint16Property", "Uint16Property", "Uint16Property", 0, G_MAXUINT16, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:Int32Property:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Int32Property">"Int32Property"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_int ("Int32Property", "Int32Property", "Int32Property", G_MININT32, G_MAXINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:Uint32Property:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Uint32Property">"Uint32Property"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_uint ("Uint32Property", "Uint32Property", "Uint32Property", 0, G_MAXUINT32, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:Int64Property:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Int64Property">"Int64Property"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_int64 ("Int64Property", "Int64Property", "Int64Property", G_MININT64, G_MAXINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:Uint64Property:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.Uint64Property">"Uint64Property"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_uint64 ("Uint64Property", "Uint64Property", "Uint64Property", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:DoubleProperty:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.DoubleProperty">"DoubleProperty"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_double ("DoubleProperty", "DoubleProperty", "DoubleProperty", -G_MAXDOUBLE, G_MAXDOUBLE, 0.0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:ArrayStrProperty:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.ArrayStrProperty">"ArrayStrProperty"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_boxed ("ArrayStrProperty", "ArrayStrProperty", "ArrayStrProperty", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * Video2:ArrayUint32Property:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-com-example-video2.ArrayUint32Property">"ArrayUint32Property"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is both readable and writable, it is meaningful to both read from it and write to it on both the service- and client-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_variant ("ArrayUint32Property", "ArrayUint32Property", "ArrayUint32Property", G_VARIANT_TYPE ("au"), NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-}
-
-/**
- * video2_get_str_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.StrProperty">"StrProperty"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use video2_dup_str_property() if on another thread.
- *
- * Returns: (transfer none) (nullable): The property value or %NULL if the property is not set. Do not free the returned value, it belongs to @object.
- */
-const gchar *
-video2_get_str_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), NULL);
-
-  return VIDEO2_GET_IFACE (object)->get_str_property (object);
-}
-
-/**
- * video2_dup_str_property: (skip)
- * @object: A #Video2.
- *
- * Gets a copy of the <link linkend="gdbus-property-com-example-video2.StrProperty">"StrProperty"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_free().
- */
-gchar *
-video2_dup_str_property (Video2 *object)
-{
-  gchar *value;
-  g_object_get (G_OBJECT (object), "StrProperty", &value, NULL);
-  return value;
-}
-
-/**
- * video2_set_str_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.StrProperty">"StrProperty"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- */
-void
-video2_set_str_property (Video2 *object, const gchar *value)
-{
-  g_object_set (G_OBJECT (object), "StrProperty", value, NULL);
-}
-
-/**
- * video2_get_byte_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.ByteProperty">"ByteProperty"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-guchar 
-video2_get_byte_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), '\0');
-
-  return VIDEO2_GET_IFACE (object)->get_byte_property (object);
-}
-
-/**
- * video2_set_byte_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.ByteProperty">"ByteProperty"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- */
-void
-video2_set_byte_property (Video2 *object, guchar value)
-{
-  g_object_set (G_OBJECT (object), "ByteProperty", value, NULL);
-}
-
-/**
- * video2_get_bool_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.BoolProperty">"BoolProperty"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-gboolean 
-video2_get_bool_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), FALSE);
-
-  return VIDEO2_GET_IFACE (object)->get_bool_property (object);
-}
-
-/**
- * video2_set_bool_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.BoolProperty">"BoolProperty"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- */
-void
-video2_set_bool_property (Video2 *object, gboolean value)
-{
-  g_object_set (G_OBJECT (object), "BoolProperty", value, NULL);
-}
-
-/**
- * video2_get_int16_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.Int16Property">"Int16Property"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-gint16 
-video2_get_int16_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), 0);
-
-  return VIDEO2_GET_IFACE (object)->get_int16_property (object);
-}
-
-/**
- * video2_set_int16_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.Int16Property">"Int16Property"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- */
-void
-video2_set_int16_property (Video2 *object, gint16 value)
-{
-  g_object_set (G_OBJECT (object), "Int16Property", value, NULL);
-}
-
-/**
- * video2_get_uint16_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.Uint16Property">"Uint16Property"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-guint16 
-video2_get_uint16_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), 0);
-
-  return VIDEO2_GET_IFACE (object)->get_uint16_property (object);
-}
-
-/**
- * video2_set_uint16_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.Uint16Property">"Uint16Property"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- */
-void
-video2_set_uint16_property (Video2 *object, guint16 value)
-{
-  g_object_set (G_OBJECT (object), "Uint16Property", value, NULL);
-}
-
-/**
- * video2_get_int32_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.Int32Property">"Int32Property"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-gint 
-video2_get_int32_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), 0);
-
-  return VIDEO2_GET_IFACE (object)->get_int32_property (object);
-}
-
-/**
- * video2_set_int32_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.Int32Property">"Int32Property"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- */
-void
-video2_set_int32_property (Video2 *object, gint value)
-{
-  g_object_set (G_OBJECT (object), "Int32Property", value, NULL);
-}
-
-/**
- * video2_get_uint32_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.Uint32Property">"Uint32Property"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-guint 
-video2_get_uint32_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), 0);
-
-  return VIDEO2_GET_IFACE (object)->get_uint32_property (object);
-}
-
-/**
- * video2_set_uint32_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.Uint32Property">"Uint32Property"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- */
-void
-video2_set_uint32_property (Video2 *object, guint value)
-{
-  g_object_set (G_OBJECT (object), "Uint32Property", value, NULL);
-}
-
-/**
- * video2_get_int64_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.Int64Property">"Int64Property"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-gint64 
-video2_get_int64_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), 0);
-
-  return VIDEO2_GET_IFACE (object)->get_int64_property (object);
-}
-
-/**
- * video2_set_int64_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.Int64Property">"Int64Property"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- */
-void
-video2_set_int64_property (Video2 *object, gint64 value)
-{
-  g_object_set (G_OBJECT (object), "Int64Property", value, NULL);
-}
-
-/**
- * video2_get_uint64_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.Uint64Property">"Uint64Property"</link> D-Bus property.
- *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-guint64 
-video2_get_uint64_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), 0);
-
-  return VIDEO2_GET_IFACE (object)->get_uint64_property (object);
-}
-
-/**
- * video2_set_uint64_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.Uint64Property">"Uint64Property"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
- */
-void
-video2_set_uint64_property (Video2 *object, guint64 value)
-{
-  g_object_set (G_OBJECT (object), "Uint64Property", value, NULL);
-}
-
-/**
- * video2_get_double_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.DoubleProperty">"DoubleProperty"</link> D-Bus property.
- *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-gdouble 
-video2_get_double_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), 0.0);
-
-  return VIDEO2_GET_IFACE (object)->get_double_property (object);
-}
-
-/**
- * video2_set_double_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.DoubleProperty">"DoubleProperty"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
- */
-void
-video2_set_double_property (Video2 *object, gdouble value)
-{
-  g_object_set (G_OBJECT (object), "DoubleProperty", value, NULL);
-}
-
-/**
- * video2_get_array_str_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.ArrayStrProperty">"ArrayStrProperty"</link> D-Bus property.
- *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
- *
- * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use video2_dup_array_str_property() if on another thread.
- *
- * Returns: (transfer none) (nullable): The property value or %NULL if the property is not set. Do not free the returned value, it belongs to @object.
- */
-const gchar *const *
-video2_get_array_str_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), NULL);
-
-  return VIDEO2_GET_IFACE (object)->get_array_str_property (object);
-}
-
-/**
- * video2_dup_array_str_property: (skip)
- * @object: A #Video2.
- *
- * Gets a copy of the <link linkend="gdbus-property-com-example-video2.ArrayStrProperty">"ArrayStrProperty"</link> D-Bus property.
- *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_strfreev().
- */
-gchar **
-video2_dup_array_str_property (Video2 *object)
-{
-  gchar **value;
-  g_object_get (G_OBJECT (object), "ArrayStrProperty", &value, NULL);
-  return value;
-}
-
-/**
- * video2_set_array_str_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.ArrayStrProperty">"ArrayStrProperty"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
- */
-void
-video2_set_array_str_property (Video2 *object, const gchar *const *value)
-{
-  g_object_set (G_OBJECT (object), "ArrayStrProperty", value, NULL);
-}
-
-/**
- * video2_get_array_uint32_property: (skip)
- * @object: A #Video2.
- *
- * Gets the value of the <link linkend="gdbus-property-com-example-video2.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use video2_dup_array_uint32_property() if on another thread.
- *
- * Returns: (transfer none) (nullable): The property value or %NULL if the property is not set. Do not free the returned value, it belongs to @object.
- */
-GVariant *
-video2_get_array_uint32_property (Video2 *object)
-{
-  g_return_val_if_fail (IS_VIDEO2 (object), NULL);
-
-  return VIDEO2_GET_IFACE (object)->get_array_uint32_property (object);
-}
-
-/**
- * video2_dup_array_uint32_property: (skip)
- * @object: A #Video2.
- *
- * Gets a copy of the <link linkend="gdbus-property-com-example-video2.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: (transfer full) (nullable): The property value or %NULL if the property is not set. The returned value should be freed with g_variant_unref().
- */
-GVariant *
-video2_dup_array_uint32_property (Video2 *object)
-{
-  GVariant *value;
-  g_object_get (G_OBJECT (object), "ArrayUint32Property", &value, NULL);
-  return value;
-}
-
-/**
- * video2_set_array_uint32_property: (skip)
- * @object: A #Video2.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-com-example-video2.ArrayUint32Property">"ArrayUint32Property"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is both readable and writable, it is meaningful to use this function on both the client- and service-side.
- */
-void
-video2_set_array_uint32_property (Video2 *object, GVariant *value)
-{
-  g_object_set (G_OBJECT (object), "ArrayUint32Property", value, NULL);
-}
-
-/**
- * video2_emit_record_start:
- * @object: A #Video2.
- * @arg_time: Argument to pass with the signal.
- *
- * Emits the <link linkend="gdbus-signal-com-example-video2.RecordStart">"RecordStart"</link> D-Bus signal.
- */
-void
-video2_emit_record_start (
-    Video2 *object,
-    guint arg_time)
-{
-  g_signal_emit_by_name (object, "RecordStart", arg_time);
-}
-
-/**
- * video2_emit_record_stop:
- * @object: A #Video2.
- *
- * Emits the <link linkend="gdbus-signal-com-example-video2.RecordStop">"RecordStop"</link> D-Bus signal.
- */
-void
-video2_emit_record_stop (
-    Video2 *object)
-{
-  g_signal_emit_by_name (object, "RecordStop");
-}
-
-/**
- * video2_call_start_video:
- * @proxy: A #Video2Proxy.
- * @arg_in_arg1: Argument to pass with the method invocation.
- * @arg_in_arg2: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-com-example-video2.StartVideo">StartVideo()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_call_start_video_finish() to get the result of the operation.
- *
- * See video2_call_start_video_sync() for the synchronous, blocking version of this method.
- */
-void
-video2_call_start_video (
-    Video2 *proxy,
-    const gchar *arg_in_arg1,
-    gint arg_in_arg2,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "StartVideo",
-    g_variant_new ("(si)",
-                   arg_in_arg1,
-                   arg_in_arg2),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * video2_call_start_video_finish:
- * @proxy: A #Video2Proxy.
- * @out_out_arg1: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @out_out_arg2: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_call_start_video().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with video2_call_start_video().
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_start_video_finish (
-    Video2 *proxy,
-    gchar **out_out_arg1,
-    gint *out_out_arg2,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "(si)",
-                 out_out_arg1,
-                 out_out_arg2);
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_start_video_sync:
- * @proxy: A #Video2Proxy.
- * @arg_in_arg1: Argument to pass with the method invocation.
- * @arg_in_arg2: Argument to pass with the method invocation.
- * @out_out_arg1: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @out_out_arg2: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-com-example-video2.StartVideo">StartVideo()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See video2_call_start_video() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_start_video_sync (
-    Video2 *proxy,
-    const gchar *arg_in_arg1,
-    gint arg_in_arg2,
-    gchar **out_out_arg1,
-    gint *out_out_arg2,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "StartVideo",
-    g_variant_new ("(si)",
-                   arg_in_arg1,
-                   arg_in_arg2),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "(si)",
-                 out_out_arg1,
-                 out_out_arg2);
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_stop_video:
- * @proxy: A #Video2Proxy.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-com-example-video2.StopVideo">StopVideo()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_call_stop_video_finish() to get the result of the operation.
- *
- * See video2_call_stop_video_sync() for the synchronous, blocking version of this method.
- */
-void
-video2_call_stop_video (
-    Video2 *proxy,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "StopVideo",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * video2_call_stop_video_finish:
- * @proxy: A #Video2Proxy.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_call_stop_video().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with video2_call_stop_video().
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_stop_video_finish (
-    Video2 *proxy,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_stop_video_sync:
- * @proxy: A #Video2Proxy.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-com-example-video2.StopVideo">StopVideo()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See video2_call_stop_video() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_stop_video_sync (
-    Video2 *proxy,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "StopVideo",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_pause_video:
- * @proxy: A #Video2Proxy.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-com-example-video2.PauseVideo">PauseVideo()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_call_pause_video_finish() to get the result of the operation.
- *
- * See video2_call_pause_video_sync() for the synchronous, blocking version of this method.
- */
-void
-video2_call_pause_video (
-    Video2 *proxy,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "PauseVideo",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * video2_call_pause_video_finish:
- * @proxy: A #Video2Proxy.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_call_pause_video().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with video2_call_pause_video().
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_pause_video_finish (
-    Video2 *proxy,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_pause_video_sync:
- * @proxy: A #Video2Proxy.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-com-example-video2.PauseVideo">PauseVideo()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See video2_call_pause_video() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_pause_video_sync (
-    Video2 *proxy,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "PauseVideo",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_resume_video:
- * @proxy: A #Video2Proxy.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-com-example-video2.ResumeVideo">ResumeVideo()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_call_resume_video_finish() to get the result of the operation.
- *
- * See video2_call_resume_video_sync() for the synchronous, blocking version of this method.
- */
-void
-video2_call_resume_video (
-    Video2 *proxy,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "ResumeVideo",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * video2_call_resume_video_finish:
- * @proxy: A #Video2Proxy.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_call_resume_video().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with video2_call_resume_video().
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_resume_video_finish (
-    Video2 *proxy,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_resume_video_sync:
- * @proxy: A #Video2Proxy.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-com-example-video2.ResumeVideo">ResumeVideo()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See video2_call_resume_video() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_resume_video_sync (
-    Video2 *proxy,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "ResumeVideo",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_get_video_status:
- * @proxy: A #Video2Proxy.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-com-example-video2.GetVideoStatus">GetVideoStatus()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_call_get_video_status_finish() to get the result of the operation.
- *
- * See video2_call_get_video_status_sync() for the synchronous, blocking version of this method.
- */
-void
-video2_call_get_video_status (
-    Video2 *proxy,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "GetVideoStatus",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * video2_call_get_video_status_finish:
- * @proxy: A #Video2Proxy.
- * @out_status: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_call_get_video_status().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with video2_call_get_video_status().
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_get_video_status_finish (
-    Video2 *proxy,
-    guchar *out_status,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "(y)",
-                 out_status);
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_get_video_status_sync:
- * @proxy: A #Video2Proxy.
- * @out_status: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-com-example-video2.GetVideoStatus">GetVideoStatus()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See video2_call_get_video_status() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_get_video_status_sync (
-    Video2 *proxy,
-    guchar *out_status,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "GetVideoStatus",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "(y)",
-                 out_status);
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_set_video_status:
- * @proxy: A #Video2Proxy.
- * @arg_status: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-com-example-video2.SetVideoStatus">SetVideoStatus()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_call_set_video_status_finish() to get the result of the operation.
- *
- * See video2_call_set_video_status_sync() for the synchronous, blocking version of this method.
- */
-void
-video2_call_set_video_status (
-    Video2 *proxy,
-    guchar arg_status,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "SetVideoStatus",
-    g_variant_new ("(y)",
-                   arg_status),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * video2_call_set_video_status_finish:
- * @proxy: A #Video2Proxy.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_call_set_video_status().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with video2_call_set_video_status().
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_set_video_status_finish (
-    Video2 *proxy,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_set_video_status_sync:
- * @proxy: A #Video2Proxy.
- * @arg_status: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-com-example-video2.SetVideoStatus">SetVideoStatus()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See video2_call_set_video_status() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_set_video_status_sync (
-    Video2 *proxy,
-    guchar arg_status,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "SetVideoStatus",
-    g_variant_new ("(y)",
-                   arg_status),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_get_video_info:
- * @proxy: A #Video2Proxy.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-com-example-video2.GetVideoInfo">GetVideoInfo()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_call_get_video_info_finish() to get the result of the operation.
- *
- * See video2_call_get_video_info_sync() for the synchronous, blocking version of this method.
- */
-void
-video2_call_get_video_info (
-    Video2 *proxy,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "GetVideoInfo",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * video2_call_get_video_info_finish:
- * @proxy: A #Video2Proxy.
- * @out_name: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @out_frame: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @out_format: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_call_get_video_info().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with video2_call_get_video_info().
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_get_video_info_finish (
-    Video2 *proxy,
-    gchar **out_name,
-    guint *out_frame,
-    gchar **out_format,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "(sus)",
-                 out_name,
-                 out_frame,
-                 out_format);
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_get_video_info_sync:
- * @proxy: A #Video2Proxy.
- * @out_name: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @out_frame: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @out_format: (out) (optional): Return location for return parameter or %NULL to ignore.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-com-example-video2.GetVideoInfo">GetVideoInfo()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See video2_call_get_video_info() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_get_video_info_sync (
-    Video2 *proxy,
-    gchar **out_name,
-    guint *out_frame,
-    gchar **out_format,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "GetVideoInfo",
-    g_variant_new ("()"),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "(sus)",
-                 out_name,
-                 out_frame,
-                 out_format);
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_share_video:
- * @proxy: A #Video2Proxy.
- * @arg_path: Argument to pass with the method invocation.
- * @arg_time: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-com-example-video2.ShareVideo">ShareVideo()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_call_share_video_finish() to get the result of the operation.
- *
- * See video2_call_share_video_sync() for the synchronous, blocking version of this method.
- */
-void
-video2_call_share_video (
-    Video2 *proxy,
-    const gchar *arg_path,
-    guint arg_time,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "ShareVideo",
-    g_variant_new ("(su)",
-                   arg_path,
-                   arg_time),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * video2_call_share_video_finish:
- * @proxy: A #Video2Proxy.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_call_share_video().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with video2_call_share_video().
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_share_video_finish (
-    Video2 *proxy,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_call_share_video_sync:
- * @proxy: A #Video2Proxy.
- * @arg_path: Argument to pass with the method invocation.
- * @arg_time: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-com-example-video2.ShareVideo">ShareVideo()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See video2_call_share_video() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeeded, %FALSE if @error is set.
- */
-gboolean
-video2_call_share_video_sync (
-    Video2 *proxy,
-    const gchar *arg_path,
-    guint arg_time,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "ShareVideo",
-    g_variant_new ("(su)",
-                   arg_path,
-                   arg_time),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * video2_complete_start_video:
- * @object: A #Video2.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- * @out_arg1: Parameter to return.
- * @out_arg2: Parameter to return.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-video2.StartVideo">StartVideo()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-video2_complete_start_video (
-    Video2 *object G_GNUC_UNUSED,
-    GDBusMethodInvocation *invocation,
-    const gchar *out_arg1,
-    gint out_arg2)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("(si)",
-                   out_arg1,
-                   out_arg2));
-}
-
-/**
- * video2_complete_stop_video:
- * @object: A #Video2.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-video2.StopVideo">StopVideo()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-video2_complete_stop_video (
-    Video2 *object G_GNUC_UNUSED,
-    GDBusMethodInvocation *invocation)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("()"));
-}
-
-/**
- * video2_complete_pause_video:
- * @object: A #Video2.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-video2.PauseVideo">PauseVideo()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-video2_complete_pause_video (
-    Video2 *object G_GNUC_UNUSED,
-    GDBusMethodInvocation *invocation)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("()"));
-}
-
-/**
- * video2_complete_resume_video:
- * @object: A #Video2.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-video2.ResumeVideo">ResumeVideo()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-video2_complete_resume_video (
-    Video2 *object G_GNUC_UNUSED,
-    GDBusMethodInvocation *invocation)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("()"));
-}
-
-/**
- * video2_complete_get_video_status:
- * @object: A #Video2.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- * @status: Parameter to return.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-video2.GetVideoStatus">GetVideoStatus()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-video2_complete_get_video_status (
-    Video2 *object G_GNUC_UNUSED,
-    GDBusMethodInvocation *invocation,
-    guchar status)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("(y)",
-                   status));
-}
-
-/**
- * video2_complete_set_video_status:
- * @object: A #Video2.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-video2.SetVideoStatus">SetVideoStatus()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-video2_complete_set_video_status (
-    Video2 *object G_GNUC_UNUSED,
-    GDBusMethodInvocation *invocation)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("()"));
-}
-
-/**
- * video2_complete_get_video_info:
- * @object: A #Video2.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- * @name: Parameter to return.
- * @frame: Parameter to return.
- * @format: Parameter to return.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-video2.GetVideoInfo">GetVideoInfo()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-video2_complete_get_video_info (
-    Video2 *object G_GNUC_UNUSED,
-    GDBusMethodInvocation *invocation,
-    const gchar *name,
-    guint frame,
-    const gchar *format)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("(sus)",
-                   name,
-                   frame,
-                   format));
-}
-
-/**
- * video2_complete_share_video:
- * @object: A #Video2.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-com-example-video2.ShareVideo">ShareVideo()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-video2_complete_share_video (
-    Video2 *object G_GNUC_UNUSED,
-    GDBusMethodInvocation *invocation)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("()"));
-}
-
-/* ------------------------------------------------------------------------ */
-
-/**
- * Video2Proxy:
- *
- * The #Video2Proxy structure contains only private data and should only be accessed using the provided API.
- */
-
-/**
- * Video2ProxyClass:
- * @parent_class: The parent class.
- *
- * Class structure for #Video2Proxy.
- */
-
-struct _Video2ProxyPrivate
-{
-  GData *qdata;
-};
-
-static void video2_proxy_iface_init (Video2Iface *iface);
-
-#if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-G_DEFINE_TYPE_WITH_CODE (Video2Proxy, video2_proxy, G_TYPE_DBUS_PROXY,
-                         G_ADD_PRIVATE (Video2Proxy)
-                         G_IMPLEMENT_INTERFACE (TYPE_VIDEO2, video2_proxy_iface_init))
-
-#else
-G_DEFINE_TYPE_WITH_CODE (Video2Proxy, video2_proxy, G_TYPE_DBUS_PROXY,
-                         G_IMPLEMENT_INTERFACE (TYPE_VIDEO2, video2_proxy_iface_init))
-
-#endif
-static void
-video2_proxy_finalize (GObject *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  g_datalist_clear (&proxy->priv->qdata);
-  G_OBJECT_CLASS (video2_proxy_parent_class)->finalize (object);
-}
-
-static void
-video2_proxy_get_property (GObject      *object,
-  guint         prop_id,
-  GValue       *value,
-  GParamSpec   *pspec G_GNUC_UNUSED)
-{
-  const _ExtendedGDBusPropertyInfo *info;
-  GVariant *variant;
-  g_assert (prop_id != 0 && prop_id - 1 < 12);
-  info = (const _ExtendedGDBusPropertyInfo *) _video2_property_info_pointers[prop_id - 1];
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (object), info->parent_struct.name);
-  if (info->use_gvariant)
-    {
-      g_value_set_variant (value, variant);
-    }
-  else
-    {
-      if (variant != NULL)
-        g_dbus_gvariant_to_gvalue (variant, value);
-    }
-  if (variant != NULL)
-    g_variant_unref (variant);
-}
-
-void
-video2_proxy_set_property_cb (GDBusProxy *proxy,
-  GAsyncResult *res,
-  gpointer      user_data)
-{
-  const _ExtendedGDBusPropertyInfo *info = user_data;
-  GError *error;
-  GVariant *_ret;
-  error = NULL;
-  _ret = g_dbus_proxy_call_finish (proxy, res, &error);
-  if (!_ret)
-    {
-      g_warning ("Error setting property '%s' on interface com.example.video2: %s (%s, %d)",
-                 info->parent_struct.name, 
-                 error->message, g_quark_to_string (error->domain), error->code);
-      g_error_free (error);
-    }
-  else
-    {
-      g_variant_unref (_ret);
-    }
-}
-
-static void
-video2_proxy_set_property (GObject      *object,
-  guint         prop_id,
-  const GValue *value,
-  GParamSpec   *pspec G_GNUC_UNUSED)
-{
-  const _ExtendedGDBusPropertyInfo *info;
-  GVariant *variant;
-  g_assert (prop_id != 0 && prop_id - 1 < 12);
-  info = (const _ExtendedGDBusPropertyInfo *) _video2_property_info_pointers[prop_id - 1];
-  variant = g_dbus_gvalue_to_gvariant (value, G_VARIANT_TYPE (info->parent_struct.signature));
-  GError *proxyerror = NULL;
-  GVariant *params = g_variant_new ("(ssv)", "com.example.video2", info->parent_struct.name, variant);
-  GVariant *ret = g_dbus_proxy_call_sync(G_DBUS_PROXY (object),
-      "org.freedesktop.DBus.Properties.Set", params,
-      G_DBUS_CALL_FLAGS_NONE,
-      -1,
-      NULL,
-      &proxyerror);
-  if (proxyerror != NULL) {
-      g_printerr("Error calling method: %s\n", proxyerror->message);
-      g_error_free(proxyerror);
-  }
-  g_variant_unref (variant);
-  g_variant_unref (ret);
-}
-
-static void
-video2_proxy_g_signal (GDBusProxy *proxy,
-  const gchar *sender_name G_GNUC_UNUSED,
-  const gchar *signal_name,
-  GVariant *parameters)
-{
-  _ExtendedGDBusSignalInfo *info;
-  GVariantIter iter;
-  GVariant *child;
-  GValue *paramv;
-  gsize num_params;
-  gsize n;
-  guint signal_id;
-  info = (_ExtendedGDBusSignalInfo *) g_dbus_interface_info_lookup_signal ((GDBusInterfaceInfo *) &_video2_interface_info.parent_struct, signal_name);
-  if (info == NULL)
-    return;
-  num_params = g_variant_n_children (parameters);
-  paramv = g_new0 (GValue, num_params + 1);
-  g_value_init (&paramv[0], TYPE_VIDEO2);
-  g_value_set_object (&paramv[0], proxy);
-  g_variant_iter_init (&iter, parameters);
-  n = 1;
-  while ((child = g_variant_iter_next_value (&iter)) != NULL)
-    {
-      _ExtendedGDBusArgInfo *arg_info = (_ExtendedGDBusArgInfo *) info->parent_struct.args[n - 1];
-      if (arg_info->use_gvariant)
-        {
-          g_value_init (&paramv[n], G_TYPE_VARIANT);
-          g_value_set_variant (&paramv[n], child);
-          n++;
-        }
-      else
-        g_dbus_gvariant_to_gvalue (child, &paramv[n++]);
-      g_variant_unref (child);
-    }
-  signal_id = g_signal_lookup (info->signal_name, TYPE_VIDEO2);
-  g_signal_emitv (paramv, signal_id, 0, NULL);
-  for (n = 0; n < num_params + 1; n++)
-    g_value_unset (&paramv[n]);
-  g_free (paramv);
-}
-
-static void
-video2_proxy_g_properties_changed (GDBusProxy *_proxy,
-  GVariant *changed_properties,
-  const gchar *const *invalidated_properties)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (_proxy);
-  guint n;
-  const gchar *key;
-  GVariantIter *iter;
-  _ExtendedGDBusPropertyInfo *info;
-  g_variant_get (changed_properties, "a{sv}", &iter);
-  while (g_variant_iter_next (iter, "{&sv}", &key, NULL))
-    {
-      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_video2_interface_info.parent_struct, key);
-      g_datalist_remove_data (&proxy->priv->qdata, key);
-      if (info != NULL)
-        g_object_notify (G_OBJECT (proxy), info->hyphen_name);
-    }
-  g_variant_iter_free (iter);
-  for (n = 0; invalidated_properties[n] != NULL; n++)
-    {
-      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_video2_interface_info.parent_struct, invalidated_properties[n]);
-      g_datalist_remove_data (&proxy->priv->qdata, invalidated_properties[n]);
-      if (info != NULL)
-        g_object_notify (G_OBJECT (proxy), info->hyphen_name);
-    }
-}
-
-static const gchar *
-video2_proxy_get_str_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  const gchar *value = NULL;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "StrProperty");
-  if (variant != NULL)
-    {
-      value = g_variant_get_string (variant, NULL);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static guchar 
-video2_proxy_get_byte_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  guchar value = '\0';
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "ByteProperty");
-  if (variant != NULL)
-    {
-      value = g_variant_get_byte (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static gboolean 
-video2_proxy_get_bool_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  gboolean value = FALSE;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "BoolProperty");
-  if (variant != NULL)
-    {
-      value = g_variant_get_boolean (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static gint16 
-video2_proxy_get_int16_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  gint16 value = 0;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Int16Property");
-  if (variant != NULL)
-    {
-      value = g_variant_get_int16 (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static guint16 
-video2_proxy_get_uint16_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  guint16 value = 0;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Uint16Property");
-  if (variant != NULL)
-    {
-      value = g_variant_get_uint16 (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static gint 
-video2_proxy_get_int32_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  gint value = 0;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Int32Property");
-  if (variant != NULL)
-    {
-      value = g_variant_get_int32 (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static guint 
-video2_proxy_get_uint32_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  guint value = 0;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Uint32Property");
-  if (variant != NULL)
-    {
-      value = g_variant_get_uint32 (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static gint64 
-video2_proxy_get_int64_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  gint64 value = 0;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Int64Property");
-  if (variant != NULL)
-    {
-      value = g_variant_get_int64 (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static guint64 
-video2_proxy_get_uint64_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  guint64 value = 0;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Uint64Property");
-  if (variant != NULL)
-    {
-      value = g_variant_get_uint64 (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static gdouble 
-video2_proxy_get_double_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  gdouble value = 0.0;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "DoubleProperty");
-  if (variant != NULL)
-    {
-      value = g_variant_get_double (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static const gchar *const *
-video2_proxy_get_array_str_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  const gchar *const *value = NULL;
-  value = g_datalist_get_data (&proxy->priv->qdata, "ArrayStrProperty");
-  if (value != NULL)
-    return value;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "ArrayStrProperty");
-  if (variant != NULL)
-    {
-      value = g_variant_get_strv (variant, NULL);
-      g_datalist_set_data_full (&proxy->priv->qdata, "ArrayStrProperty", (gpointer) value, g_free);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static GVariant *
-video2_proxy_get_array_uint32_property (Video2 *object)
-{
-  Video2Proxy *proxy = VIDEO2_PROXY (object);
-  GVariant *variant;
-  GVariant *value = NULL;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "ArrayUint32Property");
-  value = variant;
-  if (variant != NULL)
-    g_variant_unref (variant);
-  return value;
-}
-
-static void
-video2_proxy_init (Video2Proxy *proxy)
-{
-#if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-  proxy->priv = video2_proxy_get_instance_private (proxy);
-#else
-  proxy->priv = G_TYPE_INSTANCE_GET_PRIVATE (proxy, TYPE_VIDEO2_PROXY, Video2ProxyPrivate);
-#endif
-
-  g_dbus_proxy_set_interface_info (G_DBUS_PROXY (proxy), video2_interface_info ());
-}
-
-static void
-video2_proxy_class_init (Video2ProxyClass *klass)
-{
-  GObjectClass *gobject_class;
-  GDBusProxyClass *proxy_class;
-
-  gobject_class = G_OBJECT_CLASS (klass);
-  gobject_class->finalize     = video2_proxy_finalize;
-  gobject_class->get_property = video2_proxy_get_property;
-  gobject_class->set_property = video2_proxy_set_property;
-
-  proxy_class = G_DBUS_PROXY_CLASS (klass);
-  proxy_class->g_signal = video2_proxy_g_signal;
-  proxy_class->g_properties_changed = video2_proxy_g_properties_changed;
-
-  video2_override_properties (gobject_class, 1);
-
-#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
-  g_type_class_add_private (klass, sizeof (Video2ProxyPrivate));
-#endif
-}
-
-static void
-video2_proxy_iface_init (Video2Iface *iface)
-{
-  iface->get_str_property = video2_proxy_get_str_property;
-  iface->get_byte_property = video2_proxy_get_byte_property;
-  iface->get_bool_property = video2_proxy_get_bool_property;
-  iface->get_int16_property = video2_proxy_get_int16_property;
-  iface->get_uint16_property = video2_proxy_get_uint16_property;
-  iface->get_int32_property = video2_proxy_get_int32_property;
-  iface->get_uint32_property = video2_proxy_get_uint32_property;
-  iface->get_int64_property = video2_proxy_get_int64_property;
-  iface->get_uint64_property = video2_proxy_get_uint64_property;
-  iface->get_double_property = video2_proxy_get_double_property;
-  iface->get_array_str_property = video2_proxy_get_array_str_property;
-  iface->get_array_uint32_property = video2_proxy_get_array_uint32_property;
-}
-
-/**
- * video2_proxy_new:
- * @connection: A #GDBusConnection.
- * @flags: Flags from the #GDBusProxyFlags enumeration.
- * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-com-example-video2.top_of_page">com.example.video2</link>. See g_dbus_proxy_new() for more details.
- *
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_proxy_new_finish() to get the result of the operation.
- *
- * See video2_proxy_new_sync() for the synchronous, blocking version of this constructor.
- */
-void
-video2_proxy_new (
-    GDBusConnection     *connection,
-    GDBusProxyFlags      flags,
-    const gchar         *name,
-    const gchar         *object_path,
-    GCancellable        *cancellable,
-    GAsyncReadyCallback  callback,
-    gpointer             user_data)
-{
-  g_async_initable_new_async (TYPE_VIDEO2_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "com.example.video2", NULL);
-}
-
-/**
- * video2_proxy_new_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_proxy_new().
- * @error: Return location for error or %NULL
- *
- * Finishes an operation started with video2_proxy_new().
- *
- * Returns: (transfer full) (type Video2Proxy): The constructed proxy object or %NULL if @error is set.
- */
-Video2 *
-video2_proxy_new_finish (
-    GAsyncResult        *res,
-    GError             **error)
-{
-  GObject *ret;
-  GObject *source_object;
-  source_object = g_async_result_get_source_object (res);
-  ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
-  g_object_unref (source_object);
-  if (ret != NULL)
-    return VIDEO2 (ret);
-  else
-    return NULL;
-}
-
-/**
- * video2_proxy_new_sync:
- * @connection: A #GDBusConnection.
- * @flags: Flags from the #GDBusProxyFlags enumeration.
- * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL
- *
- * Synchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-com-example-video2.top_of_page">com.example.video2</link>. See g_dbus_proxy_new_sync() for more details.
- *
- * The calling thread is blocked until a reply is received.
- *
- * See video2_proxy_new() for the asynchronous version of this constructor.
- *
- * Returns: (transfer full) (type Video2Proxy): The constructed proxy object or %NULL if @error is set.
- */
-Video2 *
-video2_proxy_new_sync (
-    GDBusConnection     *connection,
-    GDBusProxyFlags      flags,
-    const gchar         *name,
-    const gchar         *object_path,
-    GCancellable        *cancellable,
-    GError             **error)
-{
-  GInitable *ret;
-  ret = g_initable_new (TYPE_VIDEO2_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "com.example.video2", NULL);
-  if (ret != NULL)
-    return VIDEO2 (ret);
-  else
-    return NULL;
-}
-
-
-/**
- * video2_proxy_new_for_bus:
- * @bus_type: A #GBusType.
- * @flags: Flags from the #GDBusProxyFlags enumeration.
- * @name: A bus name (well-known or unique).
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
- * @user_data: User data to pass to @callback.
- *
- * Like video2_proxy_new() but takes a #GBusType instead of a #GDBusConnection.
- *
- * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from (see g_main_context_push_thread_default()).
- * You can then call video2_proxy_new_for_bus_finish() to get the result of the operation.
- *
- * See video2_proxy_new_for_bus_sync() for the synchronous, blocking version of this constructor.
- */
-void
-video2_proxy_new_for_bus (
-    GBusType             bus_type,
-    GDBusProxyFlags      flags,
-    const gchar         *name,
-    const gchar         *object_path,
-    GCancellable        *cancellable,
-    GAsyncReadyCallback  callback,
-    gpointer             user_data)
-{
-  g_async_initable_new_async (TYPE_VIDEO2_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "com.example.video2", NULL);
-}
-
-/**
- * video2_proxy_new_for_bus_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to video2_proxy_new_for_bus().
- * @error: Return location for error or %NULL
- *
- * Finishes an operation started with video2_proxy_new_for_bus().
- *
- * Returns: (transfer full) (type Video2Proxy): The constructed proxy object or %NULL if @error is set.
- */
-Video2 *
-video2_proxy_new_for_bus_finish (
-    GAsyncResult        *res,
-    GError             **error)
-{
-  GObject *ret;
-  GObject *source_object;
-  source_object = g_async_result_get_source_object (res);
-  ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
-  g_object_unref (source_object);
-  if (ret != NULL)
-    return VIDEO2 (ret);
-  else
-    return NULL;
-}
-
-/**
- * video2_proxy_new_for_bus_sync:
- * @bus_type: A #GBusType.
- * @flags: Flags from the #GDBusProxyFlags enumeration.
- * @name: A bus name (well-known or unique).
- * @object_path: An object path.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL
- *
- * Like video2_proxy_new_sync() but takes a #GBusType instead of a #GDBusConnection.
- *
- * The calling thread is blocked until a reply is received.
- *
- * See video2_proxy_new_for_bus() for the asynchronous version of this constructor.
- *
- * Returns: (transfer full) (type Video2Proxy): The constructed proxy object or %NULL if @error is set.
- */
-Video2 *
-video2_proxy_new_for_bus_sync (
-    GBusType             bus_type,
-    GDBusProxyFlags      flags,
-    const gchar         *name,
-    const gchar         *object_path,
-    GCancellable        *cancellable,
-    GError             **error)
-{
-  GInitable *ret;
-  ret = g_initable_new (TYPE_VIDEO2_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "com.example.video2", NULL);
-  if (ret != NULL)
-    return VIDEO2 (ret);
-  else
-    return NULL;
-}
-
-
-/* ------------------------------------------------------------------------ */
-
-/**
- * Video2Skeleton:
- *
- * The #Video2Skeleton structure contains only private data and should only be accessed using the provided API.
- */
-
-/**
- * Video2SkeletonClass:
- * @parent_class: The parent class.
- *
- * Class structure for #Video2Skeleton.
- */
-
-struct _Video2SkeletonPrivate
-{
-  GValue *properties;
-  GList *changed_properties;
-  GSource *changed_properties_idle_source;
-  GMainContext *context;
-  GMutex lock;
-};
-
-static void
-_video2_skeleton_handle_method_call (
-  GDBusConnection *connection G_GNUC_UNUSED,
-  const gchar *sender G_GNUC_UNUSED,
-  const gchar *object_path G_GNUC_UNUSED,
-  const gchar *interface_name,
-  const gchar *method_name,
-  GVariant *parameters,
-  GDBusMethodInvocation *invocation,
-  gpointer user_data)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (user_data);
-  _ExtendedGDBusMethodInfo *info;
-  GVariantIter iter;
-  GVariant *child;
-  GValue *paramv;
-  gsize num_params;
-  guint num_extra;
-  gsize n;
-  guint signal_id;
-  GValue return_value = G_VALUE_INIT;
-  info = (_ExtendedGDBusMethodInfo *) g_dbus_method_invocation_get_method_info (invocation);
-  g_assert (info != NULL);
-  num_params = g_variant_n_children (parameters);
-  num_extra = info->pass_fdlist ? 3 : 2;  paramv = g_new0 (GValue, num_params + num_extra);
-  n = 0;
-  g_value_init (&paramv[n], TYPE_VIDEO2);
-  g_value_set_object (&paramv[n++], skeleton);
-  g_value_init (&paramv[n], G_TYPE_DBUS_METHOD_INVOCATION);
-  g_value_set_object (&paramv[n++], invocation);
-  if (info->pass_fdlist)
-    {
-#ifdef G_OS_UNIX
-      g_value_init (&paramv[n], G_TYPE_UNIX_FD_LIST);
-      g_value_set_object (&paramv[n++], g_dbus_message_get_unix_fd_list (g_dbus_method_invocation_get_message (invocation)));
-#else
-      g_assert_not_reached ();
-#endif
-    }
-  g_variant_iter_init (&iter, parameters);
-  while ((child = g_variant_iter_next_value (&iter)) != NULL)
-    {
-      _ExtendedGDBusArgInfo *arg_info = (_ExtendedGDBusArgInfo *) info->parent_struct.in_args[n - num_extra];
-      if (arg_info->use_gvariant)
-        {
-          g_value_init (&paramv[n], G_TYPE_VARIANT);
-          g_value_set_variant (&paramv[n], child);
-          n++;
-        }
-      else
-        g_dbus_gvariant_to_gvalue (child, &paramv[n++]);
-      g_variant_unref (child);
-    }
-  signal_id = g_signal_lookup (info->signal_name, TYPE_VIDEO2);
-  g_value_init (&return_value, G_TYPE_BOOLEAN);
-  g_signal_emitv (paramv, signal_id, 0, &return_value);
-  if (!g_value_get_boolean (&return_value))
-    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_METHOD, "Method %s is not implemented on interface %s", method_name, interface_name);
-  g_value_unset (&return_value);
-  for (n = 0; n < num_params + num_extra; n++)
-    g_value_unset (&paramv[n]);
-  g_free (paramv);
-}
-
-static GVariant *
-_video2_skeleton_handle_get_property (
-  GDBusConnection *connection G_GNUC_UNUSED,
-  const gchar *sender G_GNUC_UNUSED,
-  const gchar *object_path G_GNUC_UNUSED,
-  const gchar *interface_name G_GNUC_UNUSED,
-  const gchar *property_name,
-  GError **error,
-  gpointer user_data)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (user_data);
-  GValue value = G_VALUE_INIT;
-  GParamSpec *pspec;
-  _ExtendedGDBusPropertyInfo *info;
-  GVariant *ret;
-  ret = NULL;
-  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_video2_interface_info.parent_struct, property_name);
-  g_assert (info != NULL);
-  pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (skeleton), info->hyphen_name);
-  if (pspec == NULL)
-    {
-      g_set_error (error, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS, "No property with name %s", property_name);
-    }
-  else
-    {
-      g_value_init (&value, pspec->value_type);
-      g_object_get_property (G_OBJECT (skeleton), info->hyphen_name, &value);
-      ret = g_dbus_gvalue_to_gvariant (&value, G_VARIANT_TYPE (info->parent_struct.signature));
-      g_value_unset (&value);
-    }
-  return ret;
-}
-
-static gboolean
-_video2_skeleton_handle_set_property (
-  GDBusConnection *connection G_GNUC_UNUSED,
-  const gchar *sender G_GNUC_UNUSED,
-  const gchar *object_path G_GNUC_UNUSED,
-  const gchar *interface_name G_GNUC_UNUSED,
-  const gchar *property_name,
-  GVariant *variant,
-  GError **error,
-  gpointer user_data)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (user_data);
-  GValue value = G_VALUE_INIT;
-  GParamSpec *pspec;
-  _ExtendedGDBusPropertyInfo *info;
-  gboolean ret;
-  ret = FALSE;
-  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_video2_interface_info.parent_struct, property_name);
-  g_assert (info != NULL);
-  pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (skeleton), info->hyphen_name);
-  if (pspec == NULL)
-    {
-      g_set_error (error, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS, "No property with name %s", property_name);
-    }
-  else
-    {
-      if (info->use_gvariant)
-        g_value_set_variant (&value, variant);
-      else
-        g_dbus_gvariant_to_gvalue (variant, &value);
-      g_object_set_property (G_OBJECT (skeleton), info->hyphen_name, &value);
-      g_value_unset (&value);
-      ret = TRUE;
-    }
-  return ret;
-}
-
-static const GDBusInterfaceVTable _video2_skeleton_vtable =
-{
-  _video2_skeleton_handle_method_call,
-  _video2_skeleton_handle_get_property,
-  _video2_skeleton_handle_set_property,
-  {NULL}
-};
-
-static GDBusInterfaceInfo *
-video2_skeleton_dbus_interface_get_info (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
-{
-  return video2_interface_info ();
-}
-
-static GDBusInterfaceVTable *
-video2_skeleton_dbus_interface_get_vtable (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
-{
-  return (GDBusInterfaceVTable *) &_video2_skeleton_vtable;
-}
-
-static GVariant *
-video2_skeleton_dbus_interface_get_properties (GDBusInterfaceSkeleton *_skeleton)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (_skeleton);
-
-  GVariantBuilder builder;
-  guint n;
-  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
-  if (_video2_interface_info.parent_struct.properties == NULL)
-    goto out;
-  for (n = 0; _video2_interface_info.parent_struct.properties[n] != NULL; n++)
-    {
-      GDBusPropertyInfo *info = _video2_interface_info.parent_struct.properties[n];
-      if (info->flags & G_DBUS_PROPERTY_INFO_FLAGS_READABLE)
-        {
-          GVariant *value;
-          value = _video2_skeleton_handle_get_property (g_dbus_interface_skeleton_get_connection (G_DBUS_INTERFACE_SKELETON (skeleton)), NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.video2", info->name, NULL, skeleton);
-          if (value != NULL)
-            {
-              g_variant_take_ref (value);
-              g_variant_builder_add (&builder, "{sv}", info->name, value);
-              g_variant_unref (value);
-            }
-        }
-    }
-out:
-  return g_variant_builder_end (&builder);
-}
-
-static gboolean _video2_emit_changed (gpointer user_data);
-
-static void
-video2_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (_skeleton);
-  gboolean emit_changed = FALSE;
-
-  g_mutex_lock (&skeleton->priv->lock);
-  if (skeleton->priv->changed_properties_idle_source != NULL)
-    {
-      g_source_destroy (skeleton->priv->changed_properties_idle_source);
-      skeleton->priv->changed_properties_idle_source = NULL;
-      emit_changed = TRUE;
-    }
-  g_mutex_unlock (&skeleton->priv->lock);
-
-  if (emit_changed)
-    _video2_emit_changed (skeleton);
-}
-
-static void
-_video2_on_signal_record_start (
-    Video2 *object,
-    guint arg_time)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-
-  GList      *connections, *l;
-  GVariant   *signal_variant;
-  connections = g_dbus_interface_skeleton_get_connections (G_DBUS_INTERFACE_SKELETON (skeleton));
-
-  signal_variant = g_variant_ref_sink (g_variant_new ("(u)",
-                   arg_time));
-  for (l = connections; l != NULL; l = l->next)
-    {
-      GDBusConnection *connection = l->data;
-      g_dbus_connection_emit_signal (connection,
-        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.video2", "RecordStart",
-        signal_variant, NULL);
-    }
-  g_variant_unref (signal_variant);
-  g_list_free_full (connections, g_object_unref);
-}
-
-static void
-_video2_on_signal_record_stop (
-    Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-
-  GList      *connections, *l;
-  GVariant   *signal_variant;
-  connections = g_dbus_interface_skeleton_get_connections (G_DBUS_INTERFACE_SKELETON (skeleton));
-
-  signal_variant = g_variant_ref_sink (g_variant_new ("()"));
-  for (l = connections; l != NULL; l = l->next)
-    {
-      GDBusConnection *connection = l->data;
-      g_dbus_connection_emit_signal (connection,
-        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "com.example.video2", "RecordStop",
-        signal_variant, NULL);
-    }
-  g_variant_unref (signal_variant);
-  g_list_free_full (connections, g_object_unref);
-}
-
-static void video2_skeleton_iface_init (Video2Iface *iface);
-#if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-G_DEFINE_TYPE_WITH_CODE (Video2Skeleton, video2_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
-                         G_ADD_PRIVATE (Video2Skeleton)
-                         G_IMPLEMENT_INTERFACE (TYPE_VIDEO2, video2_skeleton_iface_init))
-
-#else
-G_DEFINE_TYPE_WITH_CODE (Video2Skeleton, video2_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
-                         G_IMPLEMENT_INTERFACE (TYPE_VIDEO2, video2_skeleton_iface_init))
-
-#endif
-static void
-video2_skeleton_finalize (GObject *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  guint n;
-  for (n = 0; n < 12; n++)
-    g_value_unset (&skeleton->priv->properties[n]);
-  g_free (skeleton->priv->properties);
-  g_list_free_full (skeleton->priv->changed_properties, (GDestroyNotify) _changed_property_free);
-  if (skeleton->priv->changed_properties_idle_source != NULL)
-    g_source_destroy (skeleton->priv->changed_properties_idle_source);
-  g_main_context_unref (skeleton->priv->context);
-  g_mutex_clear (&skeleton->priv->lock);
-  G_OBJECT_CLASS (video2_skeleton_parent_class)->finalize (object);
-}
-
-static void
-video2_skeleton_get_property (GObject      *object,
-  guint         prop_id,
-  GValue       *value,
-  GParamSpec   *pspec G_GNUC_UNUSED)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  g_assert (prop_id != 0 && prop_id - 1 < 12);
-  g_mutex_lock (&skeleton->priv->lock);
-  g_value_copy (&skeleton->priv->properties[prop_id - 1], value);
-  g_mutex_unlock (&skeleton->priv->lock);
-}
-
-static gboolean
-_video2_emit_changed (gpointer user_data)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (user_data);
-  GList *l;
-  GVariantBuilder builder;
-  GVariantBuilder invalidated_builder;
-  guint num_changes;
-
-  g_mutex_lock (&skeleton->priv->lock);
-  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
-  g_variant_builder_init (&invalidated_builder, G_VARIANT_TYPE ("as"));
-  for (l = skeleton->priv->changed_properties, num_changes = 0; l != NULL; l = l->next)
-    {
-      ChangedProperty *cp = l->data;
-      GVariant *variant;
-      const GValue *cur_value;
-
-      cur_value = &skeleton->priv->properties[cp->prop_id - 1];
-      if (!_g_value_equal (cur_value, &cp->orig_value))
-        {
-          variant = g_dbus_gvalue_to_gvariant (cur_value, G_VARIANT_TYPE (cp->info->parent_struct.signature));
-          g_variant_builder_add (&builder, "{sv}", cp->info->parent_struct.name, variant);
-          g_variant_unref (variant);
-          num_changes++;
-        }
-    }
-  if (num_changes > 0)
-    {
-      GList *connections, *ll;
-      GVariant *signal_variant;
-      signal_variant = g_variant_ref_sink (g_variant_new ("(sa{sv}as)", "com.example.video2",
-                                           &builder, &invalidated_builder));
-      connections = g_dbus_interface_skeleton_get_connections (G_DBUS_INTERFACE_SKELETON (skeleton));
-      for (ll = connections; ll != NULL; ll = ll->next)
-        {
-          GDBusConnection *connection = ll->data;
-
-          g_dbus_connection_emit_signal (connection,
-                                         NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)),
-                                         "org.freedesktop.DBus.Properties",
-                                         "PropertiesChanged",
-                                         signal_variant,
-                                         NULL);
-        }
-      g_variant_unref (signal_variant);
-      g_list_free_full (connections, g_object_unref);
-    }
-  else
-    {
-      g_variant_builder_clear (&builder);
-      g_variant_builder_clear (&invalidated_builder);
-    }
-  g_list_free_full (skeleton->priv->changed_properties, (GDestroyNotify) _changed_property_free);
-  skeleton->priv->changed_properties = NULL;
-  skeleton->priv->changed_properties_idle_source = NULL;
-  g_mutex_unlock (&skeleton->priv->lock);
-  return FALSE;
-}
-
-static void
-_video2_schedule_emit_changed (Video2Skeleton *skeleton, const _ExtendedGDBusPropertyInfo *info, guint prop_id, const GValue *orig_value)
-{
-  ChangedProperty *cp;
-  GList *l;
-  cp = NULL;
-  for (l = skeleton->priv->changed_properties; l != NULL; l = l->next)
-    {
-      ChangedProperty *i_cp = l->data;
-      if (i_cp->info == info)
-        {
-          cp = i_cp;
-          break;
-        }
-    }
-  if (cp == NULL)
-    {
-      cp = g_new0 (ChangedProperty, 1);
-      cp->prop_id = prop_id;
-      cp->info = info;
-      skeleton->priv->changed_properties = g_list_prepend (skeleton->priv->changed_properties, cp);
-      g_value_init (&cp->orig_value, G_VALUE_TYPE (orig_value));
-      g_value_copy (orig_value, &cp->orig_value);
-    }
-}
-
-static void
-video2_skeleton_notify (GObject      *object,
-  GParamSpec *pspec G_GNUC_UNUSED)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  g_mutex_lock (&skeleton->priv->lock);
-  if (skeleton->priv->changed_properties != NULL &&
-      skeleton->priv->changed_properties_idle_source == NULL)
-    {
-      skeleton->priv->changed_properties_idle_source = g_idle_source_new ();
-      g_source_set_priority (skeleton->priv->changed_properties_idle_source, G_PRIORITY_DEFAULT);
-      g_source_set_callback (skeleton->priv->changed_properties_idle_source, _video2_emit_changed, g_object_ref (skeleton), (GDestroyNotify) g_object_unref);
-      g_source_set_name (skeleton->priv->changed_properties_idle_source, "[generated] _video2_emit_changed");
-      g_source_attach (skeleton->priv->changed_properties_idle_source, skeleton->priv->context);
-      g_source_unref (skeleton->priv->changed_properties_idle_source);
-    }
-  g_mutex_unlock (&skeleton->priv->lock);
-}
-
-static void
-video2_skeleton_set_property (GObject      *object,
-  guint         prop_id,
-  const GValue *value,
-  GParamSpec   *pspec)
-{
-  const _ExtendedGDBusPropertyInfo *info;
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  g_assert (prop_id != 0 && prop_id - 1 < 12);
-  info = (const _ExtendedGDBusPropertyInfo *) _video2_property_info_pointers[prop_id - 1];
-  g_mutex_lock (&skeleton->priv->lock);
-  g_object_freeze_notify (object);
-  if (!_g_value_equal (value, &skeleton->priv->properties[prop_id - 1]))
-    {
-      if (g_dbus_interface_skeleton_get_connection (G_DBUS_INTERFACE_SKELETON (skeleton)) != NULL &&
-          info->emits_changed_signal)
-        _video2_schedule_emit_changed (skeleton, info, prop_id, &skeleton->priv->properties[prop_id - 1]);
-      g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);
-      if (info->is_need_persistence == 1) 
-        write_into_db(info->parent_struct.name, g_dbus_interface_skeleton_get_info(G_DBUS_INTERFACE_SKELETON (skeleton))->name, value); 
-      g_object_notify_by_pspec (object, pspec);
-    }
-  g_mutex_unlock (&skeleton->priv->lock);
-  g_object_thaw_notify (object);
-}
-
-static void
-video2_skeleton_init (Video2Skeleton *skeleton)
-{
-#if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-  skeleton->priv = video2_skeleton_get_instance_private (skeleton);
-#else
-  skeleton->priv = G_TYPE_INSTANCE_GET_PRIVATE (skeleton, TYPE_VIDEO2_SKELETON, Video2SkeletonPrivate);
-#endif
-
-  g_mutex_init (&skeleton->priv->lock);
-  skeleton->priv->context = g_main_context_ref_thread_default ();
-  skeleton->priv->properties = g_new0 (GValue, 12);
-
-  g_value_init(&skeleton->priv->properties[0], G_TYPE_STRING);
-  g_value_set_string(&skeleton->priv->properties[0], "111");
-
-  g_value_init(&skeleton->priv->properties[1], G_TYPE_UCHAR);
-  g_value_set_uchar(&skeleton->priv->properties[1], 'a');
-
-  g_value_init(&skeleton->priv->properties[2], G_TYPE_BOOLEAN);
-  g_value_set_boolean(&skeleton->priv->properties[2], TRUE);
-
-  g_value_init(&skeleton->priv->properties[3], G_TYPE_INT);
-  g_value_set_int(&skeleton->priv->properties[3], 10);
-
-  g_value_init(&skeleton->priv->properties[4], G_TYPE_UINT);
-  g_value_set_uint(&skeleton->priv->properties[4], 10);
-
-  g_value_init(&skeleton->priv->properties[5], G_TYPE_INT);
-  g_value_set_int(&skeleton->priv->properties[5], -56);
-
-  g_value_init(&skeleton->priv->properties[6], G_TYPE_UINT);
-  g_value_set_uint(&skeleton->priv->properties[6], 10);
-
-  g_value_init(&skeleton->priv->properties[7], G_TYPE_INT64);
-  g_value_set_int64(&skeleton->priv->properties[7], -99);
-
-  g_value_init(&skeleton->priv->properties[8], G_TYPE_UINT64);
-  g_value_set_uint64(&skeleton->priv->properties[8], 113);
-
-  g_value_init(&skeleton->priv->properties[9], G_TYPE_DOUBLE);
-  g_value_set_double(&skeleton->priv->properties[9], 1.1);
-
-  g_value_init(&skeleton->priv->properties[10], G_TYPE_STRV);
-
-  g_value_init(&skeleton->priv->properties[11], G_TYPE_VARIANT);
-
-}
-
-static const gchar *
-video2_skeleton_get_str_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  const gchar *value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_string (&(skeleton->priv->properties[0]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static guchar 
-video2_skeleton_get_byte_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  guchar value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_uchar (&(skeleton->priv->properties[1]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static gboolean 
-video2_skeleton_get_bool_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  gboolean value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_boolean (&(skeleton->priv->properties[2]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static gint16 
-video2_skeleton_get_int16_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  gint value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_int (&(skeleton->priv->properties[3]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static guint16 
-video2_skeleton_get_uint16_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  guint value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_uint (&(skeleton->priv->properties[4]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static gint 
-video2_skeleton_get_int32_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  gint value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_int (&(skeleton->priv->properties[5]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static guint 
-video2_skeleton_get_uint32_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  guint value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_uint (&(skeleton->priv->properties[6]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static gint64 
-video2_skeleton_get_int64_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  gint64 value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_int64 (&(skeleton->priv->properties[7]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static guint64 
-video2_skeleton_get_uint64_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  guint64 value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_uint64 (&(skeleton->priv->properties[8]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static gdouble 
-video2_skeleton_get_double_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  gdouble value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_double (&(skeleton->priv->properties[9]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static const gchar *const *
-video2_skeleton_get_array_str_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  const gchar *const *value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_boxed (&(skeleton->priv->properties[10]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static GVariant *
-video2_skeleton_get_array_uint32_property (Video2 *object)
-{
-  Video2Skeleton *skeleton = VIDEO2_SKELETON (object);
-  GVariant *value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_variant (&(skeleton->priv->properties[11]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static void
-video2_skeleton_class_init (Video2SkeletonClass *klass)
-{
-  GObjectClass *gobject_class;
-  GDBusInterfaceSkeletonClass *skeleton_class;
-
-  gobject_class = G_OBJECT_CLASS (klass);
-  gobject_class->finalize = video2_skeleton_finalize;
-  gobject_class->get_property = video2_skeleton_get_property;
-  gobject_class->set_property = video2_skeleton_set_property;
-  gobject_class->notify       = video2_skeleton_notify;
-
-
-  video2_override_properties (gobject_class, 1);
-
-  skeleton_class = G_DBUS_INTERFACE_SKELETON_CLASS (klass);
-  skeleton_class->get_info = video2_skeleton_dbus_interface_get_info;
-  skeleton_class->get_properties = video2_skeleton_dbus_interface_get_properties;
-  skeleton_class->flush = video2_skeleton_dbus_interface_flush;
-  skeleton_class->get_vtable = video2_skeleton_dbus_interface_get_vtable;
-
-#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
-  g_type_class_add_private (klass, sizeof (Video2SkeletonPrivate));
-#endif
-}
-
-static void
-video2_skeleton_iface_init (Video2Iface *iface)
-{
-  iface->record_start = _video2_on_signal_record_start;
-  iface->record_stop = _video2_on_signal_record_stop;
-  iface->get_str_property = video2_skeleton_get_str_property;
-  iface->get_byte_property = video2_skeleton_get_byte_property;
-  iface->get_bool_property = video2_skeleton_get_bool_property;
-  iface->get_int16_property = video2_skeleton_get_int16_property;
-  iface->get_uint16_property = video2_skeleton_get_uint16_property;
-  iface->get_int32_property = video2_skeleton_get_int32_property;
-  iface->get_uint32_property = video2_skeleton_get_uint32_property;
-  iface->get_int64_property = video2_skeleton_get_int64_property;
-  iface->get_uint64_property = video2_skeleton_get_uint64_property;
-  iface->get_double_property = video2_skeleton_get_double_property;
-  iface->get_array_str_property = video2_skeleton_get_array_str_property;
-  iface->get_array_uint32_property = video2_skeleton_get_array_uint32_property;
-}
-
-/**
- * video2_skeleton_new:
- *
- * Creates a skeleton object for the D-Bus interface <link linkend="gdbus-interface-com-example-video2.top_of_page">com.example.video2</link>.
- *
- * Returns: (transfer full) (type Video2Skeleton): The skeleton object.
- */
-Video2 *
-video2_skeleton_new (void)
-{
-  return VIDEO2 (g_object_new (TYPE_VIDEO2_SKELETON, NULL));
 }
 
