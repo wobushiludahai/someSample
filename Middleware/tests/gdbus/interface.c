@@ -159,36 +159,52 @@ static void write_into_db(const gchar *property_name, const gchar *if_name, cons
   switch (G_VALUE_TYPE (value))
     {
       case G_TYPE_BOOLEAN:
-          gboolean bool_value = g_value_get_boolean(value);
-          config_mgmt_set_bool_value(key, bool_value);
+          {
+             gboolean bool_value = g_value_get_boolean(value);
+             config_mgmt_set_bool_value(key, bool_value);
+          }
           break;
       case G_TYPE_UCHAR:
-          guchar uchar_value = g_value_get_uchar(value);
-          config_mgmt_set_char_value(key, uchar_value);
+          {
+             guchar uchar_value = g_value_get_uchar(value);
+             config_mgmt_set_char_value(key, uchar_value);
+          }
           break;
       case G_TYPE_INT:
-          gint int32_value = g_value_get_int(value);
-          config_mgmt_set_int32_value(key, int32_value);
+          {
+             gint int32_value = g_value_get_int(value);
+             config_mgmt_set_int32_value(key, int32_value);
+          }
           break;
       case G_TYPE_UINT:
-          guint uint32_value = g_value_get_uint(value);
-          config_mgmt_set_uint32_value(key, uint32_value);
+          {
+             guint uint32_value = g_value_get_uint(value);
+             config_mgmt_set_uint32_value(key, uint32_value);
+          }
           break;
       case G_TYPE_INT64:
-          gint64 int64_value = g_value_get_int64(value);
-          config_mgmt_set_int64_value(key, int64_value);
+          {
+             gint64 int64_value = g_value_get_int64(value);
+             config_mgmt_set_int64_value(key, int64_value);
+          }
           break;
       case G_TYPE_UINT64:
-          guint64 uint64_value = g_value_get_uint64(value);
-          config_mgmt_set_uint64_value(key, uint64_value);
+          {
+             guint64 uint64_value = g_value_get_uint64(value);
+             config_mgmt_set_uint64_value(key, uint64_value);
+          }
           break;
       case G_TYPE_DOUBLE:
-          gdouble double_value = g_value_get_double(value);
-          config_mgmt_set_double_value(key, double_value);
+          {
+             gdouble double_value = g_value_get_double(value);
+             config_mgmt_set_double_value(key, double_value);
+          }
           break;
       case G_TYPE_STRING:
-          const gchar *str_value = g_value_get_string(value);
-          config_mgmt_set_string_value(key, (char *)str_value);
+          {
+             const gchar *str_value = g_value_get_string(value);
+             config_mgmt_set_string_value(key, (char *)str_value);
+          }
           break;
       default:
           g_print("Unsupport type %ld", G_VALUE_TYPE (value));
