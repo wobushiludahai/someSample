@@ -3,7 +3,7 @@
 AKShare学习使用记录
 [网址](https://akshare.akfamily.xyz/data/stock/stock.html#id126)
 ## 环境安装
-- 
+-
 ```
 sudo apt install python3-venv
 python3 -m venv myenv
@@ -39,9 +39,14 @@ https://github.com/mpquant/Ashare
 - AKShare 运行时，文件名、文件夹名不能是：akshare
 - wsl 运行plot必须使用以下代码：
 ```
+# 需要安装一下安装包
+sudo apt-get update
+sudo apt-get install python3-tk
+
+
 # 显示图例
 plt.legend()
- 
+
 # 显示图形
 plt.show()
 ```
