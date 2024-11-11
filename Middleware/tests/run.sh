@@ -36,9 +36,9 @@ rm -rf ${OUTPUT_DIR}/config_mgmt.db
 cd ${OUTPUT_DIR}
 echo
 echo
-# ./middleware
+./middleware
 
-./video
+# ./video
 # ./client &
 # sleep 10
 # killall server

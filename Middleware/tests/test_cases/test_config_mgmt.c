@@ -49,4 +49,11 @@ void test_config_mgmt(void)
     config_mgmt_set_string_value("property_string", "Hello, World!                              0xffffffff test");
     config_mgmt_get_string_value("property_string", test_string, sizeof(test_string));
     printf("string value: %s\n", test_string);
+
+
+    char test_binary[100] = "test_binary";
+    config_mgmt_set_binary_value("property_binary", test_binary, sizeof(test_binary));
+    char new_binary[100];
+    config_mgmt_get_binary_value("property_binary", new_binary, sizeof(new_binary));
+    printf("binary value: %s\n", new_binary);
 }

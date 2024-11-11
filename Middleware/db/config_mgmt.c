@@ -513,3 +513,108 @@ int32_t config_mgmt_get_string_value(char *name, char *value, uint32_t val_len)
 
     return exec_lookup(sql, fill_str, &str);
 }
+
+int fill_binary(void *dest, int argc, char **argv, char **azColName)
+{
+    // STR_T *str = (STR_T *)dest;
+
+    // if (argc != 0)
+    // {
+    //     strncpy(str->str, argv[0], str->str_len - 1);
+    //     str->str[str->str_len - 1] = '\0';
+    // }
+
+    printf("111111111111111   %d   %s   \n", argc, argv[0]);
+
+    return 0;
+}
+
+int32_t config_mgmt_get_binary_value(char *name, char *value, uint32_t val_len)
+{
+    char sql[SQL_STATEMENTS_LEN] = { 0 };
+    int ret;
+    sqlite3_stmt *stmt;
+
+    ret = snprintf(
+        sql, SQL_STATEMENTS_LEN, "SELECT PROPERTY_VALUE FROM %s WHERE PROPERTY_NAME='%s';", MODULE_NAME, name);
+    if (ret < 0)
+    {
+        printf("snprintf failed");
+        return RET_ERR;
+    }
+
+    int rc = sqlite3_prepare_v2(g_config_db, sql, -1, &stmt, 0);
+    if (rc == SQLITE_OK)
+    {
+        rc = sqlite3_step(stmt);
+        if (rc == SQLITE_ROW)
+        {
+            const char *blob_data = sqlite3_column_blob(stmt, 0);
+            int blob_size = sqlite3_column_bytes(stmt, 0);
+
+            int valid_size = blob_size > val_len ? val_len : blob_size;
+
+            memcpy(value, blob_data, valid_size);
+        }
+        else
+        {
+            fprintf(stderr, "No data found with id %s.\n", MODULE_NAME);
+            rc = SQLITE_ERROR;
+        }
+    }
+    else
+    {
+        fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(g_config_db));
+    }
+
+    // 释放资源
+    sqlite3_finalize(stmt);
+
+    return 0;
+}
+
+int32_t config_mgmt_set_binary_value(char *name, char *value, uint32_t val_len)
+{
+    char sql[SQL_STATEMENTS_LEN] = { 0 };
+    int ret;
+
+    if (strlen(value) > DB_STR_MAX_LEN)
+    {
+        printf("Str is too long");
+        return RET_ERR;
+    }
+
+    ret = snprintf(sql, SQL_STATEMENTS_LEN, "INSERT OR REPLACE INTO %s (PROPERTY_NAME,PROPERTY_VALUE) VALUES ('%s',?);",
+        MODULE_NAME, name);
+    if (ret < 0)
+    {
+        printf("snprintf failed");
+        return RET_ERR;
+    }
+
+    sqlite3_stmt *stmt;
+
+    // 准备 SQL 语句
+    int rc = sqlite3_prepare_v2(g_config_db, sql, -1, &stmt, NULL);
+    if (rc != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL 错误: %s\n", sqlite3_errmsg(g_config_db));
+        sqlite3_close(g_config_db);
+        return rc;
+    }
+
+    // 绑定参数
+    sqlite3_bind_blob(stmt, 1, value, val_len, SQLITE_STATIC); // 将二进制数据绑定到第1个参数
+
+    // 执行语句
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE)
+    {
+        fprintf(stderr, "执行错误: %s\n", sqlite3_errmsg(g_config_db));
+    }
+
+    // 释放资源
+    sqlite3_finalize(stmt);
+
+    return 0;
+}

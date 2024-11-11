@@ -11,7 +11,6 @@
 
 #define CONFIG_FILE_PREFIX "/home/hai/github/someSample/Middleware/tests/output"
 
-
 #ifndef PATH_MAX_LEN
 #define PATH_MAX_LEN (256)
 #endif
@@ -62,5 +61,8 @@ int32_t config_mgmt_get_float_value(char *name, float *value);
 
 int32_t config_mgmt_set_string_value(char *name, char *value);
 int32_t config_mgmt_get_string_value(char *name, char *value, uint32_t val_len);
+
+int32_t config_mgmt_get_binary_value(char *name, char *value, uint32_t val_len);
+int32_t config_mgmt_set_binary_value(char *name, char *value, uint32_t val_len);
 
 #endif /* _CONFIG_MGMT_H_ */
