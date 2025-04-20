@@ -1,3 +1,4 @@
+// 测量add指令执行周期
 #include <stdint.h>
 #include <stdio.h>
 #include <time.h>
