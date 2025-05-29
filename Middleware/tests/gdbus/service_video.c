@@ -14,16 +14,22 @@ gboolean handle_stop_video(Video *object, GDBusMethodInvocation *invocation)
 
     video_complete_stop_video(object, invocation);
 
-    return TRUE;
+    return FALSE;
 }
 
 gint16 test = 0;
+GMainLoop *g_loop = NULL;
 extern gboolean register_server(const gchar *hash_name, skelete_new call);
 gpointer thread_test(gpointer data)
 {
     while (1)
     {
-        g_usleep(2000 * 1000); // 1s
+        g_usleep(1000 * 1000); // 1s
+        test++;
+        if (test == 3)
+        {
+            g_main_loop_quit(g_loop);
+        }
     }
 
     return NULL;
@@ -58,16 +64,14 @@ static void service_register_success_callback(void)
 #include "config_mgmt.h"
 int main(int argc, char *argv[])
 {
-    GMainLoop *loop = NULL;
-
     config_mgmt_init();
     config_mgmt_set_uint32_value("video_Int32Property", 1999);
 
     service_init(MODULE_NAME, service_register_success_callback);
     g_thread_new("thread_test", thread_test, NULL);
 
-    loop = g_main_loop_new(NULL, FALSE);
-    g_main_loop_run(loop);
+    g_loop = g_main_loop_new(NULL, FALSE);
+    g_main_loop_run(g_loop);
 
     service_exit();
 
